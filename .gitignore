@@ -1,0 +1,23 @@
+# macOS / editor noise
+.DS_Store
+~$*
+
+# Personal raw materials (do not commit)
+*.md
+*.doc
+*.docx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.webp
+
+# Keep website source
+!docs/
+!docs/**
+
+# Keep repo instructions if needed
+!AGENTS.md
