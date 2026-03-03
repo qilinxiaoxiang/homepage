@@ -7,16 +7,21 @@ const content = {
     heroSummary:
       "MS in AI Engineering at Carnegie Mellon University. 8+ years in backend and architecture delivery across fintech, payments, and high-concurrency cloud systems.",
     ctaLinkedin: "View LinkedIn",
-    ctaEmail: "Email Me",
     ctaCopy: "Copy Email",
     copySuccess: "Email copied: shawn.xiang2@gmail.com",
     focusTitle: "Career Focus",
     focusBody:
       "I am targeting roles where I can connect AI capability with production engineering: solution architecture, applied LLM systems, and AI product implementation with clear business metrics.",
+    narrativeTitle: "Personal Narrative",
+    narrative: [
+      "Started in biology (BS+MS), transitioned through a KA sales role, then switched careers into software engineering in 2017.",
+      "I optimize for long-term value creation: systems that keep running, scaling, and helping users after launch.",
+      "Now at CMU, I am connecting engineering execution with AI and biomedical context for practical product impact."
+    ],
     stats: [
       { k: "8+ yrs", v: "Software & architecture experience" },
-      { k: "100M+", v: "Annual order scale supported" },
-      { k: "90%", v: "Full GC time reduction" },
+      { k: "100M+", v: "Maintained services at annual-order scale" },
+      { k: "200k", v: "Online DB instances inspected (minute-level)" },
       { k: "3.93/4.0", v: "CMU GPA (AI Engineering)" }
     ],
     expTitle: "Professional Experience",
@@ -58,7 +63,7 @@ const content = {
         meta: "Aug 2019 - Sep 2022 | Wuxi, China",
         bullets: [
           "Built high-concurrency cloud backend for visual-recognition vending network, scaling annual orders from 10M to 100M+.",
-          "Delivered JVM and threading optimizations reducing Full GC time by about 90%.",
+          "Maintained stability and performance for sustained high-throughput production traffic.",
           "Built custom logging and observability framework to cut incident response time significantly."
         ]
       },
@@ -118,10 +123,7 @@ const content = {
       "Earlier KA channel sales role (2014-2016) is intentionally kept as supplemental background.",
       "TOEFL 107, fluent in English for cross-regional technical collaboration.",
       "Open to AI solutions, AI applications, and startup-oriented builder roles."
-    ],
-    contactTitle: "Contact",
-    contactBody:
-      "Email: shawn.xiang2@gmail.com | Phone: +1 (412) 657-5105 | LinkedIn: linkedin.com/in/zheng-xiang-9830852aa"
+    ]
   },
   zh: {
     headEyebrow: "AI 解决方案工程师",
@@ -131,16 +133,21 @@ const content = {
     heroSummary:
       "目前在 Carnegie Mellon University 攻读 AI Engineering 硕士。8+ 年后端与架构交付经验，覆盖金融、支付与高并发云服务。",
     ctaLinkedin: "查看 LinkedIn",
-    ctaEmail: "发邮件",
     ctaCopy: "复制邮箱",
     copySuccess: "邮箱已复制：shawn.xiang2@gmail.com",
     focusTitle: "职业定位",
     focusBody:
       "目标是承担 AI 方案到生产落地的完整链路：需求抽象、架构设计、工程实现、上线运行和结果复盘，重点关注能衡量业务结果的 AI 应用。",
+    narrativeTitle: "个人叙事",
+    narrative: [
+      "从生物工程与微生物学背景出发，经历 KA 销售后在 2017 年转入软件工程赛道。",
+      "职业核心诉求是做“可持续创造价值”的系统，而不是一次性交付或短期交易。",
+      "在 CMU 阶段，进一步把 AI 工程能力与生物医学背景结合，关注可落地的产品价值。"
+    ],
     stats: [
       { k: "8+ 年", v: "软件与架构经验" },
-      { k: "1亿+", v: "支持年订单规模" },
-      { k: "90%", v: "Full GC 耗时下降" },
+      { k: "1亿+", v: "维护过该量级年订单服务" },
+      { k: "20万", v: "分钟级巡检线上数据库实例" },
       { k: "3.93/4.0", v: "CMU GPA" }
     ],
     expTitle: "工作经历",
@@ -182,7 +189,7 @@ const content = {
         meta: "2019.08 - 2022.09 | 无锡",
         bullets: [
           "负责视觉识别自动贩卖机高并发云服务，支撑年订单量从千万到过亿。",
-          "完成 JVM 与线程并发优化，Full GC 耗时下降约 90%。",
+          "在高吞吐生产环境持续维护系统稳定性与性能表现。",
           "自研日志与可观测性方案，显著缩短故障响应时间。"
         ]
       },
@@ -242,10 +249,7 @@ const content = {
       "2014-2016 年 KA 渠道销售经历保留为补充背景，不作为当前技术岗位主叙事。",
       "托福 107，具备跨地区英文技术协作能力。",
       "当前重点求职方向：AI 解决方案、AI 应用落地、创业型岗位。"
-    ],
-    contactTitle: "联系方式",
-    contactBody:
-      "邮箱：shawn.xiang2@gmail.com | 电话：+1 (412) 657-5105 | LinkedIn：linkedin.com/in/zheng-xiang-9830852aa"
+    ]
   }
 };
 
@@ -257,15 +261,14 @@ const ids = {
   heroSummary: "hero-summary",
   focusTitle: "focus-title",
   focusBody: "focus-body",
+  narrativeTitle: "narrative-title",
   expTitle: "exp-title",
   expNote: "exp-note",
   projectTitle: "project-title",
   eduTitle: "edu-title",
   courseTitle: "course-title",
   skillsTitle: "skills-title",
-  extraTitle: "extra-title",
-  contactTitle: "contact-title",
-  contactBody: "contact-body"
+  extraTitle: "extra-title"
 };
 
 const params = new URLSearchParams(window.location.search);
@@ -346,7 +349,6 @@ function render() {
   });
 
   document.getElementById("cta-linkedin").textContent = t.ctaLinkedin;
-  document.getElementById("cta-email").textContent = t.ctaEmail;
   document.getElementById("cta-copy").textContent = t.ctaCopy;
 
   renderStats(t.stats);
@@ -354,6 +356,7 @@ function render() {
   renderProjects(t.projects);
   renderBulletList("edu-list", t.edu);
   renderBulletList("course-list", t.courses);
+  renderBulletList("narrative-list", t.narrative);
   renderBulletList("extra-list", t.extras);
   renderSkillGroups(t.skillGroups);
 
