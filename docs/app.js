@@ -2,6 +2,7 @@
 const content = {
   en: {
     heroBadge: "Open to AI Solutions & Startup Roles",
+    heroName: "Zheng (Shawn) Xiang",
     heroTitle: 'I build <span class="gradient-text">AI systems</span> that ship, scale, and deliver real impact.',
     heroDesc: "MS in AI Engineering at Carnegie Mellon. 8+ years turning complex backend challenges into scalable production systems across fintech, payments, and cloud infrastructure.",
     ctaLinkedin: "LinkedIn",
@@ -146,6 +147,7 @@ const content = {
   },
   zh: {
     heroBadge: "寻求 AI 解决方案 / 创业型岗位",
+    heroName: "项峥",
     heroTitle: '我专注于构建能<span class="gradient-text">落地交付</span>、可扩展、创造实际价值的 AI 系统。',
     heroDesc: "Carnegie Mellon University AI Engineering 硕士在读。8+ 年后端与架构交付经验，覆盖金融科技、支付与高并发云服务。",
     ctaLinkedin: "LinkedIn",
@@ -395,6 +397,7 @@ function render() {
 
   // Hero
   document.getElementById("hero-badge").textContent = t.heroBadge;
+  document.getElementById("hero-name").textContent = t.heroName;
   document.getElementById("hero-title").innerHTML = t.heroTitle;
   document.getElementById("hero-desc").textContent = t.heroDesc;
   document.getElementById("cta-linkedin-text").textContent = t.ctaLinkedin;
