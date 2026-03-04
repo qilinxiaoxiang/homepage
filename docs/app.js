@@ -5,7 +5,7 @@ const content = {
     heroTitle: 'I build <span class="gradient-text">AI systems</span> that ship, scale, and deliver real impact.',
     heroDesc: "MS in AI Engineering at Carnegie Mellon. 8+ years turning complex backend challenges into scalable production systems across fintech, payments, and cloud infrastructure.",
     ctaLinkedin: "LinkedIn",
-    ctaEmail: "Email Me",
+    ctaEmail: "Copy Email",
     navLinks: [
       { label: "About", href: "#about" },
       { label: "Experience", href: "#experience" },
@@ -132,7 +132,7 @@ const content = {
         degree: "MS in AI Engineering (Biomedical Track)",
         meta: "Expected Dec 2026 · Pittsburgh, PA",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI"
+        courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: Neural Signal Processing · AI Cofounder: A Startup Builder's Guide · Intro to Deep Learning · Projects in Biomedical AI"
       },
       {
         icon: "🔬",
@@ -149,7 +149,7 @@ const content = {
     heroTitle: '我专注于构建能<span class="gradient-text">落地交付</span>、可扩展、创造实际价值的 AI 系统。',
     heroDesc: "Carnegie Mellon University AI Engineering 硕士在读。8+ 年后端与架构交付经验，覆盖金融科技、支付与高并发云服务。",
     ctaLinkedin: "LinkedIn",
-    ctaEmail: "发邮件给我",
+    ctaEmail: "复制邮箱",
     navLinks: [
       { label: "关于", href: "#about" },
       { label: "经历", href: "#experience" },
@@ -276,7 +276,7 @@ const content = {
         degree: "AI Engineering 硕士（生物医学方向）",
         meta: "预计 2026.12 毕业 · 匹兹堡",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "LLM Methods & Application · ML for Engineers · 脑机接口 · AI 工程系统与工具链"
+        courses: "Fall '25: LLM Methods & Application · ML for Engineers · 脑机接口 · AI 工程系统与工具链<br>Spring '26: 神经信号处理 · AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
       },
       {
         icon: "🔬",
@@ -489,6 +489,16 @@ document.addEventListener('click', (e) => {
     }
   }
 });
+
+/* ===== COPY EMAIL ===== */
+function copyEmail(btn) {
+  navigator.clipboard.writeText("shawn.xiang2@gmail.com").then(() => {
+    const span = btn.querySelector("span");
+    const original = span.textContent;
+    span.textContent = "Copied!";
+    setTimeout(() => { span.textContent = original; }, 2000);
+  });
+}
 
 /* ===== INIT ===== */
 render();
