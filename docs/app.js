@@ -139,7 +139,7 @@ const content = {
         icon: "🔬",
         school: "Jiangnan University",
         degree: "MS in Microbiology · BS in Biological Engineering",
-        meta: "2008 — 2014 · Wuxi, China"
+        meta: "2007 — 2014 · Wuxi, China"
       }
     ],
     contactTitle: "Let's Build Something Together",
@@ -284,7 +284,7 @@ const content = {
         icon: "🔬",
         school: "江南大学",
         degree: "微生物学硕士 · 生物工程学士",
-        meta: "2008 — 2014 · 无锡"
+        meta: "2007 — 2014 · 无锡"
       }
     ],
     contactTitle: "一起做点有意思的事",
