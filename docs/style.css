@@ -93,14 +93,25 @@ body {
 
 .nav-logo {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text);
   text-decoration: none;
+  letter-spacing: -0.02em;
   background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  transition: opacity 0.2s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.75;
+}
+
+.nav-logo-dot {
+  color: var(--gradient-3);
+  -webkit-text-fill-color: var(--gradient-3);
 }
 
 .nav-links {
@@ -284,10 +295,28 @@ body {
 }
 
 .hero-title .gradient-text {
-  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
+  background: linear-gradient(
+    110deg,
+    var(--gradient-2) 0%,
+    var(--gradient-1) 15%,
+    var(--gradient-2) 35%,
+    #c4b5fd 45%,
+    #e9d5ff 50%,
+    #c4b5fd 55%,
+    var(--gradient-2) 65%,
+    var(--gradient-3) 85%,
+    var(--gradient-2) 100%
+  );
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: shineText 7s linear infinite;
+}
+
+@keyframes shineText {
+  from { background-position: 100% 50%; }
+  to { background-position: -100% 50%; }
 }
 
 .hero-desc {

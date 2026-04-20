@@ -322,12 +322,56 @@ function renderNav(t) {
 
 function renderStats(t) {
   const root = document.getElementById("stats-grid");
-  root.innerHTML = t.stats.map(s => `
+  root.innerHTML = t.stats.map(s => {
+    const match = s.value.match(/^([\d.]+)(.*)/);
+    if (match && parseFloat(match[1]) > 1) {
+      const numStr = match[1];
+      const suffix = match[2] || '';
+      const initial = numStr.includes('.') ? '0.00' : '0';
+      return `
+    <div class="stat-card reveal">
+      <div class="stat-value" data-target="${numStr}" data-suffix="${suffix}">${initial}${suffix}</div>
+      <div class="stat-label">${s.label}</div>
+    </div>`;
+    }
+    return `
     <div class="stat-card reveal">
       <div class="stat-value">${s.value}</div>
       <div class="stat-label">${s.label}</div>
-    </div>
-  `).join("");
+    </div>`;
+  }).join("");
+  initCountUp();
+}
+
+function initCountUp() {
+  const els = document.querySelectorAll('.stat-value[data-target]');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCount(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  els.forEach(el => obs.observe(el));
+}
+
+function animateCount(el) {
+  const targetStr = el.dataset.target;
+  const target = parseFloat(targetStr);
+  const suffix = el.dataset.suffix || '';
+  const isDecimal = targetStr.includes('.');
+  const decimals = isDecimal ? targetStr.split('.')[1].length : 0;
+  const duration = 1400;
+  const startTime = performance.now();
+  function tick(now) {
+    const t = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = target * eased;
+    el.textContent = (isDecimal ? value.toFixed(decimals) : Math.round(value)) + suffix;
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
 }
 
 function renderAbout(t) {
