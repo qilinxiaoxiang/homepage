@@ -156,7 +156,7 @@ const content = {
     heroBadge: "寻求前置交付 AI 工程师岗位",
     heroName: "项峥",
     heroTitle: '<span class="gradient-text">前置交付 AI 工程师</span>。把业务问题转化为能落地的 AI 方案，行业不设限。',
-    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学方向 硕士在读。8+ 年跨软件、方案架构与企业交付，覆盖中国、菲律宾、新加坡、印度与美国。",
+    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学工程 硕士在读。8+ 年跨软件、方案架构与企业交付，覆盖中国、菲律宾、新加坡、印度与美国。",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "复制邮箱",
     navLinks: [
@@ -289,7 +289,7 @@ const content = {
       {
         icon: "🎓",
         school: "卡内基梅隆大学",
-        degree: "AI 工程硕士 —— 生物医学方向",
+        degree: "AI 工程 —— 生物医学工程 硕士",
         meta: "预计 2026.12 毕业 · 匹兹堡",
         gpa: "GPA: 3.93 / 4.0",
         courses: "Fall '25：LLM 方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>Spring '26：AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
