@@ -1,7 +1,6 @@
 /* ===== CONTENT ===== */
 const content = {
   en: {
-    heroBadge: "Open to Forward-Deployed AI Engineer Roles",
     heroName: "Shawn (Zheng) Xiang",
     heroTitle: '<span class="gradient-text">Forward-Deployed AI Engineer</span>. I turn business problems into shipped AI solutions, open to any industry.',
     heroDesc: "MS in AI Engineering — Biomedical Engineering at Carnegie Mellon. 8+ years across software, solution architecture, and enterprise delivery — spanning China, the Philippines, Singapore, India, and the US.",
@@ -153,7 +152,6 @@ const content = {
     contactBody: "I'm looking for Forward-Deployed AI Engineer, AI Solutions Engineer, and applied AI builder roles. Industry-agnostic — I prioritize problem caliber over vertical. If you have a hard AI problem in a real business, let's talk."
   },
   zh: {
-    heroBadge: "寻求前置交付 AI 工程师岗位",
     heroName: "项峥",
     heroTitle: '<span class="gradient-text">前置交付 AI 工程师</span>。把业务问题转化为能落地的 AI 方案，行业不设限。',
     heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学工程 硕士在读。8+ 年跨软件、方案架构与企业交付，覆盖中国、菲律宾、新加坡、印度与美国。",
@@ -472,7 +470,6 @@ function render() {
   renderNav(t);
 
   // Hero
-  document.getElementById("hero-badge").textContent = t.heroBadge;
   document.getElementById("hero-name").textContent = t.heroName;
   document.getElementById("hero-title").innerHTML = t.heroTitle;
   document.getElementById("hero-desc").textContent = t.heroDesc;
