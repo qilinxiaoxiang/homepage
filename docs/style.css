@@ -202,54 +202,6 @@ body {
   overflow: hidden;
 }
 
-.hero-aurora {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.hero-aurora::before,
-.hero-aurora::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform;
-}
-
-.hero-aurora::before {
-  width: 640px;
-  height: 640px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.32) 0%, rgba(139, 92, 246, 0) 70%);
-  top: -180px;
-  left: 18%;
-  animation: auroraDriftA 28s ease-in-out infinite;
-}
-
-.hero-aurora::after {
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.26) 0%, rgba(99, 102, 241, 0) 70%);
-  bottom: -160px;
-  right: 12%;
-  animation: auroraDriftB 34s ease-in-out infinite;
-  animation-delay: -10s;
-}
-
-@keyframes auroraDriftA {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  33%      { transform: translate3d(60px, 40px, 0) scale(1.08); }
-  66%      { transform: translate3d(-40px, 70px, 0) scale(0.94); }
-}
-
-@keyframes auroraDriftB {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  40%      { transform: translate3d(-70px, -40px, 0) scale(1.1); }
-  70%      { transform: translate3d(30px, -60px, 0) scale(0.92); }
-}
-
 .hero-inner {
   position: relative;
   z-index: 1;
@@ -266,10 +218,34 @@ body {
 }
 
 .hero-photo-wrap {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   animation: fadeUp 0.6s 0.15s ease both;
+}
+
+.hero-photo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 55% 60% at 50% 50%,
+    rgba(139, 92, 246, 0.38) 0%,
+    rgba(99, 102, 241, 0.22) 35%,
+    rgba(124, 58, 237, 0.08) 65%,
+    transparent 80%
+  );
+  filter: blur(55px);
+  pointer-events: none;
+  animation: photoAuroraDrift 16s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes photoAuroraDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-18px, 22px, 0) scale(1.08); }
 }
 
 .hero-photo {
@@ -342,6 +318,7 @@ body {
   line-height: 1.1;
   letter-spacing: -0.03em;
   margin-bottom: 20px;
+  text-wrap: balance;
   animation: fadeUp 0.6s 0.1s ease both;
 }
 
