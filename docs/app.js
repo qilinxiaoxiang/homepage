@@ -1,10 +1,10 @@
 /* ===== CONTENT ===== */
 const content = {
   en: {
-    heroBadge: "Open to AI Solutions & Startup Roles",
-    heroName: "Zheng (Shawn) Xiang",
-    heroTitle: 'I build <span class="gradient-text">AI systems</span> that ship, scale, and deliver real impact.',
-    heroDesc: "MS in AI Engineering at Carnegie Mellon. 8+ years turning complex backend challenges into scalable production systems across fintech, payments, and cloud infrastructure.",
+    heroBadge: "Open to Forward-Deployed AI Engineer Roles",
+    heroName: "Shawn (Zheng) Xiang",
+    heroTitle: '<span class="gradient-text">Forward-Deployed AI Engineer</span>. I turn business problems into shipped AI solutions, open to any industry.',
+    heroDesc: "MS in AI Engineering — Biomedical Engineering at Carnegie Mellon. 8+ years across software, solution architecture, and enterprise delivery — spanning China, the Philippines, Singapore, India, and the US.",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "Copy Email",
     navLinks: [
@@ -15,19 +15,19 @@ const content = {
       { label: "Education", href: "#education" }
     ],
     stats: [
-      { value: "8+", label: "Years in Software Engineering" },
+      { value: "8+", label: "Years in Software & Solution Architecture" },
       { value: "100M+", label: "Annual Orders at Scale" },
       { value: "3.93", label: "GPA at CMU (AI Engineering)" },
-      { value: "200K", label: "DB Instances Managed" }
+      { value: "5", label: "Countries Delivered Across" }
     ],
     aboutLabel: "About Me",
-    aboutTitle: "From Biology to Backend to AI — Always Building.",
-    aboutBody: "I started in bioengineering, pivoted through sales, then self-taught into software engineering. After 8 years building scalable backend systems — from fintech platforms to high-concurrency cloud services processing 100M+ orders — I'm now at CMU connecting my engineering depth with AI to build solutions that create measurable impact. I thrive at the intersection of technical execution and business value.",
+    aboutTitle: "Engineering depth + customer instincts + AI toolkit — stacked, not pivoted.",
+    aboutBody: "I don't read my background as career pivots. Biology → sales → software → solution architecture → AI engineering is an inventory: domain fluency, customer conversations, production engineering, cross-cultural delivery. Forward-Deployed AI Engineering sits exactly where these layers compound — translate a business problem into an AI solution, architect it, ship it, own adoption. Currently at CMU to add frontier AI depth to that stack.",
     aboutHighlights: [
-      { icon: "🧠", title: "AI + Engineering", desc: "LLM fine-tuning, RAG systems, and production AI pipelines" },
-      { icon: "⚡", title: "Scale & Performance", desc: "100M+ order systems, JVM tuning, zero-downtime ops" },
-      { icon: "🌏", title: "Global Experience", desc: "Citigroup, GCash (Philippines), CMU — cross-cultural teams" },
-      { icon: "🚀", title: "Builder Mindset", desc: "Founded a tech company, shipped production systems solo" }
+      { icon: "🎯", title: "Forward-Deployed Pattern", desc: "Embed with customers — diagnose, architect, ship, own adoption" },
+      { icon: "🌐", title: "Cross-Cultural Delivery", desc: "Citigroup (China × US × India × Singapore), GCash (Philippines), CMU (US)" },
+      { icon: "⚡", title: "Production Engineering", desc: "100M+ order systems, JVM tuning, zero-downtime ops" },
+      { icon: "🚀", title: "Operator Mindset", desc: "Founded a solo AI consulting practice; shipped live revenue before CMU" }
     ],
     expLabel: "Experience",
     expTitle: "Where I've Built Things",
@@ -35,31 +35,32 @@ const content = {
       {
         role: "Founder",
         company: "Shenyou AI Technology (Wuxi)",
-        meta: "May 2025 — Present",
+        meta: "May 2025 — Aug 2025",
         bullets: [
-          "Founded and operated a solo software practice delivering production cloud systems with AI-assisted engineering.",
-          "Shipped a waste-management operations platform generating early commercial revenue (RMB 100K–200K).",
-          "End-to-end ownership: requirements gathering, architecture, development, deployment, and client delivery."
+          "Founded a solo AI consulting and solution-delivery practice; delivered a production cloud system with AI-assisted engineering before CMU enrollment.",
+          "Shipped a waste-management operations platform for an enterprise client, generating early commercial revenue (RMB 100K–200K).",
+          "End-to-end ownership: client discovery, architecture, implementation, deployment, and adoption — the full Forward-Deployed loop."
         ]
       },
       {
-        role: "Solution Architect",
+        role: "Solution Architect (proto-FDE)",
         company: "Bang Dao Technology · GCash / Alipay+",
         meta: "Jun 2024 — Aug 2025",
         bullets: [
-          "Drove solution architecture for GCash wearable payments on Huawei smart watches in Southeast Asia's largest e-wallet.",
-          "Co-developed foundational solution path for GCash public transit QR payment rollout.",
-          "Led cross-party alignment across product, engineering, compliance, and external stakeholders."
+          "Embedded with Southeast Asia's largest digital wallet (GCash) — designed wearable payment capability on Huawei watches from business problem to production launch.",
+          "Co-architected the foundational solution path for GCash public transit QR payment rollout.",
+          "Lived the forward-deployed pattern before AI was the primary toolkit: deep customer immersion, business-process understanding, and local customization across product, engineering, compliance, and external stakeholders."
         ]
       },
       {
-        role: "Tech Lead · Apps Dev Programmer Analyst",
+        role: "Tech Lead — CitiFTP China Pod",
         company: "Citigroup Services and Technology (China)",
         meta: "Sep 2022 — May 2024",
         bullets: [
-          "De facto tech lead for CitiFTP China team within a global internal fund transfer pricing system.",
-          "Pioneered ChatGPT API productivity tooling for code review and shell script validation across the team.",
-          "Improved release reliability through structured requirement breakdown and cross-team agile execution."
+          "De facto Tech Lead for the only China-based pod within CitiFTP, a global internal fund transfer pricing system — interlocked daily with pods in India, Singapore, and North America.",
+          "Early AI adoption inside a bank: built an internal ChatGPT-wrapper tool with compliance approval and a whitelisted egress IP, unlocking team-wide AI assistance for code review and shell validation when direct access wasn't permitted.",
+          "Won Round B (~¥15,000) at Citi China's internal innovation contest with an AI-generated demo re-architecting the AutoSys job-scheduling platform around a Terraform-style end-state model.",
+          "Advanced to Round B of Citi's internal Tank Battle AI coding competition — one of the earliest vibe-coding workflows demonstrated inside the bank."
         ]
       },
       {
@@ -67,7 +68,7 @@ const content = {
         company: "Bang Dao Technology",
         meta: "Aug 2019 — Sep 2022",
         bullets: [
-          "Built high-concurrency cloud backend for visual-recognition vending network, scaling annual orders from 10M to 100M+.",
+          "Built high-concurrency cloud backend for a visual-recognition vending network, scaling annual orders from 10M to 100M+.",
           "Achieved Full GC elimination through JVM tuning, reducing GC time by 90% in production.",
           "Designed custom observability framework that cut incident response time significantly."
         ]
@@ -87,10 +88,16 @@ const content = {
     projectTitle: "Things I've Made",
     projects: [
       {
+        title: "VoxClinBench",
+        body: "Cross-lingual, cross-disease clinical voice biomarker benchmark — in submission at NeurIPS 2026 (Datasets & Benchmarks track). 23 scored binary tasks across 4 languages and 5 corpora, with Holm-Bonferroni-corrected cross-language transfer testing. Shipped pip-installable evaluation harness, subject-ID manifests, and Croissant datasheet.",
+        tag: "CMU · Voice Biomarker Benchmark",
+        featured: true,
+        techs: ["Voice Biomarker", "Benchmark Design", "Clinical AI", "Bootstrap + DeLong"]
+      },
+      {
         title: "NextMove",
         body: "An AI-powered career intelligence tool that helps job seekers optimize their applications, identify transferable skills, and navigate career transitions with personalized guidance.",
         tag: "Personal Product",
-        featured: true,
         link: "https://nextmove.work",
         linkText: "Visit NextMove →",
         techs: ["AI/LLM", "Career Tech", "Web App"]
@@ -114,15 +121,15 @@ const content = {
         techs: ["Solution Architecture", "Payments", "IoT"]
       }
     ],
-    skillsLabel: "Technical Skills",
-    skillsTitle: "What I Work With",
+    skillsLabel: "Skills",
+    skillsTitle: "What I Bring",
     skillGroups: [
+      { icon: "🎯", label: "Forward-Deployed & Delivery", tags: ["Customer Discovery", "Business Problem Framing", "Cross-Domain Translation", "Solution Architecture", "Client-side Delivery", "Adoption Ownership", "PMP Certified", "Agile / Scrum", "Cross-team Leadership"] },
       { icon: "🤖", label: "AI / ML", tags: ["LLM", "RAG", "Fine-tuning", "PyTorch", "scikit-learn", "LangChain", "Prompt Engineering", "Agents"] },
       { icon: "💻", label: "Languages", tags: ["Python", "Java", "Shell", "SQL"] },
       { icon: "🗄️", label: "Data & Infrastructure", tags: ["MySQL", "Redis", "Elasticsearch", "Neo4j", "Hadoop", "Spark"] },
       { icon: "☁️", label: "Cloud & DevOps", tags: ["Docker", "Kubernetes", "AWS", "GCP", "Alibaba Cloud", "CI/CD"] },
-      { icon: "🏗️", label: "Architecture", tags: ["Microservices", "High-Concurrency", "System Design", "Solution Architecture"] },
-      { icon: "📋", label: "Management", tags: ["PMP Certified", "Agile / Scrum", "Cross-team Leadership"] }
+      { icon: "🏗️", label: "Systems & Scale", tags: ["Microservices", "High-Concurrency", "System Design", "Production Ops"] }
     ],
     eduLabel: "Education",
     eduTitle: "Where I've Studied",
@@ -130,7 +137,7 @@ const content = {
       {
         icon: "🎓",
         school: "Carnegie Mellon University",
-        degree: "MS in AI Engineering (Biomedical Track)",
+        degree: "MS in AI Engineering — Biomedical Engineering",
         meta: "Expected Dec 2026 · Pittsburgh, PA",
         gpa: "GPA: 3.93 / 4.0",
         courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: Neural Signal Processing · AI Cofounder: A Startup Builder's Guide · Intro to Deep Learning · Projects in Biomedical AI"
@@ -143,13 +150,13 @@ const content = {
       }
     ],
     contactTitle: "Let's Build Something Together",
-    contactBody: "I'm open to AI solutions, applied AI engineering, and startup-stage builder roles. If you're working on something interesting — let's talk."
+    contactBody: "I'm looking for Forward-Deployed AI Engineer, AI Solutions Engineer, and applied AI builder roles. Industry-agnostic — I prioritize problem caliber over vertical. If you have a hard AI problem in a real business, let's talk."
   },
   zh: {
-    heroBadge: "寻求 AI 解决方案 / 创业型岗位",
+    heroBadge: "寻求 Forward-Deployed AI Engineer 岗位",
     heroName: "项峥",
-    heroTitle: '我专注于构建能<span class="gradient-text">落地交付</span>、可扩展、创造实际价值的 AI 系统。',
-    heroDesc: "Carnegie Mellon University AI Engineering 硕士在读。8+ 年后端与架构交付经验，覆盖金融科技、支付与高并发云服务。",
+    heroTitle: '<span class="gradient-text">前置交付 AI 工程师</span>。把业务问题转化为能落地的 AI 方案，行业不设限。',
+    heroDesc: "Carnegie Mellon 大学 AI Engineering —— 生物医学方向硕士在读。8+ 年跨软件、方案架构与企业交付——覆盖中国、菲律宾、新加坡、印度与美国。",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "复制邮箱",
     navLinks: [
@@ -160,19 +167,19 @@ const content = {
       { label: "教育", href: "#education" }
     ],
     stats: [
-      { value: "8+", label: "年软件与架构经验" },
+      { value: "8+", label: "年软件与方案架构经验" },
       { value: "1亿+", label: "年订单量级系统维护" },
       { value: "3.93", label: "CMU GPA (AI Engineering)" },
-      { value: "20万", label: "分钟级巡检数据库实例" }
+      { value: "5", label: "交付覆盖国家数" }
     ],
     aboutLabel: "关于我",
-    aboutTitle: "从生物到后端到 AI —— 一直在构建。",
-    aboutBody: "从生物工程出发，经历销售后自学转入软件工程。8 年间从初级开发做到架构师，构建过从金融到支付到高并发云服务等多个亿级规模系统。现在在 CMU 将工程深度与 AI 能力结合，专注打造可衡量业务结果的 AI 应用方案。我擅长在技术执行与业务价值之间找到最优解。",
+    aboutTitle: "工程深度 × 客户直觉 × AI 工具箱 —— 是叠加，不是跳槽。",
+    aboutBody: "我不把自己的背景读作职业跳转。生物 → 销售 → 软件 → 方案架构 → AI 工程，是一层层的库存：领域熟悉度、客户对话能力、生产级工程、跨文化交付。Forward-Deployed AI Engineering（前置交付 AI 工程师）正好是这些能力的交汇点——把业务问题翻译成 AI 方案、架构它、落地它、盯采纳。现在在 CMU 给这套库存再加一层前沿 AI 深度。",
     aboutHighlights: [
-      { icon: "🧠", title: "AI + 工程", desc: "LLM 微调、RAG 系统、生产级 AI 管线" },
-      { icon: "⚡", title: "规模与性能", desc: "亿级订单系统、JVM 调优、零故障运维" },
-      { icon: "🌏", title: "跨文化经验", desc: "花旗、GCash（菲律宾）、CMU — 多元团队协作" },
-      { icon: "🚀", title: "Builder 思维", desc: "创立科技公司，独立交付生产系统" }
+      { icon: "🎯", title: "前置交付模式", desc: "驻场客户——诊断、架构、落地、跟进采纳" },
+      { icon: "🌐", title: "跨文化交付", desc: "花旗（中国×美国×印度×新加坡）、GCash（菲律宾）、CMU（美国）" },
+      { icon: "⚡", title: "生产级工程", desc: "亿级订单系统、JVM 调优、零故障运维" },
+      { icon: "🚀", title: "Operator 思维", desc: "独立创立 AI 咨询实践，赴美求学前已跑通商业收入" }
     ],
     expLabel: "工作经历",
     expTitle: "我在哪里做过事",
@@ -180,31 +187,32 @@ const content = {
       {
         role: "创始人",
         company: "神佑人工智能科技（无锡）",
-        meta: "2025.05 — 至今",
+        meta: "2025.05 — 2025.08",
         bullets: [
-          "以个人主导形式创立并运营软件交付实践，以 AI 辅助工程方式交付生产级云系统。",
-          "交付垃圾清运管理平台，实现早期商业收入（约十几到二十万元人民币）。",
-          "全链路主导：需求对接、架构设计、开发实现、部署上线、客户交付。"
+          "独立创立 AI 咨询与方案交付实践，以 AI 辅助工程方式交付生产级云系统，赴 CMU 前完成首个企业客户交付。",
+          "为企业客户交付垃圾清运管理平台，实现早期商业收入（约 10–20 万元人民币）。",
+          "全链路主导：客户 discovery、架构、实现、部署、采纳落地——完整的 Forward-Deployed 闭环。"
         ]
       },
       {
-        role: "解决方案架构师",
+        role: "解决方案架构师（proto-FDE）",
         company: "邦道科技 · GCash / Alipay+",
         meta: "2024.06 — 2025.08",
         bullets: [
-          "负责东南亚最大电子钱包 GCash 在华为手表上的可穿戴支付方案设计与落地。",
+          "驻场东南亚最大电子钱包 GCash——从业务问题到生产上线，主导华为手表可穿戴支付方案设计与落地。",
           "参与 GCash 公交二维码支付的底层方案共建与推进。",
-          "完成产品、研发、合规与外部合作方之间的跨团队对齐。"
+          "在 AI 成为主工具前就跑通了 forward-deployed 模式：深入客户、理解业务流程、做本地化 customization，跨产品/研发/合规/外部方对齐。"
         ]
       },
       {
-        role: "Tech Lead · 核心系统开发",
+        role: "Tech Lead · CitiFTP 中国小队",
         company: "花旗金融信息服务（中国）",
         meta: "2022.09 — 2024.05",
         bullets: [
-          "在 CitiFTP 全球系统中国团队中承担事实 Tech Lead 职责，主导关键交付与技术推进。",
-          "率先引入基于 ChatGPT API 的研发效率工具，用于代码审查和脚本校验。",
-          "通过结构化需求拆解和跨团队敏捷协作提升版本交付稳定性。"
+          "在 CitiFTP 全球内部资金划转定价系统中，作为唯一中国小队的事实 Tech Lead——与印度、新加坡、北美的兄弟小队日常交织协作。",
+          "银行内 AI 早期 adoption：自建 ChatGPT-wrapper 工具并完成合规审批 + 白名单出口 IP，让团队在无法直连 ChatGPT 的情况下获得代码审查与 shell 脚本校验的 AI 辅助。",
+          "凭 AI 生成的 demo 赢下花旗中国内部创新大赛 B 轮（约 15,000 元奖金）——用 Terraform 终态思想重构 AutoSys 任务调度平台。",
+          "参加花旗内部坦克大战 AI 编程比赛进入 B 轮——全行最早的 vibe coding 工作流之一。"
         ]
       },
       {
@@ -232,10 +240,16 @@ const content = {
     projectTitle: "我做过的东西",
     projects: [
       {
+        title: "VoxClinBench",
+        body: "跨语言、跨疾病的临床语音生物标志物评测基准——投稿 NeurIPS 2026（Datasets & Benchmarks 赛道，匿名评审中）。23 项 binary 任务 × 4 种语言 × 5 个语料，Holm-Bonferroni 校正的跨语言迁移测试。交付 pip 可装的测评 harness、subject-ID manifest 与 Croissant datasheet。",
+        tag: "CMU · 语音生物标志物 Benchmark",
+        featured: true,
+        techs: ["语音生物标志物", "Benchmark 设计", "临床 AI", "Bootstrap + DeLong"]
+      },
+      {
         title: "NextMove",
         body: "AI 驱动的求职智能工具，帮助求职者优化申请材料、发现可迁移技能，并通过个性化指导完成职业转型。",
         tag: "个人产品",
-        featured: true,
         link: "https://nextmove.work",
         linkText: "访问 NextMove →",
         techs: ["AI/LLM", "求职科技", "Web 应用"]
@@ -259,15 +273,15 @@ const content = {
         techs: ["方案架构", "支付", "IoT"]
       }
     ],
-    skillsLabel: "技术能力",
-    skillsTitle: "我使用的工具",
+    skillsLabel: "技能",
+    skillsTitle: "我能带来什么",
     skillGroups: [
+      { icon: "🎯", label: "Forward-Deployed 与交付", tags: ["客户 Discovery", "业务问题定义", "跨领域翻译", "方案架构", "客户侧交付", "采纳落地", "PMP 认证", "敏捷 / Scrum", "跨团队协同"] },
       { icon: "🤖", label: "AI / ML", tags: ["LLM", "RAG", "微调", "PyTorch", "scikit-learn", "LangChain", "提示词工程", "Agents"] },
       { icon: "💻", label: "编程语言", tags: ["Python", "Java", "Shell", "SQL"] },
       { icon: "🗄️", label: "数据与基础设施", tags: ["MySQL", "Redis", "Elasticsearch", "Neo4j", "Hadoop", "Spark"] },
       { icon: "☁️", label: "云与 DevOps", tags: ["Docker", "Kubernetes", "AWS", "GCP", "阿里云", "CI/CD"] },
-      { icon: "🏗️", label: "架构", tags: ["微服务", "高并发", "系统设计", "方案架构"] },
-      { icon: "📋", label: "管理", tags: ["PMP 认证", "敏捷 / Scrum", "跨团队协同"] }
+      { icon: "🏗️", label: "系统与规模", tags: ["微服务", "高并发", "系统设计", "生产级运维"] }
     ],
     eduLabel: "教育经历",
     eduTitle: "在哪里学习过",
@@ -275,7 +289,7 @@ const content = {
       {
         icon: "🎓",
         school: "Carnegie Mellon University",
-        degree: "AI Engineering 硕士（生物医学方向）",
+        degree: "AI Engineering 硕士 —— 生物医学方向",
         meta: "预计 2026.12 毕业 · 匹兹堡",
         gpa: "GPA: 3.93 / 4.0",
         courses: "Fall '25: LLM Methods & Application · ML for Engineers · 脑机接口 · AI 工程系统与工具链<br>Spring '26: 神经信号处理 · AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
@@ -288,7 +302,7 @@ const content = {
       }
     ],
     contactTitle: "一起做点有意思的事",
-    contactBody: "我正在寻找 AI 解决方案、AI 应用落地和创业型 builder 岗位。如果你在做有趣的事情——聊聊？"
+    contactBody: "我在找 Forward-Deployed AI Engineer、AI Solutions Engineer 以及应用型 AI builder 岗位。行业不设限——问题质量比领域更重要。如果你有真实业务里的硬 AI 问题，聊聊？"
   }
 };
 

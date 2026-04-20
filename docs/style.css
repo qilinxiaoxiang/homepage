@@ -187,13 +187,49 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 120px 0 80px;
+  padding: 100px 0 60px;
 }
 
 .hero-inner {
-  width: min(1120px, calc(100% - 48px));
+  width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
-  max-width: 720px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.hero-text {
+  min-width: 0;
+}
+
+.hero-photo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeUp 0.6s 0.15s ease both;
+}
+
+.hero-photo {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 22%;
+  border-radius: 24px;
+  box-shadow:
+    0 20px 60px -20px rgba(99, 102, 241, 0.35),
+    0 8px 24px -8px rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-photo:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow:
+    0 28px 80px -20px rgba(99, 102, 241, 0.45),
+    0 12px 32px -8px rgba(124, 58, 237, 0.28);
 }
 
 .hero-badge {
@@ -848,6 +884,19 @@ body {
   }
   .project-card.featured {
     grid-column: auto;
+  }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: left;
+  }
+  .hero-photo-wrap {
+    order: -1;
+    justify-content: flex-start;
+  }
+  .hero-photo {
+    max-width: 220px;
+    border-radius: 20px;
   }
 }
 
