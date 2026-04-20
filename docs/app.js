@@ -140,7 +140,7 @@ const content = {
         degree: "MS in AI Engineering — Biomedical Engineering",
         meta: "Expected Dec 2026 · Pittsburgh, PA",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: Neural Signal Processing · AI Cofounder: A Startup Builder's Guide · Intro to Deep Learning · Projects in Biomedical AI"
+        courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: AI Cofounder: A Startup Builder's Guide · Intro to Deep Learning · Projects in Biomedical AI"
       },
       {
         icon: "🔬",
@@ -153,10 +153,10 @@ const content = {
     contactBody: "I'm looking for Forward-Deployed AI Engineer, AI Solutions Engineer, and applied AI builder roles. Industry-agnostic — I prioritize problem caliber over vertical. If you have a hard AI problem in a real business, let's talk."
   },
   zh: {
-    heroBadge: "寻求 Forward-Deployed AI Engineer 岗位",
+    heroBadge: "寻求前置交付 AI 工程师岗位",
     heroName: "项峥",
     heroTitle: '<span class="gradient-text">前置交付 AI 工程师</span>。把业务问题转化为能落地的 AI 方案，行业不设限。',
-    heroDesc: "卡内基梅隆大学 AI 工程（生物医学方向）硕士在读。8+ 年跨软件、方案架构与企业交付——覆盖中国、菲律宾、新加坡、印度与美国。",
+    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学方向 硕士在读。8+ 年跨软件、方案架构与企业交付，覆盖中国、菲律宾、新加坡、印度与美国。",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "复制邮箱",
     navLinks: [
@@ -292,7 +292,7 @@ const content = {
         degree: "AI 工程硕士 —— 生物医学方向",
         meta: "预计 2026.12 毕业 · 匹兹堡",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "Fall '25：LLM 方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>Spring '26：神经信号处理 · AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
+        courses: "Fall '25：LLM 方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>Spring '26：AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
       },
       {
         icon: "🔬",
@@ -302,7 +302,7 @@ const content = {
       }
     ],
     contactTitle: "一起做点有意思的事",
-    contactBody: "我在找 Forward-Deployed AI Engineer、AI Solutions Engineer 以及应用型 AI builder 岗位。行业不设限——问题质量比领域更重要。如果你有真实业务里的硬 AI 问题，聊聊？"
+    contactBody: "我在找前置交付 AI 工程师、AI 解决方案工程师、以及应用型 AI 开发者岗位。行业不设限——问题质量比领域更重要。如果你有真实业务里的硬 AI 问题，聊聊？"
   }
 };
 
