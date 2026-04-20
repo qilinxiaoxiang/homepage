@@ -416,6 +416,24 @@ function renderProjects(t) {
       ${p.link ? `<a class="project-link" href="${p.link}" target="_blank" rel="noreferrer">${p.linkText} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>` : ''}
     </div>
   `).join("");
+  setupCardTilt();
+}
+
+function setupCardTilt() {
+  if (!window.matchMedia('(hover: hover)').matches) return;
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotX = (0.5 - y) * 5;
+      const rotY = (x - 0.5) * 5;
+      card.style.transform = `perspective(1100px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-2px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
 }
 
 function renderSkills(t) {
