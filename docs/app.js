@@ -95,11 +95,11 @@ const content = {
       },
       {
         title: "NextMove",
-        body: "An AI-powered career intelligence tool that helps job seekers optimize their applications, identify transferable skills, and navigate career transitions with personalized guidance.",
-        tag: "Personal Product",
+        body: "An AI decision engine that surfaces the one task you should do right now. Aggregates from Canvas LMS, Google Calendar, voice memos, and photos of whiteboards or syllabi; ranks by urgency and context; swipe to defer or complete. iOS (DoNextMove on the App Store) and web.",
+        tag: "Personal Product · iOS + Web",
         link: "https://nextmove.work",
         linkText: "Visit NextMove →",
-        techs: ["AI/LLM", "Career Tech", "Web App"]
+        techs: ["AI/LLM", "iOS App", "Productivity", "Voice + Photo Input"]
       },
       {
         title: "EEG Cognitive & Behavioral Decoding",
@@ -246,11 +246,11 @@ const content = {
       },
       {
         title: "NextMove",
-        body: "AI 驱动的求职智能工具，帮助求职者优化申请材料、发现可迁移技能，并通过个性化指导完成职业转型。",
-        tag: "个人产品",
+        body: "AI 决策引擎，告诉你「现在最该做的那一件事」。聚合 Canvas LMS、Google 日历、语音备忘、白板与课纲照片，按紧迫度与上下文排序；左滑延后、右滑完成。iOS 端（App Store 上叫 DoNextMove）+ Web 应用。",
+        tag: "个人产品 · iOS + Web",
         link: "https://nextmove.work",
         linkText: "访问 NextMove →",
-        techs: ["AI/LLM", "求职科技", "Web 应用"]
+        techs: ["AI/LLM", "iOS 应用", "效率工具", "语音 + 拍照输入"]
       },
       {
         title: "EEG 认知与行为解码",
