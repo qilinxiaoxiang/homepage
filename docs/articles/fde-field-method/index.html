@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forward Deployed Engineering: A Practical Field Guide | Shawn Xiang</title>
+    <meta name="description" content="A practical field guide for Forward Deployed Engineering: how to observe real work, find AI-native workflows, build trust, evaluate prototypes, and deploy systems." />
+    <meta property="og:title" content="Forward Deployed Engineering: A Practical Field Guide" />
+    <meta property="og:description" content="A practical field playbook for finding AI-native workflows and turning field observation into deployed systems." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://shawnxiang.com/articles/fde-field-method/" />
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #ffffff;
+        --bg-alt: #f7f8fb;
+        --surface: #f4f4f5;
+        --ink: #09090b;
+        --muted: #52525b;
+        --faint: #8a8a93;
+        --border: rgba(0,0,0,0.08);
+        --border-strong: rgba(0,0,0,0.15);
+        --accent: #6366f1;
+        --accent-2: #8b5cf6;
+        --accent-soft: rgba(99,102,241,0.08);
+        --green: #0f766e;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+      }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body {
+        font-family: var(--font-body);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 80% 58% at 50% -20%, rgba(99,102,241,0.11), transparent 58%),
+          radial-gradient(ellipse 55% 42% at 88% 12%, rgba(139,92,246,0.07), transparent 54%),
+          #fff;
+        line-height: 1.7;
+      }
+      a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        background: rgba(255,255,255,0.82);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .nav-links { display: flex; align-items: center; gap: 16px; }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .9rem;
+        font-weight: 600;
+      }
+      .article-hero {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 96px 0 56px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, .86fr);
+        gap: 42px;
+        align-items: center;
+      }
+      .article-hero > div { min-width: 0; }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+      .eyebrow::before {
+        content: '';
+        width: 28px;
+        height: 1px;
+        background: var(--accent);
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.45rem, 5.35vw, 5.25rem);
+        line-height: .96;
+        letter-spacing: -0.04em;
+        margin-bottom: 24px;
+        overflow-wrap: break-word;
+      }
+      .dek {
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.9vw, 1.35rem);
+        line-height: 1.65;
+        max-width: 720px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.72);
+        border-radius: 999px;
+        padding: 7px 13px;
+        color: var(--muted);
+        font-size: .82rem;
+        font-weight: 600;
+      }
+      .field-card {
+        min-width: 0;
+        max-width: 100%;
+        border: 1px solid rgba(99,102,241,0.18);
+        border-radius: 28px;
+        background:
+          linear-gradient(150deg, rgba(255,255,255,0.92), rgba(248,249,255,0.82)),
+          radial-gradient(circle at 20% 0%, rgba(99,102,241,0.2), transparent 32%);
+        box-shadow: 0 34px 90px -45px rgba(99,102,241,0.75);
+        padding: 26px;
+      }
+      .field-card h2 {
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        margin-bottom: 18px;
+      }
+      .loop {
+        display: grid;
+        gap: 12px;
+      }
+      .loop-step {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(255,255,255,0.78);
+      }
+      .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      }
+      .loop-step b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 2px;
+      }
+      .loop-step div:last-child { min-width: 0; }
+      .loop-step span {
+        color: var(--muted);
+        font-size: .92rem;
+        overflow-wrap: break-word;
+      }
+      .article-shell {
+        width: min(1120px, calc(100% - 48px));
+        margin: 0 auto 88px;
+        display: grid;
+        grid-template-columns: 230px minmax(0, 760px);
+        gap: 64px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 86px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgba(255,255,255,0.74);
+      }
+      .toc-title {
+        color: var(--faint);
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .toc a {
+        display: block;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .86rem;
+        font-weight: 600;
+        line-height: 1.35;
+        padding: 8px 0;
+      }
+      .toc a:hover { color: var(--ink); }
+      article {
+        min-width: 0;
+        font-size: 1.05rem;
+      }
+      article > p {
+        margin: 18px 0;
+        color: #27272a;
+      }
+      article h2 {
+        font-family: var(--font-display);
+        font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 70px 0 18px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+      }
+      article h3 {
+        font-family: var(--font-display);
+        font-size: 1.18rem;
+        margin: 28px 0 8px;
+      }
+      article ul, article ol { padding-left: 24px; margin: 18px 0; }
+      article li { margin: 8px 0; color: #27272a; }
+      strong { font-weight: 760; }
+      .lead {
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: #18181b;
+      }
+      .callout {
+        margin: 30px 0;
+        padding: 22px 24px;
+        border-left: 5px solid var(--accent);
+        background: var(--bg-alt);
+        border-radius: 0 18px 18px 0;
+      }
+      .chain {
+        margin: 26px 0;
+        padding: 18px 20px;
+        border: 1px solid rgba(99,102,241,0.24);
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04));
+        font-family: var(--font-display);
+        font-size: clamp(1.1rem, 2vw, 1.5rem);
+        line-height: 1.45;
+      }
+      .friction-grid, .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .mini-card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        padding: 18px;
+      }
+      .mini-card b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 7px;
+      }
+      .mini-card p {
+        color: var(--muted);
+        font-size: .95rem;
+        line-height: 1.6;
+      }
+      .field-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 24px 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        font-size: .94rem;
+      }
+      .field-table th,
+      .field-table td {
+        padding: 13px 14px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+      .field-table th {
+        color: #18181b;
+        background: #f4f4f5;
+        font-weight: 800;
+      }
+      .field-table tr:last-child td { border-bottom: 0; }
+      .field-table td { color: #3f3f46; }
+      .field-table strong { color: #18181b; }
+      .template {
+        margin: 24px 0;
+        padding: 18px 20px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fbfbfc;
+        color: #3f3f46;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: .88rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+      .warning {
+        margin: 24px 0;
+        padding: 18px 20px;
+        border-left: 5px solid #b45309;
+        border-radius: 0 18px 18px 0;
+        background: #fffbeb;
+        color: #3f3f46;
+      }
+      .field-cycle {
+        display: grid;
+        gap: 10px;
+        margin: 24px 0;
+      }
+      .day {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 14px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+      }
+      .day b { color: var(--accent); }
+      .deliverable {
+        counter-reset: deliverable;
+        display: grid;
+        gap: 12px;
+        padding-left: 0;
+      }
+      .deliverable li {
+        list-style: none;
+        position: relative;
+        padding: 15px 16px 15px 58px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+      }
+      .deliverable li::before {
+        counter-increment: deliverable;
+        content: counter(deliverable);
+        position: absolute;
+        left: 16px;
+        top: 14px;
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .source-list {
+        color: var(--muted);
+        font-size: .96rem;
+      }
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 30px 0;
+        text-align: center;
+        color: var(--faint);
+        font-size: .88rem;
+      }
+      @media (max-width: 920px) {
+        .article-hero { grid-template-columns: 1fr; padding-top: 64px; }
+        .article-shell { grid-template-columns: 1fr; gap: 28px; }
+        .toc { position: static; }
+      }
+      @media (max-width: 640px) {
+        .nav-inner, .article-hero, .article-shell { width: calc(100% - 32px); }
+        .nav-links { display: none; }
+        .article-hero { padding: 48px 0 34px; }
+        h1 {
+          font-size: clamp(2.15rem, 11vw, 3rem);
+          line-height: 1.02;
+          letter-spacing: -0.035em;
+        }
+        .field-card { padding: 18px; border-radius: 22px; }
+        .friction-grid, .metric-grid { grid-template-columns: 1fr; }
+        .day { grid-template-columns: 1fr; }
+        .field-table { display: block; overflow-x: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../../">Shawn.</a>
+        <div class="nav-links">
+          <a href="../../">Home</a>
+          <a href="#playbook">Playbook</a>
+          <a href="#sources">Sources</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="article-hero">
+      <div>
+        <div class="eyebrow">Field Note · AI Deployment</div>
+        <h1>Forward Deployed Engineering: A Practical Field Guide</h1>
+        <p class="dek">A practical playbook for finding AI-native workflows, earning trust from frontline teams, and turning field observation into deployable systems.</p>
+        <div class="meta">
+          <span class="pill">Shawn Xiang</span>
+          <span class="pill">May 13, 2026</span>
+          <span class="pill">Forward Deployed Engineering</span>
+        </div>
+      </div>
+      <aside class="field-card" aria-label="Forward Deployed Engineering field loop">
+        <h2>The FDE Field Loop</h2>
+        <div class="loop">
+          <div class="loop-step"><div class="num">1</div><div><b>Observe</b><span>Start from one real case, not the official process map.</span></div></div>
+          <div class="loop-step"><div class="num">2</div><div><b>Model</b><span>Trace systems, handoffs, judgment, writeback, and failure paths.</span></div></div>
+          <div class="loop-step"><div class="num">3</div><div><b>Score</b><span>Pick a workflow with value, examples, evaluations, integration, and risk control.</span></div></div>
+          <div class="loop-step"><div class="num">4</div><div><b>Shadow</b><span>Let AI recommend while humans keep control.</span></div></div>
+          <div class="loop-step"><div class="num">5</div><div><b>Deploy</b><span>Instrument usage, failures, trust, and business impact.</span></div></div>
+        </div>
+      </aside>
+    </header>
+
+    <main class="article-shell">
+      <aside class="toc" aria-label="Table of contents">
+        <div class="toc-title">Contents</div>
+        <a href="#real-case">1. Watch a real case</a>
+        <a href="#friction">2. Find AI-shaped friction</a>
+        <a href="#examples">3. Collect examples</a>
+        <a href="#score">4. Score the workflow</a>
+        <a href="#cycle">5. Run a field cycle</a>
+        <a href="#resistance">6. Treat resistance as signal</a>
+        <a href="#metrics">7. Measure the system</a>
+        <a href="#deliverable">8. Ship a deliverable</a>
+      </aside>
+
+      <article id="playbook">
+        <p class="lead"><strong>The first mistake in enterprise AI is asking, “What do you want to automate?”</strong></p>
+
+        <p>Most teams cannot answer that question well. They know their work. They know their pain. But they often do not know which parts of the workflow are now technically possible to rebuild with AI.</p>
+
+        <p>That is why <strong>FDE, or Forward Deployed Engineering</strong>, matters. I do not think of it as simply “customer-facing engineering.” I think of it as a field method: observe real work, model the workflow, choose a narrow intervention, build in shadow mode, evaluate against real cases, and only then deploy.</p>
+
+        <div class="callout">
+          The core move is simple: do not start with “AI features.” Start with the actual work people do under pressure.
+        </div>
+
+        <h2 id="real-case">1. Watch a real case, not a process map</h2>
+
+        <p>If I were dropped into a company tomorrow, I would not begin by asking for a strategy deck. I would ask someone to open a recently completed ticket, investigation, sales proposal, claim, report, or customer request.</p>
+
+        <p>Then I would ask them to replay what actually happened.</p>
+
+        <p>Sometimes that does mean pulling up a chair. But it should not be passive watching. A useful field session has a mode, a boundary, and an evidence target.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>Observation mode</th><th>How to run it</th><th>When it works</th><th>Evidence you want</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Desk-side shadowing</strong></td>
+              <td>Sit slightly behind the operator, avoid blocking the screen, stay quiet for the first 10-15 minutes, and record every system switch, wait, copy-paste, workaround, spreadsheet, and side-channel message.</td>
+              <td>Support, sales operations, finance operations, compliance review, clinical back office, internal tools.</td>
+              <td>Timeline, system-switch map, pain fragments, real vocabulary, informal workarounds.</td>
+            </tr>
+            <tr>
+              <td><strong>Think-aloud</strong></td>
+              <td>Ask the user to do the real task while saying the judgment out loud. Interrupt only with short questions: “Why that system?” “What made this acceptable?” “When would you escalate?”</td>
+              <td>Tasks where expert judgment is hidden: risk review, pricing, investigation, triage, diagnosis, exception handling.</td>
+              <td>Decision rules, escalation triggers, tacit knowledge, trust boundaries.</td>
+            </tr>
+            <tr>
+              <td><strong>Artifact walkthrough</strong></td>
+              <td>Start from a finished output and reconstruct the path backward: inputs, searches, revisions, approvals, comments, rejected versions, and final writeback.</td>
+              <td>Long-cycle work such as research reports, anti-money-laundering investigations, sales proposals, medical reviews, and claims.</td>
+              <td>Input/output pairs, rework points, version differences, quality rubric.</td>
+            </tr>
+            <tr>
+              <td><strong>Log-assisted discovery</strong></td>
+              <td>Use timestamps from CRM, ticketing, ERP, Jira, ServiceNow, Slack, or workflow logs to reconstruct what actually happened, then sample cases for follow-up interviews.</td>
+              <td>High-volume workflows, cross-team handoffs, politically sensitive processes, or cases where one observation session is too narrow.</td>
+              <td>Cycle time, wait time, variants, reopens, bottlenecks, handoff count.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Concrete operating mode</h3>
+        <ul>
+          <li><strong>Sit beside the work.</strong> Stay slightly behind the user. Do not block the screen. Stay quiet for the first 10-15 minutes.</li>
+          <li><strong>Record every switch.</strong> System A to system B, copy-paste, waiting, workaround, spreadsheet, Slack message, local note, re-check.</li>
+          <li><strong>Ask only short questions.</strong> “Why did you open that?” “How did you decide?” “What would make this wrong?”</li>
+          <li><strong>Work backward from artifacts.</strong> Start from the final output and reconstruct inputs, decisions, revisions, approvals, and rework.</li>
+          <li><strong>Use logs to scale the observation.</strong> CRM, ticketing, ERP, Jira, ServiceNow, Slack, and workflow logs can reveal patterns that one shadowing session will miss.</li>
+        </ul>
+
+        <p>The goal is not to watch people click buttons. The goal is to capture five things: where the input comes from, where judgment happens, where the action gets written back, who checks the result, and what happens when the system fails.</p>
+
+        <div class="template">Field note template
+
+Time: 14:03-14:07
+Actor: support agent / AML investigator / sales ops / reviewer
+System: Salesforce -> Excel -> Outlook -> internal portal
+Object: customer_id / ticket_id / claim_id / account_id
+Action: search history / copy field / paste into template / wait for approval
+Decision: what required human judgment?
+Evidence: screenshot id / case id / log link / file name
+Pain: waiting, duplicate entry, missing context, format conversion, rework
+Risk: what happens if this is wrong? who reviews it? can it be rolled back?
+AI candidate: retrieve, summarize, classify, generate, validate, prefill, recommend next step</div>
+
+        <h3>A 90-minute field session</h3>
+        <div class="friction-grid">
+          <div class="mini-card"><b>0-10 min: set the relationship</b><p>Make clear that you are not auditing the person. You are looking for work the system forces humans to do.</p></div>
+          <div class="mini-card"><b>10-25 min: watch silently</b><p>Record systems opened, pauses, copy-paste, side-channel messages, old emails, local notes, and spreadsheets.</p></div>
+          <div class="mini-card"><b>25-55 min: ask short questions</b><p>Ask one action at a time: “Why did you switch from A to B?” “Is this fact-finding or formatting?” “What rule is in your head here?”</p></div>
+          <div class="mini-card"><b>55-75 min: replay one case</b><p>Open a recently completed case and reconstruct it from final output back to input materials and approvals.</p></div>
+          <div class="mini-card"><b>75-85 min: confirm the map</b><p>Say back the flow: “I think the painful part is evidence gathering in step 3 and narrative writing in step 6.” Let them correct you.</p></div>
+          <div class="mini-card"><b>85-90 min: ask for samples</b><p>Request 5-10 anonymized examples: normal, complex, reworked, escalated, and ideal. No examples means no reliable evaluation.</p></div>
+        </div>
+
+        <div class="warning">
+          Do not ask, “Where should we use AI?” Ask, “If an assistant prepared the evidence packet for this step, would you trust it? How would you check it?”
+        </div>
+
+        <h2 id="friction">2. Look for AI-shaped friction</h2>
+
+        <p>AI opportunities rarely announce themselves as “AI opportunities.” They show up as friction.</p>
+
+        <div class="friction-grid">
+          <div class="mini-card"><b>Cross-system lookup</b><p>A support agent copies a customer name from Zendesk, searches Salesforce for contract status, checks Stripe for payment history, then returns to Zendesk to write a reply.</p></div>
+          <div class="mini-card"><b>Evidence gathering</b><p>An analyst reads PDFs, old emails, internal notes, and spreadsheets before writing a short recommendation.</p></div>
+          <div class="mini-card"><b>Manual narrative generation</b><p>A compliance analyst turns structured facts into a report, a case summary, or an audit trail.</p></div>
+          <div class="mini-card"><b>Unwritten expert judgment</b><p>A senior operator knows when a case “smells wrong,” but the rule is not captured in any system.</p></div>
+        </div>
+
+        <p>When you see cross-system work, draw the chain:</p>
+        <div class="chain">source -> key -> lookup -> decision -> writeback</div>
+        <p>Example: ticket ID from Zendesk -> account record in Salesforce -> payment status in Stripe -> refund recommendation -> note written back to Zendesk.</p>
+
+        <p>That chain is where an AI system can become useful: retrieval, summarization, classification, evidence packaging, pre-filled actions, quality checks, and escalation recommendations.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>What you see</th><th>Record immediately</th><th>Ask next</th><th>AI opportunity</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Copy a customer name from Salesforce and search Google Drive.</td>
+              <td>Whether the source key is a name, account ID, email, or contract ID; how many searches it takes.</td>
+              <td>“If search fails, where do you look next?”</td>
+              <td>Entity linking, unified retrieval, evidence packet generation.</td>
+            </tr>
+            <tr>
+              <td>Open Excel, pull a number, paste it into a deck or report.</td>
+              <td>Metric source, definition, freshness, owner, and review path.</td>
+              <td>“Where does this number usually go wrong?”</td>
+              <td>Auto-fill, metric validation, citation tracking.</td>
+            </tr>
+            <tr>
+              <td>Ask a teammate in Slack or Feishu.</td>
+              <td>Who they ask, why the answer is not in the system, wait time, and whether the answer is written back.</td>
+              <td>“How often does this question appear?”</td>
+              <td>Knowledge-base repair, missing-field alerts, internal support agent.</td>
+            </tr>
+            <tr>
+              <td>Search PDFs or emails for a clause.</td>
+              <td>Document type, page count, search terms, and relevance judgment.</td>
+              <td>“What is the consequence of citing the wrong clause?”</td>
+              <td>Retrieval-Augmented Generation, or RAG: the model retrieves source material before drafting an answer.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 id="examples">3. Do not prototype before you have examples</h2>
+
+        <p>A workflow is not ready for an AI prototype just because it feels painful.</p>
+
+        <p>Before building, collect a small evidence pack:</p>
+        <ul>
+          <li>20-50 real cases, anonymized if needed</li>
+          <li>Good outputs and bad outputs</li>
+          <li>Borderline cases</li>
+          <li>Examples that required escalation</li>
+          <li>Examples that caused rework</li>
+          <li>The human rubric for “acceptable” and “unacceptable”</li>
+        </ul>
+
+        <p>This matters because an AI workflow without evaluation becomes demo theater. It can look impressive and still be unusable in production.</p>
+
+        <p>OpenAI’s enterprise deployments emphasize real workflows and custom evaluation. Anthropic’s agent work makes the same point from another angle: once agents use tools, remember context, and take multi-step actions, you need evaluations that test the whole trajectory, not just the final answer.</p>
+
+        <h3>If you cannot sit beside the user</h3>
+        <div class="friction-grid">
+          <div class="mini-card"><b>Screen-recorded self-narration</b><p>Ask the user to record one real case for 15 minutes while explaining decisions. One case, not a product demo.</p></div>
+          <div class="mini-card"><b>Log sampling</b><p>Export 50-200 historical cases with created time, status changes, handler, close time, and reopen count. Start with the longest and weirdest paths.</p></div>
+          <div class="mini-card"><b>Artifact packet replay</b><p>Ask for inputs, final output, comments, approvals, and rework versions. Interview around the packet instead of abstract process descriptions.</p></div>
+          <div class="mini-card"><b>Expert/newcomer contrast</b><p>Interview a senior operator and a new user on the same workflow. Experts reveal tacit judgment; newcomers reveal learning cost and system confusion.</p></div>
+        </div>
+
+        <h3>Use logs as objective evidence</h3>
+        <p><strong>Process mining</strong> means reconstructing real workflows from event logs. It does not replace field observation, but it prevents you from overfitting to one charismatic interview.</p>
+
+        <div class="template">Minimal event log fields
+
+case_id        The business object: ticket_123 / claim_456 / account_789
+activity       Created / Assigned / Reviewed / Reopened / Closed
+timestamp      Minute-level or second-level time
+actor          Person or anonymized role
+system         Where the event happened
+status         Current state
+metadata       Optional: amount, risk tier, product line, customer segment</div>
+
+        <p>Start with five cuts: cycle time, wait time, reopen or rework rate, common variants, and manual handoffs. The best early targets often combine high frequency, long wait time, repeated rework, cross-system lookup, and clear judgment rules.</p>
+
+        <h2 id="score">4. Score the workflow before choosing it</h2>
+
+        <p>I would use six gates before committing to a workflow:</p>
+        <ul>
+          <li><strong>Value:</strong> Does this affect revenue, cost, risk, speed, quality, or customer experience?</li>
+          <li><strong>Frequency:</strong> Does it happen often enough to matter?</li>
+          <li><strong>Examples:</strong> Can we collect real inputs, outputs, failures, and edge cases?</li>
+          <li><strong>Evaluation:</strong> Can a domain expert judge whether the AI output is right?</li>
+          <li><strong>Integration:</strong> Can the system reach the needed data, tools, permissions, and work entry point?</li>
+          <li><strong>Risk control:</strong> Can we start in shadow mode, add human review, log actions, and roll back?</li>
+        </ul>
+
+        <p>The best first workflow is not always the biggest workflow. It is the workflow where value, examples, evaluation, integration, and risk control all exist at the same time.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>Dimension</th><th>1 point</th><th>3 points</th><th>5 points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Business value</strong></td><td>Convenience only.</td><td>Clear time saving or rework reduction.</td><td>Revenue, risk, compliance, quality, or customer experience impact.</td></tr>
+            <tr><td><strong>Frequency</strong></td><td>A few times per month.</td><td>Several times per week.</td><td>High-volume daily workflow.</td></tr>
+            <tr><td><strong>Examples</strong></td><td>No historical cases.</td><td>Dozens of cases.</td><td>Hundreds of cases, including failures and edge cases.</td></tr>
+            <tr><td><strong>Evaluation</strong></td><td>No one can define good output.</td><td>Domain expert can judge.</td><td>Rubric and partial automated checks are possible.</td></tr>
+            <tr><td><strong>Integration</strong></td><td>Data and permissions are blocked.</td><td>Partial access exists.</td><td>APIs, logs, permissions, and work entry point are clear.</td></tr>
+            <tr><td><strong>Risk control</strong></td><td>Wrong action cannot be rolled back.</td><td>Human review is possible.</td><td>Shadow mode, approval, audit log, and rollback are available.</td></tr>
+          </tbody>
+        </table>
+
+        <p>My threshold for prototyping: do not require the highest score, but require real examples, a person who can judge correctness, a reachable work entry point, and a safe failure mode.</p>
+
+        <h2 id="cycle">5. Run a seven-day field cycle</h2>
+
+        <p>A practical FDE discovery should move quickly:</p>
+
+        <div class="field-cycle">
+          <div class="day"><b>Day 0</b><span>Define one workflow, one team, one business metric.</span></div>
+          <div class="day"><b>Day 1</b><span>Run 2-3 contextual inquiries.</span></div>
+          <div class="day"><b>Day 2</b><span>Collect logs and artifact packs.</span></div>
+          <div class="day"><b>Day 3</b><span>Score opportunities and choose one narrow workflow.</span></div>
+          <div class="day"><b>Day 4</b><span>Create golden examples.</span></div>
+          <div class="day"><b>Day 5</b><span>Build a shadow prototype.</span></div>
+          <div class="day"><b>Day 6</b><span>Run 5-10 real cases with users.</span></div>
+          <div class="day"><b>Day 7</b><span>Decide whether to pilot, gather more evidence, or kill.</span></div>
+        </div>
+
+        <p>The shadow prototype is the key. It lets the AI produce recommendations while humans keep control. You learn whether users trust the output before the system touches production.</p>
+
+        <h2 id="resistance">6. Treat resistance as signal</h2>
+
+        <p>When people do not cooperate, it is often not because they “do not get AI.” The incentives may be wrong.</p>
+
+        <ul>
+          <li>If they only explain the official SOP, ask for a recent real case.</li>
+          <li>If they do not want to share examples, use anonymized samples and in-environment testing.</li>
+          <li>If experts hide edge cases, make them evaluation owners with veto power.</li>
+          <li>If IT blocks integration, start with shadow mode, least privilege, audit logs, and rollback.</li>
+          <li>If leadership only wants ROI, narrow the pilot to one metric.</li>
+        </ul>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>Resistance pattern</th><th>Likely reason</th><th>Practical response</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>They only describe the official SOP.</td>
+              <td>They fear being judged for workarounds.</td>
+              <td>Ask for one recent case and say explicitly that the goal is to improve the system, not evaluate the person.</td>
+            </tr>
+            <tr>
+              <td>They refuse to share samples.</td>
+              <td>Security, privacy, or unclear data boundaries.</td>
+              <td>Use anonymized fields, redacted screenshots, synthetic structure, or in-environment testing where data does not leave their system.</td>
+            </tr>
+            <tr>
+              <td>Experts hide edge cases.</td>
+              <td>They worry their know-how will be extracted or devalued.</td>
+              <td>Make them evaluation owners with veto power. Position AI as reducing low-value work, not replacing their judgment.</td>
+            </tr>
+            <tr>
+              <td>IT blocks integration.</td>
+              <td>Permissions, audit, support burden, incident risk.</td>
+              <td>Begin with read-only access, least privilege, full logs, shadow mode, human approval, and rollback.</td>
+            </tr>
+            <tr>
+              <td>Leadership only asks for ROI.</td>
+              <td>They do not want to fund exploration.</td>
+              <td>Narrow the pilot to one metric, such as P95 cycle time, rework rate, or manual handoff count.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The right posture is not “trust the model.” It is: prove where the model deserves trust, and keep humans in the loop until it does.</p>
+
+        <h2 id="metrics">7. Measure more than time saved</h2>
+
+        <p>Time saved is useful, but it is not enough.</p>
+
+        <div class="metric-grid">
+          <div class="mini-card"><b>Business outcome</b><p>Cycle time, throughput, quality, risk reduction, customer experience.</p></div>
+          <div class="mini-card"><b>User adoption</b><p>Active users, completed workflows, repeat usage, rejected suggestions.</p></div>
+          <div class="mini-card"><b>System reliability</b><p>Tool-call success, failure counts, latency, cost, escalation rate.</p></div>
+          <div class="mini-card"><b>Learning loop</b><p>Evaluation pass rate, edge-case coverage, feedback-to-fix time, transferability to another team.</p></div>
+        </div>
+
+        <p>For AI systems inside real operations, observability is not optional. It is part of the product.</p>
+
+        <h2 id="deliverable">8. The final deliverable should be concrete</h2>
+
+        <p>After a field discovery, the output should not be “there are many AI opportunities.” That is too vague.</p>
+
+        <p>A real FDE deliverable should include:</p>
+        <ol class="deliverable">
+          <li>An as-is workflow map</li>
+          <li>An evidence pack of real examples, logs, and user quotes</li>
+          <li>A ranked opportunity shortlist</li>
+          <li>Golden examples for evaluation</li>
+          <li>An evaluation harness</li>
+          <li>A shadow prototype</li>
+          <li>A pilot plan with owner, metrics, permissions, and rollback</li>
+        </ol>
+
+        <p>That is the difference between AI consulting and forward deployed engineering.</p>
+
+        <p>Consulting can stop at recommendations. FDE should leave behind a system, a measurement loop, and a customer team that can keep improving it.</p>
+
+        <h2>One-sentence version</h2>
+
+        <p><strong>Forward Deployed Engineering is the discipline of using real field evidence to find high-value AI workflows, then turning them into evaluated, integrated, and adoption-ready systems.</strong></p>
+
+        <h2 id="sources">Sources and inspirations</h2>
+        <ul class="source-list">
+          <li><a href="https://openai.com/index/openai-launches-the-deployment-company/">OpenAI launches the OpenAI Deployment Company</a></li>
+          <li><a href="https://openai.com/business/the-openai-deployment-company/">OpenAI Forward Deployed Engineering</a></li>
+          <li><a href="https://openai.com/careers/forward-deployed-engineer-nyc-new-york-city/">OpenAI Forward Deployed Engineer role</a></li>
+          <li><a href="https://www.palantir.com/docs/foundry/architecture-center/ontology-system">Palantir Ontology system</a></li>
+          <li><a href="https://www.palantir.com/docs/foundry/workflow-lineage/aip-usage-observability">Palantir Workflow Lineage and AIP observability</a></li>
+          <li><a href="https://www.anthropic.com/careers/jobs/4985877008">Anthropic Forward Deployed Engineer, Applied AI</a></li>
+          <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic: Building Effective Agents</a></li>
+          <li><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic: Demystifying Evals for AI Agents</a></li>
+          <li><a href="https://www.gov.uk/service-manual/user-research/contextual-research-and-observation/">GOV.UK: Contextual research and observation</a></li>
+          <li><a href="https://www.gov.uk/guidance/contextual-inquiry">GOV.UK: Contextual Inquiry</a></li>
+          <li><a href="https://www.kdd.org/exploration_files/V13-02-07-vanderAalst.pdf">Wil van der Aalst: Process Mining</a></li>
+        </ul>
+      </article>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2026 Shawn Xiang. Built with purpose.</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Field Notes | Shawn Xiang</title>
+    <meta name="description" content="Field notes by Shawn Xiang on forward-deployed AI engineering, AI deployment, and practical systems work." />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --ink: #09090b;
+        --muted: #52525b;
+        --border: rgba(0,0,0,0.09);
+        --accent: #6366f1;
+        --accent-2: #8b5cf6;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+      }
+      html { -webkit-font-smoothing: antialiased; }
+      body {
+        font-family: var(--font-body);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 74% 52% at 50% -16%, rgba(99,102,241,0.12), transparent 58%),
+          #fff;
+        line-height: 1.7;
+      }
+      .nav {
+        border-bottom: 1px solid var(--border);
+        background: rgba(255,255,255,0.84);
+        backdrop-filter: blur(18px);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .nav-inner, main {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .nav a:not(.brand) {
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: .9rem;
+      }
+      main { padding: 74px 0 90px; }
+      .eyebrow {
+        color: var(--accent);
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.7rem, 7vw, 5.4rem);
+        line-height: .96;
+        letter-spacing: -0.04em;
+        max-width: 780px;
+      }
+      .intro {
+        color: var(--muted);
+        font-size: 1.13rem;
+        max-width: 680px;
+        margin: 22px 0 44px;
+      }
+      .article-list {
+        display: grid;
+        gap: 16px;
+      }
+      .article-card {
+        display: block;
+        color: var(--ink);
+        text-decoration: none;
+        border: 1px solid rgba(99,102,241,0.18);
+        border-radius: 22px;
+        padding: 26px;
+        background:
+          linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.035)),
+          #fff;
+        transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+      }
+      .article-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(99,102,241,0.38);
+        box-shadow: 0 24px 60px -30px rgba(99,102,241,0.45);
+      }
+      .article-meta {
+        color: var(--accent);
+        font-size: .75rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .article-card h2 {
+        font-family: var(--font-display);
+        font-size: clamp(1.45rem, 3.4vw, 2.35rem);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        max-width: 780px;
+      }
+      .article-card p {
+        color: var(--muted);
+        max-width: 720px;
+        margin-top: 12px;
+      }
+      .read-link {
+        display: inline-flex;
+        margin-top: 20px;
+        color: var(--accent);
+        font-weight: 800;
+      }
+      @media (max-width: 640px) {
+        .nav-inner, main { width: calc(100% - 32px); }
+        main { padding-top: 52px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../">Shawn.</a>
+        <a href="../">Home</a>
+      </div>
+    </nav>
+    <main>
+      <div class="eyebrow">Writing · Field Notes</div>
+      <h1>Practical notes on shipping AI into real work.</h1>
+      <p class="intro">A compact archive for essays, playbooks, and field methods. The homepage stays focused; this page can grow as the writing library grows.</p>
+      <section class="article-list" aria-label="Field notes">
+        <a class="article-card" href="./fde-field-method/">
+          <div class="article-meta">May 2026 · AI Deployment</div>
+          <h2>Forward Deployed Engineering: A Practical Field Guide</h2>
+          <p>A practical field guide for finding AI-native workflows, earning trust from frontline teams, and turning field observation into deployable systems.</p>
+          <span class="read-link">Read the field note -></span>
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

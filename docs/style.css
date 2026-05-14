@@ -726,6 +726,97 @@ body {
   border: 1px solid var(--border);
 }
 
+/* ===== WRITING ===== */
+.writing-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.writing-card {
+  display: block;
+  position: relative;
+  padding: 30px;
+  border: 1px solid rgba(99,102,241,0.18);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.035)),
+    var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.35s ease,
+              border-color 0.3s ease;
+}
+
+.writing-card::after {
+  content: '';
+  position: absolute;
+  right: -80px;
+  top: -90px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 68%);
+  pointer-events: none;
+}
+
+.writing-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99,102,241,0.38);
+  box-shadow: 0 24px 60px -24px rgba(99, 102, 241, 0.35);
+}
+
+.writing-meta {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.writing-card h4 {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  max-width: 760px;
+  margin-bottom: 12px;
+}
+
+.writing-card p {
+  color: var(--text-secondary);
+  max-width: 680px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.writing-link {
+  display: inline-flex;
+  margin-top: 20px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.writing-index-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 3px;
+}
+
+.writing-index-link:hover {
+  color: var(--accent);
+}
+
 /* ===== SKILLS ===== */
 .skills-grid {
   display: grid;

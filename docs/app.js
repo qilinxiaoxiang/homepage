@@ -10,6 +10,7 @@ const content = {
       { label: "About", href: "#about" },
       { label: "Experience", href: "#experience" },
       { label: "Projects", href: "#projects" },
+      { label: "Writing", href: "#writing" },
       { label: "Skills", href: "#skills" },
       { label: "Education", href: "#education" }
     ],
@@ -120,6 +121,18 @@ const content = {
         techs: ["Solution Architecture", "Payments", "IoT"]
       }
     ],
+    writingLabel: "Writing",
+    writingTitle: "Field Notes",
+    writingIndexText: "View all field notes",
+    writing: [
+      {
+        title: "Forward Deployed Engineering: A Practical Field Guide",
+        body: "A practical field guide for finding AI-native workflows, earning trust from frontline teams, and turning field observation into deployable systems.",
+        meta: "May 2026 · AI Deployment",
+        link: "./articles/fde-field-method/",
+        linkText: "Read the field note →"
+      }
+    ],
     skillsLabel: "Skills",
     skillsTitle: "What I Bring",
     skillGroups: [
@@ -161,6 +174,7 @@ const content = {
       { label: "关于", href: "#about" },
       { label: "经历", href: "#experience" },
       { label: "项目", href: "#projects" },
+      { label: "文章", href: "#writing" },
       { label: "技能", href: "#skills" },
       { label: "教育", href: "#education" }
     ],
@@ -269,6 +283,18 @@ const content = {
         body: "在东南亚最大数字钱包生态中，架构设计钱包侧可穿戴支付与公交码能力的完整方案。",
         tag: "金融科技 · 生产",
         techs: ["方案架构", "支付", "IoT"]
+      }
+    ],
+    writingLabel: "文章",
+    writingTitle: "Field Notes",
+    writingIndexText: "查看全部文章",
+    writing: [
+      {
+        title: "Forward Deployed Engineering: A Practical Field Guide",
+        body: "一篇英文实操手册：如何识别 AI-native workflow、如何做现场观察、如何从 shadow prototype 走向可部署系统。",
+        meta: "2026.05 · AI 落地",
+        link: "./articles/fde-field-method/",
+        linkText: "阅读文章 →"
       }
     ],
     skillsLabel: "技能",
@@ -417,6 +443,21 @@ function renderProjects(t) {
   setupCardTilt();
 }
 
+function renderWriting(t) {
+  const root = document.getElementById("writing-list");
+  const featuredWriting = t.writing.slice(0, 3);
+  root.innerHTML = featuredWriting.map(w => `
+    <a class="writing-card reveal" href="${w.link}">
+      <div class="writing-meta">${w.meta}</div>
+      <h4>${w.title}</h4>
+      <p>${w.body}</p>
+      <span class="writing-link">${w.linkText}</span>
+    </a>
+  `).join("") + `
+    <a class="writing-index-link reveal" href="./articles/">${t.writingIndexText}</a>
+  `;
+}
+
 function setupCardTilt() {
   if (!window.matchMedia('(hover: hover)').matches) return;
   document.querySelectorAll('.project-card').forEach(card => {
@@ -494,6 +535,11 @@ function render() {
   document.getElementById("project-label").textContent = t.projectLabel;
   document.getElementById("project-title").textContent = t.projectTitle;
   renderProjects(t);
+
+  // Writing
+  document.getElementById("writing-label").textContent = t.writingLabel;
+  document.getElementById("writing-title").textContent = t.writingTitle;
+  renderWriting(t);
 
   // Skills
   document.getElementById("skills-label").textContent = t.skillsLabel;
