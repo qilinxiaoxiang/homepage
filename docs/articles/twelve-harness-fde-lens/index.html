@@ -9,6 +9,12 @@
     <meta property="og:description" content="Twelve AI coding harnesses, read at the source. None of them fits FDE client work. The opportunity, and the minimal six-layer pipeline to build instead." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://shawnxiang.com/articles/twelve-harness-fde-lens/" />
+    <meta property="og:image" content="https://shawnxiang.com/articles/twelve-harness-fde-lens/images/cover-workshop.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:alt" content="Editorial illustration: workbench with twelve labeled toolboxes, five tools pulled out and arranged in a working pipeline" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://shawnxiang.com/articles/twelve-harness-fde-lens/images/cover-workshop.jpg" />
     <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -86,6 +92,30 @@
         align-items: center;
       }
       .article-hero > div { min-width: 0; }
+      .cover {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto 48px;
+      }
+      .cover figure {
+        margin: 0;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg-alt);
+        box-shadow: 0 18px 50px -28px rgba(15, 23, 42, 0.18);
+      }
+      .cover img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .cover figcaption {
+        padding: 14px 20px 18px;
+        color: var(--muted);
+        font-size: .92rem;
+        border-top: 1px solid var(--border);
+        background: #fff;
+      }
       .eyebrow {
         display: inline-flex;
         align-items: center;
@@ -489,6 +519,13 @@
         </div>
       </aside>
     </header>
+
+    <section class="cover" aria-label="Cover illustration">
+      <figure>
+        <img src="images/cover-workshop.png" alt="Editorial illustration: workbench with twelve labeled toolboxes; five tools are pulled out and arranged in a working pipeline, the other seven remain unused in the back row." loading="eager" width="1672" height="941" />
+        <figcaption>Twelve toolboxes on the bench. Five tools in use, seven idle — the working FDE pipeline you assemble by stealing patterns, not by installing frameworks.</figcaption>
+      </figure>
+    </section>
 
     <main class="article-shell">
       <aside class="toc" aria-label="Table of contents">
