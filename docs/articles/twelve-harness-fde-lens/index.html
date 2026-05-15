@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What Twelve AI Coding Harnesses Miss for Forward-Deployed Work | Shawn Xiang</title>
+    <meta name="description" content="A source-level read of twelve popular AI coding harnesses. None of them is built for the Forward-Deployed Engineering client engagement scenario. Here is what they skip, why, and the minimal pipeline to build instead." />
+    <meta property="og:title" content="What Twelve AI Coding Harnesses Miss for Forward-Deployed Work" />
+    <meta property="og:description" content="Twelve AI coding harnesses, read at the source. None of them fits FDE client work. The opportunity, and the minimal six-layer pipeline to build instead." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://shawnxiang.com/articles/twelve-harness-fde-lens/" />
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #ffffff;
+        --bg-alt: #f7f8fb;
+        --surface: #f4f4f5;
+        --ink: #09090b;
+        --muted: #52525b;
+        --faint: #8a8a93;
+        --border: rgba(0,0,0,0.08);
+        --border-strong: rgba(0,0,0,0.15);
+        --accent: #6366f1;
+        --accent-2: #8b5cf6;
+        --accent-soft: rgba(99,102,241,0.08);
+        --green: #0f766e;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+      }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body {
+        font-family: var(--font-body);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 80% 58% at 50% -20%, rgba(99,102,241,0.11), transparent 58%),
+          radial-gradient(ellipse 55% 42% at 88% 12%, rgba(139,92,246,0.07), transparent 54%),
+          #fff;
+        line-height: 1.7;
+      }
+      a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        background: rgba(255,255,255,0.82);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .nav-links { display: flex; align-items: center; gap: 16px; }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .9rem;
+        font-weight: 600;
+      }
+      .article-hero {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 96px 0 56px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, .86fr);
+        gap: 42px;
+        align-items: center;
+      }
+      .article-hero > div { min-width: 0; }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+      .eyebrow::before {
+        content: '';
+        width: 28px;
+        height: 1px;
+        background: var(--accent);
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.25rem, 4.8vw, 4.5rem);
+        line-height: 1.0;
+        letter-spacing: -0.035em;
+        margin-bottom: 24px;
+        overflow-wrap: break-word;
+      }
+      .dek {
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+        line-height: 1.65;
+        max-width: 720px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.72);
+        border-radius: 999px;
+        padding: 7px 13px;
+        color: var(--muted);
+        font-size: .82rem;
+        font-weight: 600;
+      }
+      .field-card {
+        min-width: 0;
+        max-width: 100%;
+        border: 1px solid rgba(99,102,241,0.18);
+        border-radius: 28px;
+        background:
+          linear-gradient(150deg, rgba(255,255,255,0.92), rgba(248,249,255,0.82)),
+          radial-gradient(circle at 20% 0%, rgba(99,102,241,0.2), transparent 32%);
+        box-shadow: 0 34px 90px -45px rgba(99,102,241,0.75);
+        padding: 26px;
+      }
+      .field-card h2 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        margin-bottom: 18px;
+      }
+      .loop {
+        display: grid;
+        gap: 12px;
+      }
+      .loop-step {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.78);
+      }
+      .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      }
+      .loop-step b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 2px;
+        font-size: .98rem;
+      }
+      .loop-step div:last-child { min-width: 0; }
+      .loop-step span {
+        color: var(--muted);
+        font-size: .88rem;
+        overflow-wrap: break-word;
+      }
+      .article-shell {
+        width: min(1120px, calc(100% - 48px));
+        margin: 0 auto 88px;
+        display: grid;
+        grid-template-columns: 230px minmax(0, 760px);
+        gap: 64px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 86px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgba(255,255,255,0.74);
+      }
+      .toc-title {
+        color: var(--faint);
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .toc a {
+        display: block;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .86rem;
+        font-weight: 600;
+        line-height: 1.35;
+        padding: 8px 0;
+      }
+      .toc a:hover { color: var(--ink); }
+      article {
+        min-width: 0;
+        font-size: 1.05rem;
+      }
+      article > p {
+        margin: 18px 0;
+        color: #27272a;
+      }
+      article h2 {
+        font-family: var(--font-display);
+        font-size: clamp(1.65rem, 3vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 70px 0 18px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+      }
+      article h3 {
+        font-family: var(--font-display);
+        font-size: 1.18rem;
+        margin: 28px 0 8px;
+      }
+      article ul, article ol { padding-left: 24px; margin: 18px 0; }
+      article li { margin: 8px 0; color: #27272a; }
+      strong { font-weight: 760; }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: .92em;
+        background: var(--surface);
+        padding: 2px 6px;
+        border-radius: 6px;
+        color: #18181b;
+      }
+      .lead {
+        font-size: 1.22rem;
+        line-height: 1.75;
+        color: #18181b;
+      }
+      .callout {
+        margin: 30px 0;
+        padding: 22px 24px;
+        border-left: 5px solid var(--accent);
+        background: var(--bg-alt);
+        border-radius: 0 18px 18px 0;
+      }
+      .chain {
+        margin: 26px 0;
+        padding: 18px 20px;
+        border: 1px solid rgba(99,102,241,0.24);
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04));
+        font-family: var(--font-display);
+        font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+        line-height: 1.45;
+      }
+      .friction-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .mini-card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        padding: 18px;
+      }
+      .mini-card b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 7px;
+      }
+      .mini-card p {
+        color: var(--muted);
+        font-size: .94rem;
+        line-height: 1.6;
+      }
+      .field-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 24px 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        font-size: .92rem;
+      }
+      .field-table th,
+      .field-table td {
+        padding: 12px 13px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+      .field-table th {
+        color: #18181b;
+        background: #f4f4f5;
+        font-weight: 800;
+      }
+      .field-table tr:last-child td { border-bottom: 0; }
+      .field-table td { color: #3f3f46; }
+      .field-table strong { color: #18181b; }
+      .field-table code { font-size: .85em; }
+      .warning {
+        margin: 24px 0;
+        padding: 18px 20px;
+        border-left: 5px solid #b45309;
+        border-radius: 0 18px 18px 0;
+        background: #fffbeb;
+        color: #3f3f46;
+      }
+      .warning strong { color: #78350f; }
+      .deliverable {
+        counter-reset: deliverable;
+        display: grid;
+        gap: 12px;
+        padding-left: 0;
+      }
+      .deliverable li {
+        list-style: none;
+        position: relative;
+        padding: 15px 16px 15px 58px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+      }
+      .deliverable li::before {
+        counter-increment: deliverable;
+        content: counter(deliverable);
+        position: absolute;
+        left: 16px;
+        top: 14px;
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .deliverable li b {
+        font-family: var(--font-display);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .deliverable li span {
+        color: var(--muted);
+        font-size: .95rem;
+      }
+      .never-list {
+        counter-reset: never;
+        display: grid;
+        gap: 10px;
+        padding-left: 0;
+        margin: 20px 0;
+      }
+      .never-list li {
+        list-style: none;
+        position: relative;
+        padding: 12px 16px 12px 52px;
+        border: 1px solid #fde68a;
+        border-radius: 14px;
+        background: #fffbeb;
+        color: #3f3f46;
+        font-size: .96rem;
+      }
+      .never-list li::before {
+        counter-increment: never;
+        content: counter(never, decimal-leading-zero);
+        position: absolute;
+        left: 14px;
+        top: 11px;
+        font-family: var(--font-display);
+        font-weight: 800;
+        color: #b45309;
+        font-size: .9rem;
+      }
+      .source-list {
+        color: var(--muted);
+        font-size: .96rem;
+      }
+      .source-list li { line-height: 1.55; }
+      details.linkedin {
+        margin: 40px 0 12px;
+        padding: 20px 22px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--bg-alt);
+      }
+      details.linkedin summary {
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--ink);
+      }
+      details.linkedin .li-body {
+        margin-top: 16px;
+        padding: 16px 18px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        white-space: pre-wrap;
+        font-size: .95rem;
+        line-height: 1.65;
+        color: #18181b;
+      }
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 30px 0;
+        text-align: center;
+        color: var(--faint);
+        font-size: .88rem;
+      }
+      @media (max-width: 920px) {
+        .article-hero { grid-template-columns: 1fr; padding-top: 64px; }
+        .article-shell { grid-template-columns: 1fr; gap: 28px; }
+        .toc { position: static; }
+      }
+      @media (max-width: 640px) {
+        .nav-inner, .article-hero, .article-shell { width: calc(100% - 32px); }
+        .nav-links { display: none; }
+        .article-hero { padding: 48px 0 34px; }
+        h1 {
+          font-size: clamp(1.95rem, 9.5vw, 2.7rem);
+          line-height: 1.05;
+          letter-spacing: -0.03em;
+        }
+        .field-card { padding: 18px; border-radius: 22px; }
+        .friction-grid { grid-template-columns: 1fr; }
+        .field-table { display: block; overflow-x: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../../">Shawn.</a>
+        <div class="nav-links">
+          <a href="../../">Home</a>
+          <a href="#pipeline">Playbook</a>
+          <a href="#sources">Sources</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="article-hero">
+      <div>
+        <div class="eyebrow">Field Note · AI Tooling</div>
+        <h1>What Twelve AI Coding Harnesses Miss for Forward-Deployed Work</h1>
+        <p class="dek">I read the source of twelve popular AI coding harnesses before installing any of them. None is designed for the Forward-Deployed Engineering client engagement. That gap is the opportunity.</p>
+        <div class="meta">
+          <span class="pill">Shawn Xiang</span>
+          <span class="pill">May 15, 2026</span>
+          <span class="pill">Forward-Deployed AI Engineering</span>
+        </div>
+      </div>
+      <aside class="field-card" aria-label="The six-layer FDE delivery pipeline">
+        <h2>The 6-Layer FDE Pipeline</h2>
+        <div class="loop">
+          <div class="loop-step"><div class="num">1</div><div><b>Spec</b><span>Capture intent in a file the client signs off on.</span></div></div>
+          <div class="loop-step"><div class="num">2</div><div><b>Plan</b><span>Commit architecture decisions, not chat transcripts.</span></div></div>
+          <div class="loop-step"><div class="num">3</div><div><b>Execute</b><span>Parallel agents in isolated worktrees with collision checks.</span></div></div>
+          <div class="loop-step"><div class="num">4</div><div><b>Verify</b><span>Deterministic checks decide "done." LLMs do not.</span></div></div>
+          <div class="loop-step"><div class="num">5</div><div><b>Review</b><span>Two-stage AI review plus cross-vendor second opinion, then a human.</span></div></div>
+          <div class="loop-step"><div class="num">6</div><div><b>Cost & Audit</b><span>Budget hard-stops and OpenTelemetry traces, not invoices full of surprises.</span></div></div>
+        </div>
+      </aside>
+    </header>
+
+    <main class="article-shell">
+      <aside class="toc" aria-label="Table of contents">
+        <div class="toc-title">Contents</div>
+        <a href="#trigger">1. What triggered this</a>
+        <a href="#fit">2. What "fit for FDE" means</a>
+        <a href="#twelve">3. What the twelve actually do</a>
+        <a href="#marketing-vs-source">4. Marketing vs source</a>
+        <a href="#why">5. Why this happens</a>
+        <a href="#pipeline">6. The six-layer pipeline</a>
+        <a href="#never">7. Ten never-auto items</a>
+        <a href="#install">8. Install nothing. Steal five things.</a>
+        <a href="#one-sentence">One-sentence version</a>
+        <a href="#sources">Sources</a>
+      </aside>
+
+      <article id="playbook">
+        <p class="lead"><strong>I was about to install one of the popular AI coding harnesses. Instead I opened the source. Twelve frameworks later, I have not installed any of them, and I am clearer about what is missing.</strong></p>
+
+        <p>The clearest finding is uncomfortable for the ecosystem. Of the twelve frameworks I read, with a combined star count north of half a million, none is designed for the work I actually do as a Forward-Deployed AI Engineer. They assume the author is the client and the reviewer. That assumption removes the four hardest parts of client engagement and leaves a tidy product behind.</p>
+
+        <p>This is also a market signal. If every popular harness solves the easy half of the work, the hard half is unclaimed.</p>
+
+        <div class="callout">
+          The hard half of FDE delivery is not code generation. It is spec sign-off, architecture decision records, human-in-the-loop gates, and an audit trail a client can read.
+        </div>
+
+        <h2 id="trigger">1. The question that triggered this</h2>
+
+        <p>A client engagement does not start with "what would you like to automate." It starts with "here is the contract, here is the deadline, here is the person who has to approve every irreversible change." The work is not measured by lines of code shipped. It is measured by whether the client can read the audit trail in three months and still trust it.</p>
+
+        <p>So when I sat down to pick a harness for that work, the question was simple. Does this framework treat the engineer and the reviewer as the same person? If yes, it solves the wrong problem. I read all twelve. The answer was yes, eleven times. The twelfth, Traycer Bart, hides the answer behind a closed-source LLM judge, which is the same failure in different clothes.</p>
+
+        <p>This article is what I learned. It is also a companion to my <a href="../fde-field-method/">prior post on Forward-Deployed Engineering field method</a>, which covers the discovery side of the same job.</p>
+
+        <h2 id="fit">2. What "fit for FDE" actually means</h2>
+
+        <p>A harness fits FDE when it treats the four hardest parts of client work as first-class.</p>
+
+        <div class="friction-grid">
+          <div class="mini-card"><b>Spec sign-off</b><p>The PRD lives in git, the client approves it on a pull request, and no agent runs until that approval exists. The spec is the contract, not the chat history.</p></div>
+          <div class="mini-card"><b>Architecture decision records</b><p>Every irreversible call (schema, auth, third-party dependency, prod config) is written down, dated, and reviewed by the client's technical lead before code touches it.</p></div>
+          <div class="mini-card"><b>Human-in-the-loop gates</b><p>Specific operations are blocked from auto-execution. The gate is not optional and not overridable by the agent. The list is short, named, and enforced by the harness.</p></div>
+          <div class="mini-card"><b>Audit trail</b><p>Every agent decision has a trace. When the client asks "why does the PR look like this," I can replay the prompt, the tool calls, and the verification result, not improvise an answer.</p></div>
+        </div>
+
+        <p>These four items are unglamorous. They do not demo well. They are also the difference between a deliverable a client accepts and one a client litigates.</p>
+
+        <h2 id="twelve">3. What the twelve harnesses actually do</h2>
+
+        <p>Here is the read. One line per framework, who it is built for, what it skips.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>Framework</th><th>What it actually is</th><th>Built for</th><th>What it skips for FDE</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Spec-Kit</strong> (99.7k stars)</td><td>Install-time CLI that copies four markdown templates (spec, plan, tasks, constitution) into thirty agent skill folders.</td><td>Solo greenfield builds.</td><td>No client sign-off mechanism. "Constitution" is prose, not a CI gate.</td></tr>
+            <tr><td><strong>GSD</strong> (62.3k stars)</td><td>Worktree-isolated agent dispatch with a static collision compiler over <code>files_modified</code>.</td><td>OSS maintainers shipping many parallel PRs.</td><td>The collision check is the only piece worth keeping. The other sixty-seven slash commands are surface area.</td></tr>
+            <tr><td><strong>BMAD</strong> (47k stars)</td><td>TOML config resolver plus six persona skill files (brief, prd, architecture, story, code).</td><td>Solo founders running a fake team in their head.</td><td>Ceremony overhead. A client will not meet your Mary, John, or Winston.</td></tr>
+            <tr><td><strong>GStack</strong> (~90k stars)</td><td>Forty-seven sprint-phase skills plus a Playwright daemon and a local prompt-injection classifier.</td><td>One-founder solo builders in YC voice.</td><td>The "Garry-style" voice in <code>/cso</code>, <code>/qa</code>, <code>/ship</code> will alienate any client tech lead in the first hour.</td></tr>
+            <tr><td><strong>Superpowers</strong> (obra)</td><td>SessionStart hook that injects fourteen prose skills, including a two-stage spec-and-code-quality review.</td><td>Individual engineers wanting TDD as a vibe.</td><td>TDD is prose, not a hook. Reported 94% PR rejection rate is a doctrine problem, not a tool feature.</td></tr>
+            <tr><td><strong>Ralph</strong> (snarktank)</td><td>113-line bash loop with fresh context per iteration and a <code>prd.json</code> task table.</td><td>Anyone who wants to run Claude headless overnight on a personal project.</td><td>No verifier. The "done" signal is the LLM emitting a sentinel string. Fine for hobby, not for prod.</td></tr>
+            <tr><td><strong>Archon</strong> (coleam00)</td><td>YAML DAG engine with six node types: command, prompt, bash, loop, approval, cancel.</td><td>Batch PR work for OSS maintainers.</td><td>No FDE-shaped HIL gates out of the box. The DAG engine itself is excellent.</td></tr>
+            <tr><td><strong>Claude-flow</strong> (51k stars)</td><td>NPM package registering ~305 MCP tools and forty-four prompt-template "agents" with JSON-file swarm state.</td><td>Buyers of the "queen-led Byzantine-consensus" vibe.</td><td>Everything load-bearing. See the next section.</td></tr>
+            <tr><td><strong>Everything-Claude-Code</strong></td><td>Node installer with six profiles, a Rust alpha control plane, 229 skills, 60 agents.</td><td>Power users who want a maximalist starter pack.</td><td>Installing the full profile blows past any reasonable always-on context budget.</td></tr>
+            <tr><td><strong>awesome-claude-code</strong> (44k stars)</td><td>Human-curated CSV of 226 entries that generates a README.</td><td>People discovering the ecosystem.</td><td>Not a harness. A directory.</td></tr>
+            <tr><td><strong>claude-code-templates</strong></td><td>NPX CLI pulling 423 agents, 341 commands, 85 MCPs, 826 skill packs from a remote API.</td><td>Discovery and one-off bootstraps.</td><td>Phone-home tracking and remote-pull conflict with a git-tracked harness repo.</td></tr>
+            <tr><td><strong>Paperclip</strong> (paperclipai)</td><td>Node, React, embedded Postgres, heartbeat scheduler, budget service, multi-vendor adapter.</td><td>Buyers of "Autonomous CEO" framing.</td><td>The "company" mental model adds a self-hosted ops burden to every client engagement.</td></tr>
+            <tr><td><strong>Traycer Bart</strong> (closed source)</td><td>Smart YOLO orchestrator with LLM-judge verification against a spec. $20-$100 per month.</td><td>Teams that want a hosted control loop.</td><td>Closed source plus LLM-judge will not pass the first client audit.</td></tr>
+          </tbody>
+        </table>
+
+        <p>None of these is bad work. Several are excellent pieces of engineering. They are simply built for the author-is-the-client world, where a sign-off is implicit and the audit is "trust me, it works on my laptop."</p>
+
+        <h2 id="marketing-vs-source">4. The marketing-vs-source meta-pattern</h2>
+
+        <p>The bigger finding is structural. Eleven of the twelve frameworks have a visible gap between marketing claims and source reality. The pattern is consistent enough to be diagnostic.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>Framework</th><th>Marketing claim</th><th>What the source actually shows</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude-flow</strong></td>
+              <td>"Queen-led Byzantine-consensus Rust engine."</td>
+              <td><code>queen</code> is a JSON field literally <code>{"term": 1}</code>. "Byzantine consensus" is <code>votes: Record&lt;string, boolean&gt;</code> written to disk with <code>writeFileSync</code>. Rust is 20 of 1,339 source files, or 1.5% of the codebase.</td>
+            </tr>
+            <tr>
+              <td><strong>BMAD</strong></td>
+              <td>"True scale-adaptive intelligence with G0-G6 gates."</td>
+              <td>Four phase folders and a single <code>user_skill_level</code> config field. G0-G6 do not exist in the source. Search returns zero results.</td>
+            </tr>
+            <tr>
+              <td><strong>GStack</strong></td>
+              <td>"10,000 LOC per week, 100 PRs per week."</td>
+              <td>The project retracted this in its own CHANGELOG line 3282. <code>docs/ON_THE_LOC_CONTROVERSY.md</code> is 169 lines of self-critique. "9 role-based agents" is in fact 17-20 sprint-phase personas. "23 tools" is 47 SKILL.md files.</td>
+            </tr>
+            <tr>
+              <td><strong>Superpowers</strong></td>
+              <td>"Enforces TDD. End of vibe coding."</td>
+              <td>One SessionStart hook that injects prose. TDD is a prose request, not a gate. There is no static check, no CI hook, no failing-test enforcement.</td>
+            </tr>
+            <tr>
+              <td><strong>Spec-kit</strong></td>
+              <td>"Vendor-agnostic."</td>
+              <td>True at install time only. The CLI copies the same prompts into each agent's native skill folder. There is no runtime adapter and no per-agent tuning.</td>
+            </tr>
+            <tr>
+              <td><strong>Traycer</strong></td>
+              <td>"93 minutes to a working dashboard."</td>
+              <td>Searching <code>site:traycer.ai</code> for the 93-minute figure returns zero hits. The number appears in a third-party YouTube video, not on the vendor's site.</td>
+            </tr>
+            <tr>
+              <td><strong>Paperclip</strong></td>
+              <td>"Autonomous CEO. Org-learning."</td>
+              <td><code>ROADMAP.md</code> shows the autonomy features as unstarted. The shipped code is a scheduler, a budget service, and a multi-vendor adapter.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Eleven out of twelve. The honest one is Spec-Kit, and even Spec-Kit overstates "vendor-agnostic." Two minutes of source reading beat two hours of marketing video, every time.</p>
+
+        <h2 id="why">5. Why this happens (and why it is systemic)</h2>
+
+        <p>Three mechanisms compound. None of them are conspiracies. All of them are predictable from how the ecosystem is structured.</p>
+
+        <p><strong>The LLM-driven hype loop.</strong> The same models that write the README also write the docs, the announcement post, and the LinkedIn thread. The README inherits the language of the demo. The demo inherits the language of the prompt. The prompt inherits the language of a Twitter thread. By the time a human reads it, the file has been edited by an author who has every incentive to use the most ambitious verb in the chain. "Coordinates" becomes "orchestrates." "Writes JSON" becomes "achieves consensus." There is no editor in the loop.</p>
+
+        <p><strong>Star-driven self-acceleration.</strong> A 50,000-star repo gets reviewed against its star count, not against its source. The reviewers assume the work has already been audited by 50,000 prior eyeballs. Stars travel faster than diffs. The most extreme claim travels fastest because it makes the best screenshot.</p>
+
+        <p><strong>YouTube secondary amplification.</strong> A working harness gets a 20-minute video. The video author paraphrases the README in their own voice. The paraphrase gets cited back to the project as if the project itself made the claim. The "93-minute dashboard" line for Traycer is a YouTuber's number, not the vendor's, but it now circulates as the vendor's. Once a number is in the loop, it stays.</p>
+
+        <p>The defense against all three is the same. Open the source. Count the lines. Check the dates. Read what the project says about itself in <code>CHANGELOG.md</code>, <code>ROADMAP.md</code>, and the issue tracker. That work takes thirty minutes and will save weeks.</p>
+
+        <h2 id="pipeline">6. The six-layer FDE delivery pipeline</h2>
+
+        <p>Here is what I would actually build for a client engagement. Six layers. Each layer steals one primitive from the twelve frameworks. No framework gets installed wholesale.</p>
+
+        <ol class="deliverable">
+          <li><b>Spec capture (Layer 1)</b><span>Steal Spec-Kit's four markdown templates: spec, plan, tasks, constitution. Copy them. Do not install the CLI. The spec.md uses P1/P2/P3 user stories and goes in a pull request the client approves before any agent runs. <strong>HIL gate:</strong> client sign-off on the PR is non-negotiable.</span></li>
+          <li><b>Plan and architecture (Layer 2)</b><span>Use Claude Code's plan mode to draft, then commit the output as <code>plan.md</code> plus ADRs next to the spec. <strong>HIL gate:</strong> any schema change, auth change, third-party dependency, or prod config change requires the client's tech lead to sign off in writing.</span></li>
+          <li><b>Execution (Layer 3)</b><span>Steal GSD's worktree dispatch pattern from <code>execute-phase.md</code> lines 540-547. Add an intra-wave <code>files_modified</code> collision check: if two queued agents touch the same file, force them sequential. Claude Code's Task tool supports <code>isolation="worktree"</code> already. <strong>HIL gate:</strong> none inside a single task; the checkpoint is the wave boundary.</span></li>
+          <li><b>Verification (Layer 4)</b><span>Steal Archon's "deterministic node, not LLM judge" pattern. "Done" means <code>typecheck &amp;&amp; lint &amp;&amp; test</code> exit 0, not a sentinel string. LLM-judge is a supplementary signal, never primary. <strong>HIL gate:</strong> any verifier failure escalates. The agent is not allowed to modify the verifier to make it pass. That is the classic Goodhart trap (see BMAD issue #1332).</span></li>
+          <li><b>Code review (Layer 5)</b><span>Steal Superpowers' two-stage subagent review. One agent gets only the spec plus the diff and asks "what spec requirements are satisfied, what is missing." A second agent gets only the diff and asks DRY, YAGNI, security, error-handling questions. Then run a third pass with ChatGPT Codex for cross-vendor coverage of the same diff. <strong>HIL gate:</strong> a human reviews the diff before merge to main, even if all three AI reviewers approve.</span></li>
+          <li><b>Cost and audit (Layer 6)</b><span>Steal Paperclip's budget hard-stop from <code>server/src/services/budgets.ts:958</code>. Wire it as a hook that pauses all agents and cancels the queue when a per-feature, per-day, or per-engagement cap trips. Enable Claude Code's native OpenTelemetry export to Langfuse or Datadog. <strong>HIL gate:</strong> a hard-stop trip requires a human to unpause. The agent does not get to argue for more quota.</span></li>
+        </ol>
+
+        <p>Five primitives stolen. Four rules and three skills written. Zero frameworks installed. Total assembly time under a day.</p>
+
+        <h2 id="never">7. The ten never-auto list</h2>
+
+        <p>These are non-negotiable. They do not become safer because the agent feels confident. They do not become safer because the test suite is green. They do not become safer because the model is new. They stay HIL forever.</p>
+
+        <ol class="never-list">
+          <li>Merging to a protected branch (main, release).</li>
+          <li><code>npm publish</code>, package release, or any customer-facing deploy.</li>
+          <li>Database schema migrations on production.</li>
+          <li>Deleting anything (branch, table, record, customer data).</li>
+          <li>Sending email or messages in the client's name.</li>
+          <li>Changing customer-facing copy, pricing, or terms of service.</li>
+          <li>Using a third-party API key, especially payment, SMS, or mass email.</li>
+          <li>Any payment, trade, or fund movement.</li>
+          <li>Any IAM, permission, or access-control change.</li>
+          <li>Unpausing after a budget hard-stop trip.</li>
+        </ol>
+
+        <div class="warning">
+          <strong>The Ralph "overnight 90% completion" pattern is fine for a personal LeetCode bot. It is a liability disaster on a client engagement.</strong> The number of "wow that was fast" Ralph runs that produce a deletable mistake at 3 a.m. is non-zero. The point of HIL is not to slow the agent. It is to make sure the agent cannot create a category of damage that takes more time to undo than the time it claims to save.
+        </div>
+
+        <h2 id="install">8. What to install (nothing) and what to steal (five things)</h2>
+
+        <p>The summary fits in one table.</p>
+
+        <table class="field-table">
+          <thead>
+            <tr><th>#</th><th>Pattern</th><th>Stolen from</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Worktree-isolated parallel dispatch, with a same-file collision check that forces colliding tasks sequential before any agent spawns.</td><td>GSD <code>workflows/execute-phase.md:540-547</code>.</td></tr>
+            <tr><td>2</td><td>Budget hard-stop circuit breaker: per-task, per-day, per-engagement caps. Threshold crossed pauses agents and cancels the queue, waits for a human to unpause.</td><td>Paperclip <code>services/budgets.ts:958</code>.</td></tr>
+            <tr><td>3</td><td>External task table as control surface: long-running periodic work writes its state to a file the agent reads on next wake, instead of carrying state inside one conversation.</td><td>Ralph <code>prd.json</code>, Archon YAML DAG.</td></tr>
+            <tr><td>4</td><td>Markdown templates for spec, plan, tasks, and constitution. Copied into a project's <code>specs/</code> folder. The CLI that wraps them is not installed.</td><td>Spec-Kit <code>templates/*-template.md</code>.</td></tr>
+            <tr><td>5</td><td>Two-stage subagent review: a spec-compliance reviewer reads spec plus diff, then a code-quality reviewer reads diff only. Each gets a fresh context. Both pass before a human looks.</td><td>Superpowers <code>subagent-driven-development/*-prompt.md</code>.</td></tr>
+          </tbody>
+        </table>
+
+        <p>The baseline of Claude Code plus ChatGPT Codex already covers multi-agent dispatch, plan mode, subagent isolation, MCP tooling, hooks, and headless runs. Adding another harness on top duplicates that surface. Adding five small primitives on top adds capability without adding ceremony.</p>
+
+        <p>That is the whole posture. The framework ecosystem is providing a small number of useful patterns inside a large amount of ceremony. The job is to extract the patterns and discard the ceremony.</p>
+
+        <h2 id="one-sentence">One-sentence version</h2>
+
+        <p><strong>Twelve popular AI coding harnesses solve the easy half of the work, leaving spec sign-off, ADRs, HIL gates, and audit trail unclaimed, which is exactly the surface area where Forward-Deployed Engineering earns its money.</strong></p>
+
+        <h2 id="sources">Sources</h2>
+
+        <ul class="source-list">
+          <li><a href="../fde-field-method/">Forward Deployed Engineering: A Practical Field Guide</a> — the companion piece on discovery and field method.</li>
+          <li><a href="https://github.com/github/spec-kit">github/spec-kit</a> — install-time prompt fan-out across thirty agent skill folders.</li>
+          <li><a href="https://github.com/gsd-build/get-shit-done">gsd-build/get-shit-done</a> — worktree dispatch and the static collision compiler worth stealing.</li>
+          <li><a href="https://github.com/bmad-code-org/BMAD-METHOD">bmad-code-org/BMAD-METHOD</a> — TOML resolver, six personas, claimed but missing G0-G6 gates.</li>
+          <li><a href="https://github.com/garrytan/gstack">garrytan/gstack</a> — sprint-phase skills, Playwright daemon, and the LOC controversy doc.</li>
+          <li><a href="https://github.com/obra/superpowers">obra/superpowers</a> — SessionStart hook, two-stage subagent review templates.</li>
+          <li><a href="https://github.com/snarktank/ralph">snarktank/ralph</a> — the 113-line bash loop. Original doctrine from Geoff Huntley.</li>
+          <li><a href="https://github.com/coleam00/Archon">coleam00/Archon</a> — YAML DAG engine with six node types and worktree runs.</li>
+          <li><a href="https://github.com/ruvnet/claude-flow">ruvnet/claude-flow</a> — 305 MCP tools, the queen-as-JSON pattern.</li>
+          <li><a href="https://github.com/affaan-m/everything-claude-code">affaan-m/everything-claude-code</a> — 229 skills, 60 agents, Rust alpha control plane.</li>
+          <li><a href="https://github.com/hesreallyhim/awesome-claude-code">hesreallyhim/awesome-claude-code</a> — curated CSV with 226 entries.</li>
+          <li><a href="https://github.com/davila7/claude-code-templates">davila7/claude-code-templates</a> — NPX CLI pulling assets from a remote API.</li>
+          <li><a href="https://github.com/paperclipai/paperclip">paperclipai/paperclip</a> — Node, React, Postgres, scheduler, budget service.</li>
+          <li><a href="https://traycer.ai">traycer.ai</a> — closed-source Bart Mode orchestrator with LLM-judge verification.</li>
+          <li>Local research bundle: <code>~/code/harness/_docs/</code> — twelve per-framework source reads plus the comparison matrix.</li>
+        </ul>
+
+        <details class="linkedin">
+          <summary>LinkedIn excerpt (separate shape, not a summary)</summary>
+          <div class="li-body">I read the source of 12 popular AI coding harnesses before installing any of them.
+
+Combined star count: north of half a million. Frameworks built for FDE client work: zero.
+
+Three things I did not expect:
+
+• Eleven of twelve have a visible gap between marketing and source. Claude-flow's "queen-led Byzantine consensus" is literally a JSON field <code>{"term": 1}</code> and a <code>writeFileSync</code>. BMAD's advertised "G0-G6 gates" do not exist in the codebase. GStack's "10K LOC per week" was retracted in its own CHANGELOG.
+
+• The hard half of FDE delivery is unclaimed surface area: spec sign-off, architecture decision records, human-in-the-loop gates, audit trail. Every harness solves the easy half and assumes the author is the client.
+
+• You can assemble a working FDE pipeline by stealing five primitives across the twelve and installing none of them. Spec templates from Spec-Kit. Collision-checked worktree dispatch from GSD. Deterministic verifier from Archon. Two-stage review from Superpowers. Budget hard-stop from Paperclip. Total assembly time: under a day.
+
+Two minutes reading source beats two hours of marketing video. Every time.
+
+Full article: shawnxiang.com/articles/twelve-harness-fde-lens/</div>
+        </details>
+
+      </article>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2026 Shawn Xiang. Built with purpose.</p>
+    </footer>
+  </body>
+</html>
