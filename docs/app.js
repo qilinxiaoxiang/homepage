@@ -126,6 +126,20 @@ const content = {
     writingIndexText: "View all field notes",
     writing: [
       {
+        title: "I Spent a Night Unpacking Palantir and FDE: The Moat Is Not Where You Think It Is",
+        body: "Palantir's moat is not Ontology, and it is not the software. It's FDE as a five-piece organizational machine that sells software deep, expensive, and long. AI is eroding it unevenly — and OpenAI just spent $4B to skip the line.",
+        meta: "May 2026 · Business Model",
+        link: "./articles/palantir-fde-deep-dive/",
+        linkText: "Read the field note →"
+      },
+      {
+        title: "What Twelve AI Coding Harnesses Miss for Forward-Deployed Work",
+        body: "I read the source of twelve popular AI coding harnesses before installing any. None is built for FDE client engagement. The minimal six-layer pipeline to build instead.",
+        meta: "May 2026 · AI Tooling",
+        link: "./articles/twelve-harness-fde-lens/",
+        linkText: "Read the field note →"
+      },
+      {
         title: "Forward Deployed Engineering: A Practical Field Guide",
         body: "A practical field guide for finding AI-native workflows, earning trust from frontline teams, and turning field observation into deployable systems.",
         meta: "May 2026 · AI Deployment",
@@ -289,6 +303,20 @@ const content = {
     writingTitle: "Field Notes",
     writingIndexText: "查看全部文章",
     writing: [
+      {
+        title: "I Spent a Night Unpacking Palantir and FDE: The Moat Is Not Where You Think It Is",
+        body: "Palantir 的护城河不是 Ontology，也不是软件本身。是 FDE 这套把软件卖深 / 卖贵 / 卖久的 5 件套组织机制。AI 在分层侵蚀它——OpenAI 砸 $4B 走捷径。英文长文。",
+        meta: "2026.05 · 商业模式",
+        link: "./articles/palantir-fde-deep-dive/",
+        linkText: "阅读文章 →"
+      },
+      {
+        title: "What Twelve AI Coding Harnesses Miss for Forward-Deployed Work",
+        body: "通读 12 个 AI coding harness 源码，没有一个是为 FDE 客户场设计的。该偷的 5 个模式 + 6 层最小 pipeline。英文长文。",
+        meta: "2026.05 · AI 工具",
+        link: "./articles/twelve-harness-fde-lens/",
+        linkText: "阅读文章 →"
+      },
       {
         title: "Forward Deployed Engineering: A Practical Field Guide",
         body: "一篇英文实操手册：如何识别 AI-native workflow、如何做现场观察、如何从 shadow prototype 走向可部署系统。",
