@@ -126,6 +126,13 @@ const content = {
     writingIndexText: "View all field notes",
     writing: [
       {
+        title: "What Lean in Hospitals Could Take From Forward-Deployed Engineering",
+        body: "Landing Lean inside a hospital is the same job as forward-deployed engineering — show up, map the real work, change it in small steps, make it stick. The younger field lands more often. So the question runs backwards: here is what healthcare can take back from FDE.",
+        meta: "May 2026 · FDE × Patient Safety",
+        link: "./articles/hospital-lean-fde-lens/",
+        linkText: "Read the field note →"
+      },
+      {
         title: "I Spent a Night Unpacking Palantir and FDE: The Moat Is Not Where You Think It Is",
         body: "Palantir's moat is not Ontology, and it is not the software. It's FDE as a five-piece organizational machine that sells software deep, expensive, and long. AI is eroding it unevenly — and OpenAI just spent $4B to skip the line.",
         meta: "May 2026 · Business Model",
@@ -303,6 +310,13 @@ const content = {
     writingTitle: "Field Notes",
     writingIndexText: "查看全部文章",
     writing: [
+      {
+        title: "What Lean in Hospitals Could Take From Forward-Deployed Engineering",
+        body: "把 Lean 落地进医院，和 FDE 是同一份活：到现场、画真实流程、小步改、让它留住。更年轻的 FDE 反而落得更稳——所以反过来问：医院 Lean 能从 FDE 偷什么。英文长文。",
+        meta: "2026.05 · FDE × 患者安全",
+        link: "./articles/hospital-lean-fde-lens/",
+        linkText: "阅读文章 →"
+      },
       {
         title: "I Spent a Night Unpacking Palantir and FDE: The Moat Is Not Where You Think It Is",
         body: "Palantir 的护城河不是 Ontology，也不是软件本身。是 FDE 这套把软件卖深 / 卖贵 / 卖久的 5 件套组织机制。AI 在分层侵蚀它——OpenAI 砸 $4B 走捷径。英文长文。",

@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What Lean in Hospitals Could Take From Forward-Deployed Engineering | Shawn Xiang</title>
+    <meta name="description" content="Landing Lean inside a hospital is the same job as forward-deployed engineering: show up on the floor, map the real workflow, land small changes, make them stick. FDE — the younger discipline — lands more often. Here is why, and what crosses back to healthcare." />
+    <meta property="og:title" content="What Lean in Hospitals Could Take From Forward-Deployed Engineering" />
+    <meta property="og:description" content="Hospital Lean and forward-deployed engineering are the same job. The younger one lands more often. Here is the structural why, and the two things hospital Lean can steal back." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://shawnxiang.com/articles/hospital-lean-fde-lens/" />
+    <meta property="og:image" content="https://shawnxiang.com/articles/hospital-lean-fde-lens/images/cover-floor.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:alt" content="Editorial illustration: a hospital ward floor and a software team room drawn as the same room, one engineer mapping a workflow on the wall." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://shawnxiang.com/articles/hospital-lean-fde-lens/images/cover-floor.jpg" />
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #ffffff;
+        --bg-alt: #f7f8fb;
+        --surface: #f4f4f5;
+        --ink: #09090b;
+        --muted: #52525b;
+        --faint: #8a8a93;
+        --border: rgba(0,0,0,0.08);
+        --border-strong: rgba(0,0,0,0.15);
+        --accent: #6366f1;
+        --accent-2: #8b5cf6;
+        --accent-soft: rgba(99,102,241,0.08);
+        --green: #0f766e;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-display: 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+      }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body {
+        font-family: var(--font-body);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 80% 58% at 50% -20%, rgba(99,102,241,0.11), transparent 58%),
+          radial-gradient(ellipse 55% 42% at 88% 12%, rgba(139,92,246,0.07), transparent 54%),
+          #fff;
+        line-height: 1.7;
+      }
+      a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(18px) saturate(180%);
+        -webkit-backdrop-filter: blur(18px) saturate(180%);
+        background: rgba(255,255,255,0.82);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-inner {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 0;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--ink);
+        text-decoration: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .nav-links { display: flex; align-items: center; gap: 16px; }
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .9rem;
+        font-weight: 600;
+      }
+      .article-hero {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto;
+        padding: 96px 0 56px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(300px, .86fr);
+        gap: 42px;
+        align-items: center;
+      }
+      .article-hero > div { min-width: 0; }
+      .cover {
+        width: min(980px, calc(100% - 48px));
+        margin: 0 auto 48px;
+      }
+      .cover figure {
+        margin: 0;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--bg-alt);
+        box-shadow: 0 18px 50px -28px rgba(15, 23, 42, 0.18);
+      }
+      .cover img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .cover figcaption {
+        padding: 14px 20px 18px;
+        color: var(--muted);
+        font-size: .92rem;
+        border-top: 1px solid var(--border);
+        background: #fff;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent);
+        font-size: .76rem;
+        font-weight: 800;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+      .eyebrow::before {
+        content: '';
+        width: 28px;
+        height: 1px;
+        background: var(--accent);
+      }
+      h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.25rem, 4.8vw, 4.5rem);
+        line-height: 1.0;
+        letter-spacing: -0.035em;
+        margin-bottom: 24px;
+        overflow-wrap: break-word;
+      }
+      .dek {
+        color: var(--muted);
+        font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+        line-height: 1.65;
+        max-width: 720px;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.72);
+        border-radius: 999px;
+        padding: 7px 13px;
+        color: var(--muted);
+        font-size: .82rem;
+        font-weight: 600;
+      }
+      .field-card {
+        min-width: 0;
+        max-width: 100%;
+        border: 1px solid rgba(99,102,241,0.18);
+        border-radius: 28px;
+        background:
+          linear-gradient(150deg, rgba(255,255,255,0.92), rgba(248,249,255,0.82)),
+          radial-gradient(circle at 20% 0%, rgba(99,102,241,0.2), transparent 32%);
+        box-shadow: 0 34px 90px -45px rgba(99,102,241,0.75);
+        padding: 26px;
+      }
+      .field-card h2 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        margin-bottom: 18px;
+      }
+      .loop {
+        display: grid;
+        gap: 12px;
+      }
+      .loop-step {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.78);
+      }
+      .num {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      }
+      .loop-step b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 2px;
+        font-size: .98rem;
+      }
+      .loop-step div:last-child { min-width: 0; }
+      .loop-step span {
+        color: var(--muted);
+        font-size: .88rem;
+        overflow-wrap: break-word;
+      }
+      .article-shell {
+        width: min(1120px, calc(100% - 48px));
+        margin: 0 auto 88px;
+        display: grid;
+        grid-template-columns: 230px minmax(0, 760px);
+        gap: 64px;
+        align-items: start;
+      }
+      .toc {
+        position: sticky;
+        top: 86px;
+        padding: 20px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgba(255,255,255,0.74);
+      }
+      .toc-title {
+        color: var(--faint);
+        font-size: .72rem;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+      .toc a {
+        display: block;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .86rem;
+        font-weight: 600;
+        line-height: 1.35;
+        padding: 8px 0;
+      }
+      .toc a:hover { color: var(--ink); }
+      article {
+        min-width: 0;
+        font-size: 1.05rem;
+      }
+      article > p {
+        margin: 18px 0;
+        color: #27272a;
+      }
+      article h2 {
+        font-family: var(--font-display);
+        font-size: clamp(1.65rem, 3vw, 2.4rem);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 70px 0 18px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+      }
+      article h3 {
+        font-family: var(--font-display);
+        font-size: 1.18rem;
+        margin: 28px 0 8px;
+      }
+      article ul, article ol { padding-left: 24px; margin: 18px 0; }
+      article li { margin: 8px 0; color: #27272a; }
+      strong { font-weight: 760; }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: .92em;
+        background: var(--surface);
+        padding: 2px 6px;
+        border-radius: 6px;
+        color: #18181b;
+      }
+      .lead {
+        font-size: 1.22rem;
+        line-height: 1.75;
+        color: #18181b;
+      }
+      .callout {
+        margin: 30px 0;
+        padding: 22px 24px;
+        border-left: 5px solid var(--accent);
+        background: var(--bg-alt);
+        border-radius: 0 18px 18px 0;
+      }
+      .chain {
+        margin: 26px 0;
+        padding: 18px 20px;
+        border: 1px solid rgba(99,102,241,0.24);
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04));
+        font-family: var(--font-display);
+        font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+        line-height: 1.45;
+      }
+      .friction-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin: 24px 0;
+      }
+      .mini-card {
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        padding: 18px;
+      }
+      .mini-card b {
+        display: block;
+        font-family: var(--font-display);
+        margin-bottom: 7px;
+      }
+      .mini-card p {
+        color: var(--muted);
+        font-size: .94rem;
+        line-height: 1.6;
+      }
+      .field-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 24px 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        font-size: .92rem;
+      }
+      .field-table th,
+      .field-table td {
+        padding: 12px 13px;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--border);
+      }
+      .field-table th {
+        color: #18181b;
+        background: #f4f4f5;
+        font-weight: 800;
+      }
+      .field-table tr:last-child td { border-bottom: 0; }
+      .field-table td { color: #3f3f46; }
+      .field-table strong { color: #18181b; }
+      .field-table code { font-size: .85em; }
+      .warning {
+        margin: 24px 0;
+        padding: 18px 20px;
+        border-left: 5px solid #b45309;
+        border-radius: 0 18px 18px 0;
+        background: #fffbeb;
+        color: #3f3f46;
+      }
+      .warning strong { color: #78350f; }
+      .deliverable {
+        counter-reset: deliverable;
+        display: grid;
+        gap: 12px;
+        padding-left: 0;
+      }
+      .deliverable li {
+        list-style: none;
+        position: relative;
+        padding: 15px 16px 15px 58px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+      }
+      .deliverable li::before {
+        counter-increment: deliverable;
+        content: counter(deliverable);
+        position: absolute;
+        left: 16px;
+        top: 14px;
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        display: grid;
+        place-items: center;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .deliverable li b {
+        font-family: var(--font-display);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .deliverable li span {
+        color: var(--muted);
+        font-size: .95rem;
+      }
+      .source-list {
+        color: var(--muted);
+        font-size: .96rem;
+      }
+      .source-list li { line-height: 1.55; }
+      details.linkedin {
+        margin: 40px 0 12px;
+        padding: 20px 22px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--bg-alt);
+      }
+      details.linkedin summary {
+        cursor: pointer;
+        font-family: var(--font-display);
+        font-weight: 700;
+        color: var(--ink);
+      }
+      details.linkedin .li-body {
+        margin-top: 16px;
+        padding: 16px 18px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        white-space: pre-wrap;
+        font-size: .95rem;
+        line-height: 1.65;
+        color: #18181b;
+      }
+      .footer {
+        border-top: 1px solid var(--border);
+        padding: 30px 0;
+        text-align: center;
+        color: var(--faint);
+        font-size: .88rem;
+      }
+      @media (max-width: 920px) {
+        .article-hero { grid-template-columns: 1fr; padding-top: 64px; }
+        .article-shell { grid-template-columns: 1fr; gap: 28px; }
+        .toc { position: static; }
+      }
+      @media (max-width: 640px) {
+        .nav-inner, .article-hero, .article-shell { width: calc(100% - 32px); }
+        .nav-links { display: none; }
+        .article-hero { padding: 48px 0 34px; }
+        h1 {
+          font-size: clamp(1.95rem, 9.5vw, 2.7rem);
+          line-height: 1.05;
+          letter-spacing: -0.03em;
+        }
+        .field-card { padding: 18px; border-radius: 22px; }
+        .friction-grid { grid-template-columns: 1fr; }
+        .field-table { display: block; overflow-x: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="../../">Shawn.</a>
+        <div class="nav-links">
+          <a href="../../">Home</a>
+          <a href="#loop">Loop</a>
+          <a href="#sources">Sources</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="article-hero">
+      <div>
+        <div class="eyebrow">Field Note · FDE &times; Patient Safety</div>
+        <h1>What Lean in Hospitals Could Take From Forward-Deployed Engineering</h1>
+        <p class="dek">I'm in a <a href="https://jhf.org/fellowships/patient-safety-fellowship">patient-safety fellowship</a> held by the Jewish Healthcare Foundation, reading how hospitals try to land Lean. I found it is pretty much the same job as forward-deployed engineering — show up, map the real work, change it in small steps, make it stick. The difference is that FDE, the younger discipline, lands more often. So I flipped the usual direction: here is what healthcare can steal from us.</p>
+        <div class="meta">
+          <span class="pill">Shawn Xiang</span>
+          <span class="pill">May 31, 2026</span>
+          <span class="pill">Forward-Deployed AI Engineering</span>
+        </div>
+      </div>
+      <aside class="field-card" aria-label="The shared on-site improvement loop">
+        <h2>The Shared Loop</h2>
+        <div class="loop">
+          <div class="loop-step"><div class="num">1</div><div><b>Show up on the floor</b><span>Neither job can be done from a deck. You go to where the work happens.</span></div></div>
+          <div class="loop-step"><div class="num">2</div><div><b>Map the real workflow</b><span>The documented process is fiction. You trace what actually happens, step by step.</span></div></div>
+          <div class="loop-step"><div class="num">3</div><div><b>Land one small change</b><span>Not a big rollout. One change, measured, then the next.</span></div></div>
+          <div class="loop-step"><div class="num">4</div><div><b>Make it stick</b><span>The hard part. Leave too early and it reverts to baseline.</span></div></div>
+        </div>
+      </aside>
+    </header>
+
+    <section class="cover" aria-label="Cover illustration">
+      <figure>
+        <img src="images/cover-floor.jpg" alt="Editorial illustration: a hospital ward and a software team room drawn as one continuous floor; a single person stands at a wall mapping a workflow that runs through both halves." loading="eager" width="1536" height="864" />
+        <figcaption>One floor, two halves. The ward and the team room run the same loop — show up, map the real work, change it in small steps, make it stick.</figcaption>
+      </figure>
+    </section>
+
+    <main class="article-shell">
+      <aside class="toc" aria-label="Table of contents">
+        <div class="toc-title">Contents</div>
+        <a href="#same-job">1. The same job, two vocabularies</a>
+        <a href="#floor">2. You show up on the floor</a>
+        <a href="#map">3. You map the real workflow</a>
+        <a href="#small">4. You land one small change</a>
+        <a href="#stick">5. You try to make it stick</a>
+        <a href="#asymmetry">6. Why FDE lands more often</a>
+        <a href="#transfer">7. What hospital Lean can take back</a>
+        <a href="#one-sentence">One-sentence version</a>
+        <a href="#sources">Sources</a>
+      </aside>
+
+      <article id="loop">
+        <p class="lead"><strong>This session of my patient-safety fellowship is about putting Lean to work inside hospitals. I read the prep material expecting healthcare. What I found was a description of my own job.</strong></p>
+
+        <p>Lean is the Toyota production method, transplanted from the factory floor to the hospital ward. Strip the clinical vocabulary and landing it in a hospital is the same shape as forward-deployed engineering: you go to where the work happens, you find out what actually happens there, you change it in small steps, and you fight to keep the change from sliding back.</p>
+
+        <p>That is the parallel. The more useful observation is the gap inside it. Both fields run the same loop, but they do not land at the same rate. Hospital Lean has a thin and contested track record. Forward-deployed engineering, two decades younger, routinely lands improvement work inside messy organizations. So the interesting question is not what the old discipline teaches the new one. It is the reverse.</p>
+
+        <div class="callout">
+          Lean is mature in factories and struggling in hospitals. FDE is young and already lands in the wild. On the one problem they share — getting an improvement to survive in a complex human organization — the newer practice is ahead. That is worth stealing from.
+        </div>
+
+        <h2 id="same-job">1. The same job, two vocabularies</h2>
+
+        <p>Forward-deployed engineering, stripped to its core, is on-site improvement work. You embed where the work is done, you find the friction, you build and land a change against it, and you stay until the change holds. Remote delivery and a slide deck do not count.</p>
+
+        <p>Now read Lean's own words for the same job. Go to the <em>gemba</em> — Japanese for "the actual place," the floor where the work happens. Map the <em>value stream</em> — the real end-to-end flow, not the org chart. Run <em>kaizen</em> — many small improvements, not one heroic redesign. And <em>respect for people</em> — the change is driven by the people who do the work, or it does not hold. Different vocabulary, identical instructions. The rest of this piece walks the loop one step at a time, then asks why one field runs it better.</p>
+
+        <h2 id="floor">2. You show up on the floor</h2>
+
+        <p>Lean's first rule is <em>genchi genbutsu</em>: go and see the real thing. Do not diagnose a ward from a report in a conference room — walk it, watch a real patient move through it, time the waits yourself. The reason is the one every field rediscovers: the workflow managers describe and the workflow that actually runs rarely match.</p>
+
+        <p>That is the first line of an FDE engagement too. You do not start with "what would you like to automate." You start by sitting next to the person doing the work and watching the actual sequence — the copy-paste between two systems, the spreadsheet nobody mentions, the approval that takes three days. The friction you can build against is never in the documentation. It is on the floor.</p>
+
+        <h2 id="map">3. You map the real workflow</h2>
+
+        <p>Lean's signature tool is the value stream map: draw every step a unit passes through from entry to exit, and tag each step with how long it takes and whether it adds value. Draw it and one thing jumps out every time — most of the elapsed time is spent <em>waiting</em>, not <em>working</em>. A patient who waits four hours to be seen experienced four hours of pure waste.</p>
+
+        <p>For an engineer this is just profiling. The value stream map is a flame graph for a process: instrument the whole chain, and the hot segments — the waits, the handoffs, the rework — light up on their own instead of being guessed at. One study makes the point with numbers. Two clinics in Saudi Arabia mapped their real flow, found the waits, and redesigned: ophthalmology cut patient waiting by <strong>89%</strong>, dentistry by <strong>94.4%</strong>, without touching the care itself. The care was never the slow part. The waiting between care was.</p>
+
+        <h2 id="small">4. You land one small change</h2>
+
+        <p>Lean does not believe in the big-bang rollout. It believes in kaizen: a steady stream of small, reversible improvements, each one measured before the next. The discipline is in the measurement — an improvement that was not measured against a baseline does not count.</p>
+
+        <p>This is the iteration loop of any good deployment. Ship one small change against the friction you found, measure whether it actually moved the number, keep it or revert it, move to the next. Small steps are not a lack of ambition. They are how you stay reversible while you are still learning the system — which, on a hospital floor or a client's production environment, you always are.</p>
+
+        <h2 id="stick">5. You try to make it stick — and here both usually lose it</h2>
+
+        <p>This is where the loop gets hard, and where both fields fail in the same way. You make the change, you watch the number improve, you leave — and the number slides back to where it started. The honest part of the Lean literature is that it publishes these failures instead of hiding them.</p>
+
+        <div class="field-table-wrap">
+          <table class="field-table">
+            <thead>
+              <tr><th>What happened</th><th>The pattern under it</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>One hospital cut its catheter-infection (UTI) rate with a Lean project, then watched it climb back to the pre-project baseline.</td><td>The tool was installed; the change was not owned. Improvement decays the moment the project team leaves.</td></tr>
+              <tr><td>A neonatal unit ran a Lean improvement and its infection rate <em>rose</em> over the measured window.</td><td>A process can be made faster and a clinical outcome can still move the wrong way. Speed is not safety.</td></tr>
+              <tr><td>The most-cited Lean success — Virginia Mason — only held because leadership stayed committed to it for years.</td><td>What made it stick was sustained presence, not the toolkit. The toolkit was the easy, copyable part.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The diagnosis across the literature is consistent, and it is not "the theory is wrong." It is low <em>fidelity</em>: teams copy the visible tools — the kanban board, the value stream map, the week-long improvement event — and skip the invisible parts, the floor time and the frontline ownership. You can copy the part that photographs well. You cannot copy the part that did the work. FDE loses engagements the same way: ship the software, leave, and the new workflow quietly reverts to the old one because nobody on the inside ever owned it.</p>
+
+        <h2 id="asymmetry">6. Why FDE lands more often</h2>
+
+        <p>Same loop, same failure mode — but FDE lands the change more reliably than hospital Lean does. The reasons are structural, not a matter of one field trying harder.</p>
+
+        <div class="friction-grid">
+          <div class="mini-card"><b>A bounded unit with one owner</b><p>An FDE engagement is one workflow, in one team, that invited you, with a champion who feels the pain and has authority to change how the work is done. A hospital has no single owner of a value stream — and even "who the customer is" is contested across patient, physician, payer, and regulator. You cannot align a change nobody owns.</p></div>
+          <div class="mini-card"><b>Tight, attributable feedback</b><p>FDE improvements are usually fast and legible: latency dropped, throughput rose, this many hours saved. Clinical outcomes are confounded and slow — the literature names "measurement and attribution" as a core difficulty. If you cannot prove the change worked, you cannot defend the budget to keep it alive.</p></div>
+          <div class="mini-card"><b>Low stakes per change</b><p>Most FDE changes are software and reversible, so you can run the small-step loop fast. Every hospital change touches patient safety, which means slow approval and heavy regulation. The kaizen engine — many small reversible bets — is throttled exactly where the stakes are highest.</p></div>
+          <div class="mini-card"><b>The work outlives the visit</b><p>The modern FDE model keeps an engineer embedded on the account, not running a workshop and leaving. Hospital Lean is too often delivered as an episodic "improvement event" by a team that then goes home — which is precisely the setup that produces the bounce-back.</p></div>
+        </div>
+
+        <h2 id="transfer">7. What hospital Lean can take back</h2>
+
+        <p>Two of those advantages are not laws of physics. They are practices, and practices transfer. If I were bringing something from forward-deployed engineering into a hospital improvement project, it would be these.</p>
+
+        <ol class="deliverable">
+          <li><b>Stay embedded and own a number — do not run an event and leave</b><span>The single largest difference is persistence. FDE keeps a person on the account, accountable to one outcome metric, long after the launch. Replace the week-long "improvement event followed by a handoff" with a named owner who stays accountable to the catheter-infection rate, or the door-to-doctor time, for two quarters past the change. The bounce-back the literature keeps documenting is a staffing model, not a fact of nature.</span></li>
+          <li><b>Encode the change in the system, not in human discipline</b><span>Lean leans on training, posters, and standard-work documents — all of which decay as attention moves on. FDE's instinct is to build the change into a tool so the new way becomes the path of least resistance: the order set that defaults to the safe choice, the form that will not submit until the checklist is done. Make the standard work the default the software enforces, not a behavior people have to remember.</span></li>
+          <li><b>Bound the unit and secure a champion before you start</b><span>FDE does not try to fix a whole company at once. It picks one workflow with one owner who wants the outcome. Hospital Lean too often tries to boil the ocean across a system with no single owner. Start where someone with authority actually feels the pain, prove it there, then move — instead of launching enterprise-wide and diffusing the accountability to nobody.</span></li>
+        </ol>
+
+        <p>The transfer runs both ways, and honesty requires the return trip. The one thing FDE should take from Lean is the principle it spent thirty years learning the hard way: <em>respect for people</em>. A change that is done <em>to</em> the people on the floor — software dropped on a team that never bought in — bounces back in software just as fast as it does in a hospital. The frontline owns the change or there is no change. That part Lean has always known. We rediscover it every time we forget it.</p>
+
+        <p>And the honest boundary on the whole comparison: hospital Lean's evidence base is genuinely thin — the most rigorous review of it concludes it falls short of a robust evidence base — and forward-deployed engineering is young enough that it has not earned a long track record either. I am not claiming FDE is the proven discipline and Lean the failed one. I am claiming something narrower. On the one problem both share — making an improvement survive inside a complex organization of people — the software-native practice has a better answer, and that answer is portable.</p>
+
+        <h2 id="one-sentence">One-sentence version</h2>
+
+        <p><strong>Landing Lean in a hospital and forward-deployed engineering are the same job — show up, map the real work, change it in small steps, make it stick — and the younger field lands more often because it stays embedded and bakes the change into a tool instead of running an event and leaving.</strong></p>
+
+        <h2 id="sources">Sources</h2>
+
+        <ul class="source-list">
+          <li><a href="https://doi.org/10.1017/9781009326124"><em>Lean as a Healthcare Improvement Approach</em></a> — Radnor &amp; Williams, Cambridge Elements (open access). The Toyota origin, the seven wastes, and the candid verdict that the evidence base is thin and fidelity is the real failure point.</li>
+          <li><a href="https://doi.org/10.3389/frhs.2025.1613756">Alogla, "Revisiting lean healthcare: adopting value stream mapping from manufacturing"</a> — <em>Frontiers in Health Services</em>, 2025 (open access). The two-clinic study with the 89% and 94.4% waiting-time cuts, and the argument that Lean fails on translation, not theory.</li>
+          <li><a href="https://www.ahrq.gov/sites/default/files/publications/files/leancasestudies.pdf">AHRQ, <em>Improving Care Delivery Through Lean</em></a> (2014). Six implementation cases with honest failure records — the catheter-infection rebound and the neonatal infection rise.</li>
+          <li>AMA STEPS Forward — Lean healthcare module. Gemba walks, standard work, and "go and see."</li>
+          <li>Harvard Medical School interview on the Lean mindset. The thesis that projects fail on culture, not tools.</li>
+          <li><a href="../fde-field-method/">Forward Deployed Engineering: A Practical Field Guide</a> — my own write-up of the same loop from the software side.</li>
+        </ul>
+
+      </article>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2026 Shawn Xiang. Built with purpose.</p>
+    </footer>
+  </body>
+</html>
