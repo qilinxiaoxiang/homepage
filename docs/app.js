@@ -126,9 +126,9 @@ const content = {
     writingIndexText: "View all field notes",
     writing: [
       {
-        title: "The Interface Just Split in Two",
-        body: "Personal software used to make one page collect input and present output. Agentic Life OS tests a stricter split: the human states intent, the agent operates, and the portal is reserved for observation and confirmation.",
-        meta: "July 2026 · Agent-Mediated Software",
+        title: "Software Is Switching Operators",
+        body: "Humans were the assumed operators of software. Agents change the contract: people direct, agents operate, code enforces, and interfaces adapt.",
+        meta: "July 2026 · Agent-Operated Software",
         link: "./articles/agentic-life-os/",
         linkText: "Read the field note →"
       },
@@ -318,9 +318,9 @@ const content = {
     writingIndexText: "查看全部文章",
     writing: [
       {
-        title: "The Interface Just Split in Two",
-        body: "传统软件让同一个页面既收集输入、又呈现输出。Agentic Life OS 把两者拆开：人表达意图，Agent 操作系统，Portal 只负责观察与确认。英文长文。",
-        meta: "2026.07 · Agent-Mediated Software",
+        title: "Software Is Switching Operators",
+        body: "软件正在更换操作者：人从别人预定义界面的操作员，变成自己定义系统的指挥官；Agent 负责操作，code 负责约束，界面负责适配。英文长文。",
+        meta: "2026.07 · Agent-Operated Software",
         link: "./articles/agentic-life-os/",
         linkText: "阅读文章 →"
       },

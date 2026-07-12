@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Interface Just Split in Two | Shawn Xiang</title>
-    <meta name="description" content="Agentic Life OS is an open-source experiment in prompt-based personal software: the human states intent, an agent operates the system, and the interface is reserved for observation and confirmation." />
-    <meta property="og:title" content="The Interface Just Split in Two" />
-    <meta property="og:description" content="Building a prompt-based personal OS where the agent handles input and the screen handles truth." />
+    <title>Software Is Switching Operators | Shawn Xiang</title>
+    <meta name="description" content="Software was designed for humans to operate through fixed interfaces. Agents change the division of labor: humans direct, agents operate, code enforces, and interfaces adapt." />
+    <meta property="og:title" content="Software Is Switching Operators" />
+    <meta property="og:description" content="Humans direct. Agents operate. Code enforces. Interfaces adapt." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://shawnxiang.com/articles/agentic-life-os/" />
     <meta property="og:image" content="https://shawnxiang.com/articles/agentic-life-os/images/cover.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Agentic Life OS synthetic Today dashboard showing the daily focus and the Today, Time, and Money modules." />
+    <meta property="og:image:alt" content="Software Is Switching Operators: humans direct, agents operate, code enforces, and interfaces adapt." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://shawnxiang.com/articles/agentic-life-os/images/cover.jpg" />
     <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
@@ -130,6 +130,46 @@
         width: min(1180px, calc(100% - 48px));
         margin: 0 auto 58px;
       }
+      .operator-map {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, .86fr) 84px minmax(0, 1.14fr);
+        gap: 22px;
+        align-items: stretch;
+        padding: 34px;
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        background:
+          radial-gradient(circle at 82% 15%, rgba(47,118,85,.17), transparent 32%),
+          var(--paper);
+        box-shadow: 0 30px 90px -48px rgba(19,38,29,.55);
+      }
+      .era {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(245,246,239,.66);
+      }
+      .era.new { background: rgba(47,118,85,.065); border-color: rgba(47,118,85,.24); }
+      .era-label { color: var(--faint); font: 500 .7rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+      .era h2 { font: 700 1.35rem/1.2 var(--font-display); letter-spacing: -.02em; }
+      .node {
+        padding: 14px 15px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: var(--paper);
+      }
+      .node b { display: block; font: 700 .94rem var(--font-display); }
+      .node span { display: block; color: var(--muted); font-size: .8rem; line-height: 1.45; margin-top: 3px; }
+      .node.human { border-color: rgba(215,165,63,.5); }
+      .node.agent { color: var(--paper); background: var(--accent); border-color: var(--accent); }
+      .node.agent span { color: rgba(255,255,255,.74); }
+      .map-arrow { display: grid; place-items: center; color: var(--accent); font: 500 1.55rem var(--font-mono); }
+      .map-arrow span { display: grid; place-items: center; width: 54px; height: 54px; border: 1px solid rgba(47,118,85,.25); border-radius: 50%; background: var(--accent-soft); }
       figure { margin: 0; }
       figure img {
         display: block;
@@ -257,6 +297,8 @@
         .hero { grid-template-columns: 1fr; padding-top: 62px; }
         .shell { grid-template-columns: 1fr; gap: 26px; }
         .toc { position: static; }
+        .operator-map { grid-template-columns: 1fr; }
+        .map-arrow span { transform: rotate(90deg); }
       }
       @media (max-width: 640px) {
         .nav-inner, .hero, .shell { width: calc(100% - 32px); }
@@ -276,16 +318,16 @@
         <div class="nav-links">
           <a href="../../">Home</a>
           <a href="https://github.com/qilinxiaoxiang/agentic-life-os">Code</a>
-          <a href="#try">Try it</a>
+          <a href="#proof">Proof</a>
         </div>
       </div>
     </nav>
 
     <header class="hero">
       <div>
-        <div class="eyebrow">Field Note · Agent-Mediated Software</div>
-        <h1>The Interface Just Split in Two</h1>
-        <p class="dek">Building a prompt-based personal operating system where the agent handles input and the screen handles truth.</p>
+        <div class="eyebrow">Field Note · A New Software Contract</div>
+        <h1>Software Is Switching Operators</h1>
+        <p class="dek">For decades, people operated software through interfaces someone else designed. Agents change the division of labor: humans direct, agents operate, code enforces, and interfaces adapt.</p>
         <div class="meta">
           <span class="pill">Shawn Xiang</span>
           <span class="pill">July 12, 2026</span>
@@ -293,147 +335,159 @@
         </div>
       </div>
       <aside class="split-card" aria-label="The new division of labor">
-        <h2>One system, three jobs</h2>
-        <div class="split-row"><div class="num">01</div><div><b>Human states intent</b><span>Natural language stays flexible and personal.</span></div></div>
-        <div class="split-row"><div class="num">02</div><div><b>Agent operates</b><span>Intent becomes typed, inspectable operations.</span></div></div>
-        <div class="split-row"><div class="num">03</div><div><b>Application holds truth</b><span>Code validates, stores, renders, and enforces consent.</span></div></div>
+        <h2>The new division of labor</h2>
+        <div class="split-row"><div class="num">01</div><div><b>Human directs</b><span>Set intent, judge outcomes, retain authority.</span></div></div>
+        <div class="split-row"><div class="num">02</div><div><b>Agent operates</b><span>Translate intent into structured operations.</span></div></div>
+        <div class="split-row"><div class="num">03</div><div><b>Code enforces</b><span>Protect state, permissions, and invariants.</span></div></div>
+        <div class="split-row"><div class="num">04</div><div><b>Interface adapts</b><span>Show the view this person needs now.</span></div></div>
       </aside>
     </header>
 
-    <section class="cover" aria-label="Agentic Life OS Today view">
-      <figure>
-        <img src="images/today.jpg" alt="Synthetic Agentic Life OS Today dashboard with one focus, four actionables, and Today, Time, and Money tabs." width="1280" height="978" loading="eager" />
-        <figcaption>Agentic Life OS running with synthetic demo data. This is not my personal Today Portal.</figcaption>
-      </figure>
+    <section class="cover" aria-label="The shift from human-operated interfaces to agent-operated software">
+      <div class="operator-map">
+        <div class="era">
+          <div class="era-label">The old contract</div>
+          <h2>Human-operated software</h2>
+          <div class="node human"><b>Human as operator</b><span>Navigate menus, translate reality into fields, recover from validation errors.</span></div>
+          <div class="node"><b>Fixed interface</b><span>Every permitted path was anticipated by a product team.</span></div>
+          <div class="node"><b>Application logic</b><span>Accept only the inputs the interface knows how to collect.</span></div>
+        </div>
+        <div class="map-arrow" aria-hidden="true"><span>→</span></div>
+        <div class="era new">
+          <div class="era-label">The emerging contract</div>
+          <h2>Agent-operated software</h2>
+          <div class="node human"><b>Human as commander</b><span>Define intent, reshape the system, approve consequential outcomes.</span></div>
+          <div class="node agent"><b>Agent as operator</b><span>Interpret context and execute typed, inspectable operations.</span></div>
+          <div class="node"><b>Strict core + adaptive interface</b><span>Code guards truth; the dashboard changes with the person.</span></div>
+        </div>
+      </div>
     </section>
 
     <main class="shell">
       <aside class="toc" aria-label="Table of contents">
         <div class="toc-title">Contents</div>
-        <a href="#split">1. The split</a>
-        <a href="#prompt">2. Prompt-based, not prompt-only</a>
-        <a href="#product">3. Today, Time, Money</a>
-        <a href="#loop">4. The operating loop</a>
-        <a href="#adapt">5. A model that can change</a>
-        <a href="#try">6. Run it locally</a>
-        <a href="#boundary">7. The boundary</a>
+        <a href="#assumption">1. The hidden assumption</a>
+        <a href="#operators">2. Switching operators</a>
+        <a href="#validation">3. Validation changes jobs</a>
+        <a href="#malleable">4. The interface becomes malleable</a>
+        <a href="#proof">5. A real-life proof</a>
+        <a href="#authority">6. Operation, not authority</a>
       </aside>
 
       <article>
-        <p class="lead"><strong>For most of software history, one screen did two different jobs. It collected input from the human, then presented output back to the human. AI agents make that coupling optional.</strong></p>
+        <p class="lead"><strong>Modern software was built around one hidden assumption: the human is the operator.</strong></p>
 
-        <p>A personal finance app asks you to choose a category, enter an amount, pick an account, and submit a form. A time tracker asks you to translate a messy day into the fields its product manager anticipated. A task manager asks you to maintain its ontology before it can help you use it.</p>
+        <p>A product team decides which actions exist. Designers make those actions discoverable. Engineers guard every field. Then the user learns the menus, translates reality into the product's schema, and moves the system one click at a time.</p>
 
-        <p>The friction is not the click. The friction is the translation. The person has to convert life into the application's schema before the application can do anything useful.</p>
+        <p>That assumption is breaking. Agents can now read context, choose tools, execute multi-step work, and return only when a person needs to judge, approve, or redirect. <a href="https://www.microsoft.com/en-us/worklab/ai-at-work-when-softwares-biggest-users-are-not-human">Microsoft recently described the same shift in enterprise software</a>: the human states the goal; the agent becomes the operator.</p>
 
-        <div class="thesis"><strong>The old application used the page as the universal interface. The new application can split the interface in two: conversation for input; a visual surface for observation and confirmation.</strong></div>
+        <div class="thesis"><strong>The user is moving from operator of someone else's interface to commander of a system they can reshape.</strong></div>
 
-        <h2 id="split">1. The interface just split in two</h2>
+        <h2 id="assumption">1. The interface encoded somebody else's decisions</h2>
 
-        <p>I am using <strong>Agent-Mediated Software</strong> for a strict version of this pattern:</p>
+        <p>For thirty years, “good software” meant turning a product team's model into a path a human could successfully navigate. The date picker prevented an invalid date. The dropdown constrained the category. Required fields stopped incomplete submissions. Tooltips taught the user the product's vocabulary.</p>
+
+        <p>This solved a real problem. But it also fixed the relationship between people and software: <strong>the product defined the world; the person operated inside it.</strong></p>
+
+        <p>The deeper friction was never the click. It was the translation. Before the software could help, the person had to compress a messy situation into the fields, categories, and workflows somebody else had anticipated.</p>
+
+        <h2 id="operators">2. Software is switching operators</h2>
+
+        <p>Once an agent becomes capable of operating the system, the whole contract can be rearranged:</p>
 
         <div class="formula">
-          <div><b>Input</b><span>The human describes intent in natural language.</span></div>
-          <div><b>Translation</b><span>The agent resolves that intent into typed operations.</span></div>
-          <div><b>State</b><span>Deterministic code validates and stores the result.</span></div>
-          <div><b>Output</b><span>The visual interface shows state and asks for confirmation when a change is durable.</span></div>
+          <div><b>Human</b><span>Expresses intent, supplies judgment, and remains accountable for the outcome.</span></div>
+          <div><b>Agent</b><span>Interprets context and turns intent into typed, inspectable operations.</span></div>
+          <div><b>Code</b><span>Stores truth and enforces permissions, invariants, and transaction semantics.</span></div>
+          <div><b>Interface</b><span>Presents state, evidence, alternatives, and the moments that need human approval.</span></div>
         </div>
 
-        <p>This is not “no UI.” The screen still matters. It is simply released from being the only way into the system. It can concentrate on the things screens do well: comparison, legibility, overview, and consent.</p>
+        <p>The interface no longer has to be the universal input device. The agent can become the normal write path. The screen can focus on what screens are good at: overview, comparison, legibility, and consent.</p>
 
-        <p>The ingredients have clear predecessors. <a href="https://www.agent-native.com/docs/what-is-agent-native">Agent-native software</a> treats the agent and UI as partners over shared state. <a href="https://arxiv.org/abs/2606.03854">CLI-Anything</a> argues that agents need structured, deterministic control surfaces instead of brittle pixel imitation. The narrower experiment here is the division of labor: <strong>the agent is the normal write path; the portal is the observe-and-confirm path.</strong></p>
+        <p>This is larger than adding a conversational box to an existing product. A conversational box leaves the old software contract intact. Agent-operated software changes who does the operating.</p>
 
-        <h2 id="prompt">2. Prompt-based does not mean prompt-only</h2>
+        <h2 id="validation">3. Validation did not disappear. It disappeared from the user's job description.</h2>
 
-        <p>The tempting slogan is “personal software should become prompt-based instead of code-based.” The useful version is more precise.</p>
+        <p>Date rules, account semantics, permissions, idempotency, and transaction boundaries still matter. In consequential systems, they matter more than ever. But the user should not have to encounter every invariant as a required field, a disabled button, or an error message.</p>
 
-        <p><strong>Code moves inward.</strong> It owns schemas, validation, balances, time arithmetic, idempotency, and permission boundaries. <strong>Prompts move outward.</strong> They become the layer where a person expresses what happened, changes how the system models life, and asks the agent to adapt the product.</p>
+        <p>The agent can handle ordinary normalization: resolve a relative date, map an unfamiliar phrase to a known category, ask for the one missing fact, and retry a rejected operation safely. Deterministic code still decides what is valid. Ambiguity and consequential actions still return to the human.</p>
 
-        <p>That separation matters. I do not want financial history stored as chat. I want a strict ledger. I simply do not want to fill out the ledger by hand.</p>
+        <p><strong>Code does not disappear; it changes jobs.</strong> Less code is spent choreographing every click. More code is spent defining a strict operating core that both human and agent can trust.</p>
 
-        <p>It also changes who gets to shape the product. A traditional app can only present the categories, views, and workflows its product team predicted. An agent-mediated personal system can start from a small method and let each user ask for the categories, currencies, rankings, and views that make their own life legible. The underlying code remains constrained; the model around the person can evolve.</p>
+        <p>The old “foolproof UI” was designed to keep a human operator on a predefined path. The new guardrail is a typed operation with explicit permissions, a previewable effect, and a reversible or approved commit.</p>
 
-        <h2 id="product">3. A small test: Today, Time, and Money</h2>
+        <h2 id="malleable">4. The interface becomes malleable</h2>
 
-        <p>I extracted the idea into <a href="https://github.com/qilinxiaoxiang/agentic-life-os">Agentic Life OS</a>, a local-first open-source project with only three modules:</p>
+        <p>Traditional personalization means choosing among settings the product team decided to expose. The menu may be longer, but the product still owns the model.</p>
+
+        <p>An agent-operated system can let the user say: split this category, add another currency, rank my time a different way, merge these views, or build me a dashboard for this phase of my life. The interface stops being a finished artifact and becomes a current projection of the person's context.</p>
+
+        <p>This connects to <a href="https://www.inkandswitch.com/essay/malleable-software/">Ink &amp; Switch's work on malleable software</a>: tools should adapt to people with minimal friction, instead of forcing people to adapt their workflows to sealed applications. Agents can make that adaptation available at the point of use.</p>
+
+        <p>The user should not become the full-time gardener of a private software fork. The stable core remains shared and rigorous. The flexible layer belongs to the person, and the agent absorbs the work of reshaping it.</p>
+
+        <h2 id="proof">5. I tested the paradigm on my own life</h2>
+
+        <p>I did not want to leave this as a manifesto. I extracted a system I actually use into <a href="https://github.com/qilinxiaoxiang/agentic-life-os">Agentic Life OS</a>: a privacy-clean, local-first, open-source proof with synthetic data.</p>
+
+        <figure class="shot">
+          <img src="images/today.jpg" alt="Synthetic Agentic Life OS Today dashboard with one focus, four actionables, and Today, Time, and Money tabs." width="1280" height="978" loading="lazy" />
+          <figcaption>The interface is an output surface: a current view of focus, time, and money generated from structured state. All data shown is synthetic.</figcaption>
+        </figure>
+
+        <p>The three modules are not the thesis. They are three stress tests for the new contract:</p>
 
         <div class="module-grid">
-          <div class="module"><b>Today</b><p>One daily focus and a ranked list of actionables. These changes are reversible, so the agent can write them directly.</p></div>
-          <div class="module"><b>Time</b><p>A 168-hour weekly budget, a physical-time ledger, allocation credit, and consumption rankings.</p></div>
-          <div class="module"><b>Money</b><p>Accounts, a monthly plan, and a transaction ledger with preview and explicit commit.</p></div>
+          <div class="module"><b>Today</b><p>Can an agent revise reversible state without turning the dashboard into another inbox?</p></div>
+          <div class="module"><b>Time</b><p>Can flexible interpretation coexist with a conserved physical clock and overlapping intentions?</p></div>
+          <div class="module"><b>Money</b><p>Can natural input coexist with a deterministic ledger, preview, and explicit commit?</p></div>
         </div>
 
-        <p>Today is intentionally small. A portal should not become a second life to maintain. It should answer one question quickly: what matters now?</p>
-
-        <p>Time is where a personal model becomes more interesting. One physical hour can serve two intentions. A train ride is still one hour of clock time, even if it also advances a learning budget. The system therefore keeps <strong>clock time</strong> and <strong>allocation credit</strong> separate. Its newest view ranks where the week physically went, first by meaningful category and then by the individual budget items underneath, without double-counting overlap.</p>
+        <p>The Time view demonstrates why a personal model must be adaptable. One physical hour can serve two intentions. A train ride is still one hour of clock time, even if it also advances a learning budget. The system keeps physical time and allocation credit separate, then lets the dashboard rank the same evidence at the category or item level.</p>
 
         <figure class="shot">
           <img src="images/time-ranking.jpg" alt="Synthetic Time module showing a 168-hour budget, clock time, allocation, overlap, and category consumption ranking." width="1280" height="1844" loading="lazy" />
           <figcaption>The Time view ranks physical consumption by category or item. Allocation credit can overlap; physical minutes cannot.</figcaption>
         </figure>
 
-        <p>Money is stricter. Transfers must not look like income. Refunds must not look like spending. Retrying the same agent operation must not create a duplicate. The default demo uses USD, while the schema carries a currency code so another currency can be added without pretending exchange rates are simple.</p>
+        <p>Money proves the opposite point: flexibility at the edge requires rigor at the center. Transfers must not look like income. Refunds must not look like spending. Retrying the same operation must not create a duplicate. The agent can interpret; the ledger cannot improvise.</p>
 
         <figure class="shot">
           <img src="images/money.jpg" alt="Synthetic Money module showing accounts, a monthly plan, planned expenses, and remaining budget in USD." width="1280" height="1121" loading="lazy" />
           <figcaption>The Money view uses synthetic accounts and budgets. The application stores no bank credentials and connects to no financial institution.</figcaption>
         </figure>
 
-        <h2 id="loop">4. The agent does not get a blank check</h2>
+        <h2 id="authority">6. The agent gets operation, not authority</h2>
 
-        <p>The operating loop is deliberately boring:</p>
+        <p>The operating loop is deliberately strict:</p>
 
         <ol class="loop">
-          <li><b>Observe.</b> Read Today plus the current Time and Money summaries.</li>
-          <li><b>Propose.</b> Translate raw notes into normalized operations.</li>
-          <li><b>Confirm.</b> Show the person exactly what will change.</li>
-          <li><b>Commit.</b> Apply the accepted proposal atomically.</li>
+          <li><b>Observe.</b> Read the current state and the evidence behind it.</li>
+          <li><b>Propose.</b> Translate intent into normalized, typed operations.</li>
+          <li><b>Confirm.</b> Surface ambiguity and show consequential changes before they happen.</li>
+          <li><b>Commit.</b> Apply the accepted operation atomically and leave an inspectable record.</li>
         </ol>
 
-        <p>Reversible tasks and focus changes can move immediately. Durable Time and Money entries cannot. The agent prepares a proposal; the person approves the normalized version; only then does the ledger change.</p>
+        <p>Reversible focus changes can move immediately. Durable Time and Money entries require confirmation. The agent prepares the operation; the person approves the normalized version; only then does the ledger change.</p>
 
-        <p>This is the part a pure chat interface usually misses. Natural language is flexible, but it is not a substitute for transaction semantics. The agent stays probabilistic at the edge. The ledger stays deterministic at the center.</p>
+        <p>This is not “no UI,” “no code,” or “no validation.” It is a new division of labor. Direct manipulation will remain useful for fixed, high-speed tasks. But people no longer need to be the universal operators of every system they use.</p>
 
-        <h2 id="adapt">5. Personalization becomes model revision</h2>
-
-        <p>Most personal software calls customization a settings page. An agent-mediated system can go further: it can treat the user's model as a hypothesis.</p>
-
-        <p>After a completed week or month, the agent can inspect the evidence and propose a revision:</p>
-
-        <ul>
-          <li>a recurring unbudgeted activity may deserve its own category;</li>
-          <li>a repeated overshoot may reveal a bad plan, a classification mistake, or behavior the person actually wants to change;</li>
-          <li>an unused item may need to shrink, merge, disappear, or remain protected on purpose;</li>
-          <li>a user can ask for a new currency or a new presentation without waiting for a product roadmap.</li>
-        </ul>
-
-        <p>The goal is not to make every bar green. It is to make the model more truthful. And the adaptation is never silent: the agent shows the evidence and waits for human confirmation before changing the budget itself.</p>
-
-        <h2 id="try">6. Run it locally, then make it reachable</h2>
-
-        <p>The application contains no model and no AI credentials. Bring Codex, Claude, OpenClaw, or another agent that can call an HTTP API or CLI. The default demo is synthetic and runs locally with one command:</p>
+        <p>The proof is small enough to run locally:</p>
 
         <pre><code>git clone https://github.com/qilinxiaoxiang/agentic-life-os.git
 cd agentic-life-os
 docker compose up --build</code></pre>
 
-        <p>Then open <code>http://127.0.0.1:5050</code>. Start with the demo, delete it when the model makes sense, and let an agent initialize a clean Time and Money budget from the facts you provide.</p>
+        <p>The repository includes an agent guide, typed API and CLI, synthetic demo, privacy checks, and an optional <a href="https://github.com/qilinxiaoxiang/agentic-life-os#open-it-on-your-phone-optional">private phone-access path through Tailscale</a>.</p>
 
-        <p>Phone access should not require turning a personal ledger into a public website. The repository now includes a short <a href="https://github.com/qilinxiaoxiang/agentic-life-os#open-it-on-your-phone-optional">Tailscale setup</a>: install it on the computer and phone, keep Life OS bound to localhost, and use Tailscale Serve to expose it only inside your private network. Do not use Funnel; this app has no application-level login.</p>
-
-        <h2 id="boundary">7. What this experiment does not claim</h2>
-
-        <p>Forms remain better when the schema is stable, speed matters, and ambiguity is expensive. Agents add latency, probabilistic interpretation, and a new dependency. A tax filing or wire transfer should not become casual because natural language feels easy.</p>
-
-        <p>Nor is the phrase “agent-mediated” itself new. The contribution I care about is the boundary tested in working software: agent-only normal writes, typed state, an observe-and-confirm portal, and human-governed adaptation.</p>
-
-        <div class="closing">The next personal application may not be a finished product that asks everyone to live inside the same schema. It may be a small, strict operating core that each person reshapes through an agent — while the screen simply shows the truth.</div>
+        <div class="closing">Software used to ask people to live inside a product team's schema. Agent-operated software can give each person a strict core, an agent that works on their behalf, and a dashboard they can reshape as their life changes.</div>
 
         <h2 id="sources">Sources and code</h2>
         <ul class="source-list">
           <li><a href="https://github.com/qilinxiaoxiang/agentic-life-os">Agentic Life OS</a> — source, synthetic demo, REST API, JSON CLI, OpenAPI contract, agent guide, privacy checks, and MIT license.</li>
-          <li><a href="https://www.agent-native.com/docs/what-is-agent-native">What Is Agent-Native?</a> — agent and UI as partners over shared actions, state, and databases.</li>
-          <li><a href="https://arxiv.org/abs/2606.03854">CLI-Anything: Towards Agent-Native Computer Use</a> — structured, deterministic interfaces for agent control rather than GUI imitation.</li>
+          <li><a href="https://www.microsoft.com/en-us/worklab/ai-at-work-when-softwares-biggest-users-are-not-human">When software's biggest users aren't human</a> — agents becoming primary operators while interfaces become review and handoff surfaces.</li>
+          <li><a href="https://www.inkandswitch.com/essay/malleable-software/">Malleable Software</a> — restoring user agency by making tools adaptable at the point of use.</li>
+          <li><a href="https://www.microsoft.com/en-us/research/publication/web-agents-should-use-typed-actions-instead-of-click-based-browsing/">Web Agents Should Use Typed Actions Instead of Click-Based Browsing</a> — typed, inspectable operations as an agent control surface.</li>
           <li><a href="https://tailscale.com/docs/reference/tailscale-cli/serve">Tailscale Serve</a> — private tailnet access to a localhost service.</li>
         </ul>
       </article>
