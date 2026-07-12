@@ -126,6 +126,13 @@ const content = {
     writingIndexText: "View all field notes",
     writing: [
       {
+        title: "The Interface Just Split in Two",
+        body: "Personal software used to make one page collect input and present output. Agentic Life OS tests a stricter split: the human states intent, the agent operates, and the portal is reserved for observation and confirmation.",
+        meta: "July 2026 · Agent-Mediated Software",
+        link: "./articles/agentic-life-os/",
+        linkText: "Read the field note →"
+      },
+      {
         title: "What Lean in Hospitals Could Take From Forward-Deployed Engineering",
         body: "Landing Lean inside a hospital is the same job as forward-deployed engineering — show up, map the real work, change it in small steps, make it stick. The younger field lands more often. So the question runs backwards: here is what healthcare can take back from FDE.",
         meta: "May 2026 · FDE × Patient Safety",
@@ -310,6 +317,13 @@ const content = {
     writingTitle: "Field Notes",
     writingIndexText: "查看全部文章",
     writing: [
+      {
+        title: "The Interface Just Split in Two",
+        body: "传统软件让同一个页面既收集输入、又呈现输出。Agentic Life OS 把两者拆开：人表达意图，Agent 操作系统，Portal 只负责观察与确认。英文长文。",
+        meta: "2026.07 · Agent-Mediated Software",
+        link: "./articles/agentic-life-os/",
+        linkText: "阅读文章 →"
+      },
       {
         title: "What Lean in Hospitals Could Take From Forward-Deployed Engineering",
         body: "把 Lean 落地进医院，和 FDE 是同一份活：到现场、画真实流程、小步改、让它留住。更年轻的 FDE 反而落得更稳——所以反过来问：医院 Lean 能从 FDE 偷什么。英文长文。",
