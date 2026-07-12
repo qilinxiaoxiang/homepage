@@ -130,46 +130,6 @@
         width: min(1180px, calc(100% - 48px));
         margin: 0 auto 58px;
       }
-      .operator-map {
-        position: relative;
-        overflow: hidden;
-        display: grid;
-        grid-template-columns: minmax(0, .86fr) 84px minmax(0, 1.14fr);
-        gap: 22px;
-        align-items: stretch;
-        padding: 34px;
-        border: 1px solid var(--line);
-        border-radius: 26px;
-        background:
-          radial-gradient(circle at 82% 15%, rgba(47,118,85,.17), transparent 32%),
-          var(--paper);
-        box-shadow: 0 30px 90px -48px rgba(19,38,29,.55);
-      }
-      .era {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 24px;
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        background: rgba(245,246,239,.66);
-      }
-      .era.new { background: rgba(47,118,85,.065); border-color: rgba(47,118,85,.24); }
-      .era-label { color: var(--faint); font: 500 .7rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
-      .era h2 { font: 700 1.35rem/1.2 var(--font-display); letter-spacing: -.02em; }
-      .node {
-        padding: 14px 15px;
-        border: 1px solid var(--line);
-        border-radius: 13px;
-        background: var(--paper);
-      }
-      .node b { display: block; font: 700 .94rem var(--font-display); }
-      .node span { display: block; color: var(--muted); font-size: .8rem; line-height: 1.45; margin-top: 3px; }
-      .node.human { border-color: rgba(215,165,63,.5); }
-      .node.agent { color: var(--paper); background: var(--accent); border-color: var(--accent); }
-      .node.agent span { color: rgba(255,255,255,.74); }
-      .map-arrow { display: grid; place-items: center; color: var(--accent); font: 500 1.55rem var(--font-mono); }
-      .map-arrow span { display: grid; place-items: center; width: 54px; height: 54px; border: 1px solid rgba(47,118,85,.25); border-radius: 50%; background: var(--accent-soft); }
       figure { margin: 0; }
       figure img {
         display: block;
@@ -181,6 +141,7 @@
         box-shadow: 0 30px 90px -48px rgba(19,38,29,.55);
       }
       figcaption { color: var(--faint); font: 400 .78rem/1.55 var(--font-mono); margin-top: 11px; }
+      .scroll-hint { display: none; }
       .shell {
         width: min(1060px, calc(100% - 48px));
         margin: 0 auto 92px;
@@ -297,12 +258,24 @@
         .hero { grid-template-columns: 1fr; padding-top: 62px; }
         .shell { grid-template-columns: 1fr; gap: 26px; }
         .toc { position: static; }
-        .operator-map { grid-template-columns: 1fr; }
-        .map-arrow span { transform: rotate(90deg); }
       }
       @media (max-width: 640px) {
         .nav-inner, .hero, .shell { width: calc(100% - 32px); }
         .cover, .wide-shot { width: calc(100% - 20px); }
+        .paradigm-flow { overflow-x: auto; padding-bottom: 8px; }
+        .paradigm-flow figure { min-width: 760px; }
+        .paradigm-flow figcaption { display: none; }
+        .scroll-hint {
+          position: sticky;
+          left: 0;
+          display: block;
+          width: calc(100vw - 20px);
+          padding: 0 4px 8px;
+          color: var(--accent);
+          font: 500 .72rem var(--font-mono);
+          letter-spacing: .04em;
+          text-transform: uppercase;
+        }
         .nav-links { display: none; }
         .hero { padding-top: 48px; }
         h1 { font-size: clamp(2.7rem, 15vw, 4.3rem); }
@@ -343,24 +316,18 @@
       </aside>
     </header>
 
-    <section class="cover" aria-label="The shift from human-operated interfaces to agent-operated software">
-      <div class="operator-map">
-        <div class="era">
-          <div class="era-label">The old contract</div>
-          <h2>Human-operated software</h2>
-          <div class="node human"><b>Human as operator</b><span>Navigate menus, translate reality into fields, recover from validation errors.</span></div>
-          <div class="node"><b>Fixed interface</b><span>Every permitted path was anticipated by a product team.</span></div>
-          <div class="node"><b>Application logic</b><span>Accept only the inputs the interface knows how to collect.</span></div>
-        </div>
-        <div class="map-arrow" aria-hidden="true"><span>→</span></div>
-        <div class="era new">
-          <div class="era-label">The emerging contract</div>
-          <h2>Agent-operated software</h2>
-          <div class="node human"><b>Human as commander</b><span>Define intent, reshape the system, approve consequential outcomes.</span></div>
-          <div class="node agent"><b>Agent as operator</b><span>Interpret context and execute typed, inspectable operations.</span></div>
-          <div class="node"><b>Strict core + adaptive interface</b><span>Code guards truth; the dashboard changes with the person.</span></div>
-        </div>
-      </div>
+    <section class="cover" aria-label="Software Is Switching Operators cover">
+      <figure>
+        <img src="images/cover.jpg" alt="Editorial illustration of a person moving from a rigid wall of software forms through an agent layer to a flexible dashboard." width="1200" height="630" loading="eager" />
+      </figure>
+    </section>
+
+    <section class="wide-shot paradigm-flow" aria-label="Interaction diagram comparing human-operated and agent-operated software">
+      <div class="scroll-hint" aria-hidden="true">Swipe to compare →</div>
+      <figure>
+        <img src="../../diagrams/software-operator-shift.png" alt="Before: a human exchanges form input and errors with a fixed interface. Now: a human, agent, and adaptive interface form a loop over strict state, permissions, and validation." width="3200" height="1800" loading="lazy" />
+        <figcaption>The page is no longer the controller. It is the system's current projection, reshaped by the agent and governed by the human.</figcaption>
+      </figure>
     </section>
 
     <main class="shell">

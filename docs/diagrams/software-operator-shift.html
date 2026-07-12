@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Software operator shift</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1600px; height: 900px; overflow: hidden; }
+      body {
+        display: grid;
+        place-items: center;
+        color: #13261d;
+        background: #f5f6ef;
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      #canvas {
+        position: relative;
+        width: 1600px;
+        height: 900px;
+        padding: 52px;
+        background:
+          radial-gradient(circle at 80% 16%, rgba(47,118,85,.13), transparent 30%),
+          linear-gradient(180deg, #fffef8 0%, #f8f8f1 100%);
+      }
+      .title {
+        position: absolute;
+        top: 45px;
+        left: 60px;
+        font-size: 18px;
+        font-weight: 750;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+      }
+      .subtitle {
+        position: absolute;
+        top: 76px;
+        left: 60px;
+        color: #657068;
+        font-size: 18px;
+      }
+      .panels {
+        position: absolute;
+        top: 120px;
+        left: 52px;
+        right: 52px;
+        bottom: 52px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+      }
+      .panel {
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(19,38,29,.13);
+        border-radius: 30px;
+        background: rgba(255,254,248,.86);
+      }
+      .panel.new {
+        border-color: rgba(47,118,85,.25);
+        background: linear-gradient(145deg, rgba(47,118,85,.07), rgba(255,254,248,.96));
+      }
+      .panel-label {
+        position: absolute;
+        top: 32px;
+        left: 38px;
+        color: #89918b;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+      .panel h2 {
+        position: absolute;
+        top: 58px;
+        left: 38px;
+        margin: 0;
+        font-size: 31px;
+        letter-spacing: -.025em;
+      }
+      .node {
+        position: absolute;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 2px solid rgba(19,38,29,.14);
+        border-radius: 22px;
+        background: #fffef8;
+        box-shadow: 0 22px 54px -38px rgba(19,38,29,.5);
+      }
+      .node strong { display: block; font-size: 23px; letter-spacing: -.015em; }
+      .node span { display: block; margin-top: 8px; color: #657068; font-size: 16px; line-height: 1.4; }
+      .person {
+        width: 230px;
+        height: 150px;
+        padding: 24px;
+        text-align: center;
+      }
+      .person::before {
+        content: "";
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 8px;
+        border-radius: 50%;
+        background: #d7a53f;
+        box-shadow: 0 38px 0 12px rgba(215,165,63,.24);
+      }
+      .old-person { left: 70px; top: 272px; width: 190px; }
+      .fixed-ui {
+        left: 430px;
+        top: 220px;
+        width: 230px;
+        height: 255px;
+        padding: 24px;
+      }
+      .ui-window {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .ui-window i {
+        height: 29px;
+        border: 1px solid rgba(19,38,29,.15);
+        border-radius: 7px;
+        background: #f0f1e9;
+      }
+      .ui-window i:first-child { grid-column: 1 / -1; }
+      .lock {
+        position: absolute;
+        right: 20px;
+        bottom: 18px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        color: #7a5b18;
+        background: rgba(215,165,63,.16);
+        font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+      }
+      .old-note {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        bottom: 66px;
+        padding-top: 22px;
+        border-top: 1px solid rgba(19,38,29,.13);
+        color: #657068;
+        font-size: 18px;
+        line-height: 1.5;
+        text-align: center;
+      }
+      .new-person { left: 58px; top: 190px; }
+      .agent {
+        right: 58px;
+        top: 190px;
+        width: 230px;
+        height: 150px;
+        padding: 24px;
+        color: #fffef8;
+        border-color: #2f7655;
+        background: #2f7655;
+        text-align: center;
+      }
+      .agent span { color: rgba(255,255,255,.72); }
+      .agent-mark {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 10px;
+        border: 1px solid rgba(255,255,255,.35);
+        border-radius: 13px;
+        font: 800 20px ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      .adaptive-ui {
+        left: 50%;
+        top: 472px;
+        width: 340px;
+        height: 230px;
+        padding: 22px;
+        transform: translateX(-50%);
+        border-color: rgba(47,118,85,.35);
+        justify-content: flex-start;
+      }
+      .adaptive-ui .ui-window { grid-template-columns: 1.25fr .75fr; gap: 8px; margin-top: 12px; }
+      .adaptive-ui .ui-window i:nth-child(3) { height: 34px; }
+      .adaptive-ui .ui-window i:nth-child(4) { height: 34px; }
+      .ghost {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        width: 330px;
+        height: 220px;
+        border: 2px dashed rgba(47,118,85,.18);
+        border-radius: 22px;
+      }
+      .ghost.one { top: 460px; transform: translateX(-55%) rotate(-2deg); }
+      .ghost.two { top: 486px; transform: translateX(-45%) rotate(2deg); }
+      .core {
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 17px;
+        padding: 8px 12px;
+        border-radius: 9px;
+        color: #fffef8;
+        background: #13261d;
+        font: 700 10.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .02em;
+        text-align: center;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .edge-label {
+        position: absolute;
+        z-index: 4;
+        padding: 7px 11px;
+        border: 1px solid rgba(19,38,29,.12);
+        border-radius: 999px;
+        color: #657068;
+        background: #fffef8;
+        font: 700 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .02em;
+        white-space: nowrap;
+      }
+      .old-label-top { left: 304px; top: 265px; }
+      .old-label-bottom { left: 289px; top: 408px; }
+      .label-intent { left: 306px; top: 203px; }
+      .label-operate { right: 36px; top: 417px; transform: rotate(7deg); }
+      .label-see { left: 42px; top: 417px; transform: rotate(-7deg); }
+      svg.wires {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .wire { fill: none; stroke: #2f7655; stroke-width: 4; stroke-linecap: round; }
+      .wire.old { stroke: #657068; stroke-width: 3; }
+      .loop-center {
+        position: absolute;
+        z-index: 1;
+        left: 50%;
+        top: 356px;
+        width: 104px;
+        height: 104px;
+        display: grid;
+        place-items: center;
+        transform: translateX(-50%);
+        border: 1px solid rgba(47,118,85,.18);
+        border-radius: 50%;
+        color: #2f7655;
+        background: rgba(47,118,85,.055);
+        font: 750 13px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: .05em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div class="title">The interaction contract changed</div>
+      <div class="subtitle">The page stops being the controller and becomes a living projection of the system.</div>
+
+      <div class="panels">
+        <section class="panel old" aria-label="Old human-operated software contract">
+          <div class="panel-label">Before</div>
+          <h2>Human-operated software</h2>
+
+          <svg class="wires" viewBox="0 0 730 728" aria-hidden="true">
+            <defs>
+              <marker id="arrow-old" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#657068" />
+              </marker>
+            </defs>
+            <line class="wire old" x1="260" y1="316" x2="430" y2="316" marker-end="url(#arrow-old)" />
+            <line class="wire old" x1="430" y1="383" x2="260" y2="383" marker-end="url(#arrow-old)" />
+          </svg>
+
+          <div class="node person old-person"><strong>Human</strong><span>Operates the page</span></div>
+          <div class="node fixed-ui">
+            <strong>Fixed interface</strong>
+            <span>Paths chosen in advance</span>
+            <div class="ui-window"><i></i><i></i><i></i></div>
+            <div class="lock">sealed</div>
+          </div>
+          <div class="edge-label old-label-top">form input</div>
+          <div class="edge-label old-label-bottom">output · errors</div>
+          <div class="old-note">The person translates messy reality into the product team's schema.</div>
+        </section>
+
+        <section class="panel new" aria-label="New agent-operated software contract">
+          <div class="panel-label">Now</div>
+          <h2>Agent-operated software</h2>
+
+          <svg class="wires" viewBox="0 0 730 728" aria-hidden="true">
+            <defs>
+              <marker id="arrow-new" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f7655" />
+              </marker>
+            </defs>
+            <line class="wire" x1="288" y1="264" x2="442" y2="264" marker-end="url(#arrow-new)" />
+            <line class="wire" x1="560" y1="341" x2="535" y2="560" marker-end="url(#arrow-new)" />
+            <line class="wire" x1="195" y1="560" x2="170" y2="341" marker-end="url(#arrow-new)" />
+          </svg>
+
+          <div class="node person new-person"><strong>Human</strong><span>Sets intent and judges</span></div>
+          <div class="node agent"><div class="agent-mark">A</div><strong>Agent</strong><span>Operates and reshapes</span></div>
+          <div class="loop-center">intent<br />operation<br />state<br />judgment</div>
+          <div class="ghost one"></div>
+          <div class="ghost two"></div>
+          <div class="node adaptive-ui">
+            <strong>Adaptive interface</strong>
+            <span>Changes with the person's context</span>
+            <div class="ui-window"><i></i><i></i><i></i></div>
+            <div class="core">strict state · permissions · validation</div>
+          </div>
+          <div class="edge-label label-intent">intent + judgment</div>
+          <div class="edge-label label-operate">operate + reshape</div>
+          <div class="edge-label label-see">state + approval</div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
