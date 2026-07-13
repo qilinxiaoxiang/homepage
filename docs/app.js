@@ -127,7 +127,7 @@ const content = {
     writing: [
       {
         title: "Software Is Switching Operators",
-        body: "Humans were the assumed operators of software. Agents change the contract: people direct, agents operate, code enforces, and interfaces adapt.",
+        body: "Humans were the assumed operators of software. Agents change the contract: people direct, agents operate, code enforces, and UIs adapt.",
         meta: "July 2026 · Agent-Operated Software",
         link: "./articles/agentic-life-os/",
         linkText: "Read the field note →"
