@@ -88,10 +88,42 @@ const content = {
     projectTitle: "Things I've Made",
     projects: [
       {
+        title: "Agentic Life OS",
+        body: "A local-first proof of a new software contract: people decide, agents operate through typed actions, deterministic code protects time and money state, and the interface is built for review. Includes evidence-backed budget-change proposals with explicit approval.",
+        tag: "Open Source · AI-Native Systems",
+        featured: true,
+        link: "https://github.com/qilinxiaoxiang/agentic-life-os",
+        linkText: "View repository →",
+        techs: ["Agent Operations", "FastAPI", "SQLite", "Human Approval"]
+      },
+      {
+        title: "Agentic Flashcards",
+        body: "A versioned learning system with adaptive scheduling, append-only review history, an offline mutation queue, conflict handling, and a native SwiftUI client. Agents maintain content; the learner retains collection and conflict decisions.",
+        tag: "Open Source · Native iOS + Server",
+        link: "https://github.com/qilinxiaoxiang/agentic-flashcards",
+        linkText: "View repository →",
+        techs: ["SwiftUI", "Python", "SQLite/WAL", "Offline Sync"]
+      },
+      {
+        title: "Agentic Job Hunting",
+        body: "A synthetic hiring-material pipeline for discovery, deduplication, fit screening, source-constrained drafting, and two independent reviews. The public system deliberately stops at a reviewed local material pack.",
+        tag: "Open Source · Evidence-Constrained AI",
+        link: "https://github.com/qilinxiaoxiang/agentic-job-hunting",
+        linkText: "View repository →",
+        techs: ["Evidence Graph", "Independent Review", "SQLite", "Privacy Gates"]
+      },
+      {
+        title: "Agent Skills and Cards",
+        body: "A compact operating kit for reusable skills and reviewer roles, with bounded parallel execution, named resource locks, retries, structured failure history, and local full-text memory.",
+        tag: "Open Source · Agent Infrastructure",
+        link: "https://github.com/qilinxiaoxiang/agent-skills-and-cards",
+        linkText: "View repository →",
+        techs: ["Bounded Concurrency", "Resource Locks", "Retry Records", "Local Search"]
+      },
+      {
         title: "VoxClinBench",
         body: "Cross-lingual, cross-disease clinical voice biomarker benchmark — in submission at NeurIPS 2026 (Datasets & Benchmarks track). 23 scored binary tasks across 4 languages and 5 corpora, with Holm-Bonferroni-corrected cross-language transfer testing. Shipped pip-installable evaluation harness, subject-ID manifests, and Croissant datasheet.",
         tag: "CMU · Voice Biomarker Benchmark",
-        featured: true,
         techs: ["Voice Biomarker", "Benchmark Design", "Clinical AI", "Bootstrap + DeLong"]
       },
       {
@@ -280,10 +312,42 @@ const content = {
     projectTitle: "我做过的东西",
     projects: [
       {
+        title: "Agentic Life OS",
+        body: "本地优先的 AI 原生系统：人负责决策，智能体通过明确接口执行，确定性代码保护时间与资金状态，界面负责复核；资源调整先形成带证据和替代方案的提案，再由人批准。",
+        tag: "开源 · AI 原生系统",
+        featured: true,
+        link: "https://github.com/qilinxiaoxiang/agentic-life-os",
+        linkText: "查看仓库 →",
+        techs: ["智能体操作", "FastAPI", "SQLite", "人工批准"]
+      },
+      {
+        title: "Agentic Flashcards",
+        body: "带版本控制的学习系统：自适应排期、只追加的复习记录、离线操作队列、冲突处理和原生 SwiftUI 客户端。智能体维护内容，学习者决定卡片归属与冲突取舍。",
+        tag: "开源 · 原生 iOS + 服务端",
+        link: "https://github.com/qilinxiaoxiang/agentic-flashcards",
+        linkText: "查看仓库 →",
+        techs: ["SwiftUI", "Python", "SQLite/WAL", "离线同步"]
+      },
+      {
+        title: "Agentic Job Hunting",
+        body: "全合成的求职材料管线：岗位发现、去重、匹配筛选、证据约束写作和两路独立审查。公开版明确止于本地审阅完成的材料包。",
+        tag: "开源 · 证据约束 AI",
+        link: "https://github.com/qilinxiaoxiang/agentic-job-hunting",
+        linkText: "查看仓库 →",
+        techs: ["证据图", "独立审查", "SQLite", "隐私门禁"]
+      },
+      {
+        title: "Agent Skills and Cards",
+        body: "可复用技能和审查角色的小型运行工具箱，包含有限并行、具名资源锁、重试、结构化失败历史与本地全文记忆。",
+        tag: "开源 · 智能体基础设施",
+        link: "https://github.com/qilinxiaoxiang/agent-skills-and-cards",
+        linkText: "查看仓库 →",
+        techs: ["有限并行", "资源锁", "失败记录", "本地检索"]
+      },
+      {
         title: "VoxClinBench",
         body: "跨语言、跨疾病的临床语音生物标志物评测基准——投稿 NeurIPS 2026（Datasets & Benchmarks 赛道，匿名评审中）。23 项 binary 任务 × 4 种语言 × 5 个语料，Holm-Bonferroni 校正的跨语言迁移测试。交付 pip 可装的测评 harness、subject-ID manifest 与 Croissant datasheet。",
         tag: "CMU · 语音生物标志物 Benchmark",
-        featured: true,
         techs: ["语音生物标志物", "Benchmark 设计", "临床 AI", "Bootstrap + DeLong"]
       },
       {
