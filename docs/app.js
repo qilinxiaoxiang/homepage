@@ -2,8 +2,8 @@
 const content = {
   en: {
     heroName: "Shawn (Zheng) Xiang",
-    heroTitle: '<span class="gradient-text">Forward-Deployed AI Engineer</span>. I turn business problems into shipped AI solutions, open to any industry.',
-    heroDesc: "MS in AI Engineering — Biomedical Engineering at Carnegie Mellon. 8+ years across software, solution architecture, and enterprise delivery — spanning China, the Philippines, Singapore, India, and the US.",
+    heroTitle: '<span class="gradient-text">AI × Robotics engineer</span>. I build real robots and train them to move.',
+    heroDesc: "MS in AI Engineering — Biomedical Engineering at Carnegie Mellon. Eight-plus years of production software underneath; on top of it, a hand-built 15-servo duck that stands, walks and holds its heading on the floor of the CMU Robotics Club.",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "Copy Email",
     navLinks: [
@@ -15,19 +15,19 @@ const content = {
       { label: "Education", href: "#education" }
     ],
     stats: [
-      { value: "8+", label: "Years in Software & Solution Architecture" },
+      { value: "15", label: "Servos on the walking duck I built and run" },
+      { value: "8+", label: "Years in Production Software & Solution Architecture" },
       { value: "100M+", label: "Annual Orders at Scale" },
-      { value: "3.93", label: "GPA at CMU (AI Engineering)" },
-      { value: "5", label: "Countries Delivered Across" }
+      { value: "3.93", label: "GPA at CMU (AI Engineering)" }
     ],
     aboutLabel: "About Me",
-    aboutTitle: "Engineering depth + customer instincts + AI toolkit — stacked, not pivoted.",
-    aboutBody: "I don't read my background as career pivots. Biology → sales → software → solution architecture → AI engineering is an inventory: domain fluency, customer conversations, production engineering, cross-cultural delivery. Forward-Deployed AI Engineering sits exactly where these layers compound — translate a business problem into an AI solution, architect it, ship it, own adoption. Currently at CMU to add frontier AI depth to that stack.",
+    aboutTitle: "Production software is the base. The robot is the point.",
+    aboutBody: "Eight years of production systems and solution delivery across China, the Philippines, Singapore, India and the US taught me to ship software that other people depend on. At CMU I put that base under a real robot: a 15-servo MicroDuck I assembled at the Robotics Club, running Pollen Robotics' walking policies, judged in an as-built MuJoCo model I measured, fine-tuned behind a reward audit, and fitted with head touch sensing the official design does not have. My biomedical engineering track keeps a path open to assistive and laboratory robots.",
     aboutHighlights: [
-      { icon: "🎯", title: "Forward-Deployed Pattern", desc: "Embed with customers — diagnose, architect, ship, own adoption" },
-      { icon: "🌐", title: "Cross-Cultural Delivery", desc: "Citigroup (China × US × India × Singapore), GCash (Philippines), CMU (US)" },
+      { icon: "🤖", title: "Real Robot, Real Loop", desc: "15-servo biped with a 50 Hz policy loop on its head computer, IMU heading hold, touch, camera and voice" },
+      { icon: "🧪", title: "Train Behind Gates", desc: "As-built simulation acceptance suite and a reward audit that caught a policy learning to stand still" },
       { icon: "⚡", title: "Production Engineering", desc: "100M+ order systems, JVM tuning, zero-downtime ops" },
-      { icon: "🚀", title: "Operator Mindset", desc: "Founded a solo AI consulting practice; shipped live revenue before CMU" }
+      { icon: "🧬", title: "Biomedical Bridge", desc: "AI Engineering and Biomedical Engineering, with a path into assistive and laboratory robotics" }
     ],
     expLabel: "Experience",
     expTitle: "Where I've Built Things",
@@ -39,17 +39,17 @@ const content = {
         bullets: [
           "Founded a solo AI consulting and solution-delivery practice; delivered a production cloud system with AI-assisted engineering before CMU enrollment.",
           "Shipped a waste-management operations platform for an enterprise client, generating early commercial revenue (RMB 100K–200K).",
-          "End-to-end ownership: client discovery, architecture, implementation, deployment, and adoption — the full Forward-Deployed loop."
+          "End-to-end ownership: client discovery, architecture, implementation, deployment, and adoption."
         ]
       },
       {
-        role: "Solution Architect (proto-FDE)",
+        role: "Solution Architect",
         company: "Bang Dao Technology · GCash / Alipay+",
         meta: "Jun 2024 — Aug 2025",
         bullets: [
           "Embedded with Southeast Asia's largest digital wallet (GCash) — designed wearable payment capability on Huawei watches from business problem to production launch.",
           "Co-architected the foundational solution path for GCash public transit QR payment rollout.",
-          "Lived the forward-deployed pattern before AI was the primary toolkit: deep customer immersion, business-process understanding, and local customization across product, engineering, compliance, and external stakeholders."
+          "Worked embedded with the client before AI was the primary toolkit: deep customer immersion, business-process understanding, and local customization across product, engineering, compliance, and external stakeholders."
         ]
       },
       {
@@ -88,10 +88,27 @@ const content = {
     projectTitle: "Things I've Made",
     projects: [
       {
+        title: "CMU's first hand-built MicroDuck",
+        body: "A 15-servo bipedal duck after Pollen Robotics' open-source MicroDuck, assembled at the CMU Robotics Club. It stands, walks at 0.25 m/s, holds its heading on the IMU, quacks, streams its camera into the desktop app, and stops and holds still when you grab its head: five copper touch pads under the head cap, a sense the official design does not have. A Radxa Cubie A7Z in the head runs the 50 Hz policy loop.",
+        tag: "Robotics · Built and trained, 2026",
+        featured: true,
+        link: "./microduck/",
+        internal: true,
+        linkText: "Project page →",
+        techs: ["DYNAMIXEL XL330", "Radxa Cubie A7Z", "MuJoCo", "RL Fine-tuning", "Touch Sensing"]
+      },
+      {
+        title: "MicroDuck Training Fork",
+        body: "Pollen Robotics' training repository plus our cmu/ layer: an as-built MuJoCo model of this robot (measured masses, a measured 7.87° forward gap), a seven-case acceptance suite that takes rail voltage, IMU rate and servo read drops from the robot's measured state, and a fine-tuning pipeline with a reward-audit launch gate and a tracking-error guard, added after a first run learned to stand still while total reward tripled.",
+        tag: "Open Source · Robot Learning",
+        link: "https://github.com/qilinxiaoxiang/microduck_rl",
+        linkText: "View repository →",
+        techs: ["MuJoCo", "PPO", "Reward Audit", "Modal L4"]
+      },
+      {
         title: "Agentic Life OS",
         body: "A local-first proof of a new software contract: people decide, agents operate through typed actions, deterministic code protects time and money state, and the interface is built for review. Includes evidence-backed budget-change proposals with explicit approval.",
         tag: "Open Source · AI-Native Systems",
-        featured: true,
         link: "https://github.com/qilinxiaoxiang/agentic-life-os",
         linkText: "View repository →",
         techs: ["Agent Operations", "FastAPI", "SQLite", "Human Approval"]
@@ -196,8 +213,9 @@ const content = {
     skillsLabel: "Skills",
     skillsTitle: "What I Bring",
     skillGroups: [
-      { icon: "🎯", label: "Forward-Deployed & Delivery", tags: ["Customer Discovery", "Business Problem Framing", "Cross-Domain Translation", "Solution Architecture", "Client-side Delivery", "Adoption Ownership", "PMP Certified", "Agile / Scrum", "Cross-team Leadership"] },
-      { icon: "🤖", label: "AI / ML", tags: ["LLM", "RAG", "Fine-tuning", "PyTorch", "scikit-learn", "LangChain", "Prompt Engineering", "Agents"] },
+      { icon: "🤖", label: "Robotics", tags: ["Sim-to-Real", "MuJoCo", "RL Fine-tuning (PPO)", "Reward Audits", "DYNAMIXEL Servos", "IMU / Touch / Camera Bring-up", "Embedded Linux (Radxa)", "3D Printing"] },
+      { icon: "🧠", label: "AI / ML", tags: ["PyTorch", "Reinforcement Learning", "Fine-tuning", "ONNX Deployment", "LLM", "Agents"] },
+      { icon: "🎯", label: "Delivery", tags: ["Customer Discovery", "Solution Architecture", "Client-side Delivery", "Observability", "PMP Certified", "Agile / Scrum"] },
       { icon: "💻", label: "Languages", tags: ["Python", "Java", "Shell", "SQL"] },
       { icon: "🗄️", label: "Data & Infrastructure", tags: ["MySQL", "Redis", "Elasticsearch", "Neo4j", "Hadoop", "Spark"] },
       { icon: "☁️", label: "Cloud & DevOps", tags: ["Docker", "Kubernetes", "AWS", "GCP", "Alibaba Cloud", "CI/CD"] },
@@ -212,7 +230,7 @@ const content = {
         degree: "MS in AI Engineering — Biomedical Engineering",
         meta: "Expected Dec 2026 · Pittsburgh, PA",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: AI Cofounder: A Startup Builder's Guide · Intro to Deep Learning · Projects in Biomedical AI"
+        courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: Intro to Deep Learning · Projects in Biomedical AI<br>Summer '26: General Robotics (audit) · Fall '26: Introduction to Robot Learning (16-831), project: Learning Camera-Guided Beak Pickup with MicroDuck"
       },
       {
         icon: "🔬",
@@ -221,13 +239,13 @@ const content = {
         meta: "2007 — 2014 · Wuxi, China"
       }
     ],
-    contactTitle: "Let's Build Something Together",
-    contactBody: "I'm looking for Forward-Deployed AI Engineer, AI Solutions Engineer, and applied AI builder roles. Industry-agnostic — I prioritize problem caliber over vertical. If you have a hard AI problem in a real business, let's talk."
+    contactTitle: "Let's Put Learning on a Real Machine",
+    contactBody: "I'm looking for robotics engineering roles: robot learning, sim-to-real, deployment, evaluation, and the software around real machines. Teams where a policy has to survive contact with hardware are the ones I want to join."
   },
   zh: {
     heroName: "项峥",
-    heroTitle: '<span class="gradient-text">前置交付 AI 工程师</span>。把业务问题转化为能落地的 AI 方案，行业不设限。',
-    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学工程 硕士在读。8+ 年跨软件、方案架构与企业交付，覆盖中国、菲律宾、新加坡、印度与美国。",
+    heroTitle: '<span class="gradient-text">AI × 机器人工程师</span>。亲手造真实的机器人，再训练它动起来。',
+    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学工程 硕士在读。底子是 8+ 年生产级软件；上面是一只亲手组装的 15 舵机小鸭子，在 CMU 机器人俱乐部的地板上站立、行走、保持航向。",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "复制邮箱",
     navLinks: [
@@ -239,19 +257,19 @@ const content = {
       { label: "教育", href: "#education" }
     ],
     stats: [
-      { value: "8+", label: "年软件与方案架构经验" },
+      { value: "15", label: "亲手组装并运行的行走小鸭子的舵机数" },
+      { value: "8+", label: "年生产级软件与方案架构经验" },
       { value: "1亿+", label: "年订单量级系统维护" },
-      { value: "3.93", label: "CMU GPA (AI Engineering)" },
-      { value: "5", label: "交付覆盖国家数" }
+      { value: "3.93", label: "CMU GPA (AI Engineering)" }
     ],
     aboutLabel: "关于我",
-    aboutTitle: "工程深度 × 客户直觉 × AI 工具箱 —— 是叠加，不是跳槽。",
-    aboutBody: "我不把自己的背景读作职业跳转。生物 → 销售 → 软件 → 方案架构 → AI 工程，是一层层的库存：领域熟悉度、客户对话能力、生产级工程、跨文化交付。Forward-Deployed AI Engineering（前置交付 AI 工程师）正好是这些能力的交汇点——把业务问题翻译成 AI 方案、架构它、落地它、盯采纳。现在在 CMU 给这套库存再加一层前沿 AI 深度。",
+    aboutTitle: "生产级软件是底子，机器人是目标。",
+    aboutBody: "8 年横跨中国、菲律宾、新加坡、印度和美国的生产系统与方案交付，教会我做别人真正依赖的软件。在 CMU，我把这个底子放到了一台真实机器人下面：一只在机器人俱乐部亲手组装的 15 舵机 MicroDuck，跑 Pollen Robotics 的行走策略，用我实测建出的 as-built（按实物建模）MuJoCo（物理仿真器）模型做验收，微调前先过奖励审计，还加了官方设计没有的头部触摸感知。生物医学工程方向则为辅助机器人和实验室机器人留着一条路。",
     aboutHighlights: [
-      { icon: "🎯", title: "前置交付模式", desc: "驻场客户——诊断、架构、落地、跟进采纳" },
-      { icon: "🌐", title: "跨文化交付", desc: "花旗（中国×美国×印度×新加坡）、GCash（菲律宾）、CMU（美国）" },
+      { icon: "🤖", title: "真机器人，真闭环", desc: "15 舵机双足：头部计算板跑 50 Hz 策略循环，IMU 航向保持，触摸、摄像头和发声" },
+      { icon: "🧪", title: "带门禁的训练", desc: "按实物建模的仿真验收套件，加一道奖励审计，抓住了一个学会「站着不动」的策略" },
       { icon: "⚡", title: "生产级工程", desc: "亿级订单系统、JVM 调优、零故障运维" },
-      { icon: "🚀", title: "Operator 思维", desc: "独立创立 AI 咨询实践，赴美求学前已跑通商业收入" }
+      { icon: "🧬", title: "生物医学桥梁", desc: "AI 工程与生物医学工程并列，连接辅助机器人与实验室自动化" }
     ],
     expLabel: "工作经历",
     expTitle: "我在哪里做过事",
@@ -263,17 +281,17 @@ const content = {
         bullets: [
           "独立创立 AI 咨询与方案交付实践，以 AI 辅助工程方式交付生产级云系统，赴 CMU 前完成首个企业客户交付。",
           "为企业客户交付垃圾清运管理平台，实现早期商业收入（约 10–20 万元人民币）。",
-          "全链路主导：客户 discovery、架构、实现、部署、采纳落地——完整的 Forward-Deployed 闭环。"
+          "全链路主导：客户 discovery、架构、实现、部署、采纳落地。"
         ]
       },
       {
-        role: "解决方案架构师（proto-FDE）",
+        role: "解决方案架构师",
         company: "邦道科技 · GCash / Alipay+",
         meta: "2024.06 — 2025.08",
         bullets: [
           "驻场东南亚最大电子钱包 GCash——从业务问题到生产上线，主导华为手表可穿戴支付方案设计与落地。",
           "参与 GCash 公交二维码支付的底层方案共建与推进。",
-          "在 AI 成为主工具前就跑通了 forward-deployed 模式：深入客户、理解业务流程、做本地化 customization，跨产品/研发/合规/外部方对齐。"
+          "在 AI 成为主工具前就驻场客户现场：深入客户、理解业务流程、做本地化 customization，跨产品/研发/合规/外部方对齐。"
         ]
       },
       {
@@ -312,10 +330,27 @@ const content = {
     projectTitle: "我做过的东西",
     projects: [
       {
+        title: "CMU 第一只手工打造的 MicroDuck",
+        body: "一只按 Pollen Robotics 开源 MicroDuck 做的 15 舵机双足小鸭子，在 CMU 机器人俱乐部组装。它能站立、以 0.25 m/s 行走、靠 IMU（惯性测量单元）保持航向、嘎嘎叫、把摄像头画面传到桌面应用；抓住它的头，它会停下并稳住：头盖里有五片铜箔触摸片，这是官方设计没有的感知。头里的 Radxa Cubie A7Z 计算板跑 50 Hz 策略循环。",
+        tag: "机器人 · 2026 年组装并训练",
+        featured: true,
+        link: "./microduck/",
+        internal: true,
+        linkText: "项目页面 →",
+        techs: ["DYNAMIXEL XL330", "Radxa Cubie A7Z", "MuJoCo", "强化学习微调", "触摸感知"]
+      },
+      {
+        title: "MicroDuck 训练分支",
+        body: "Pollen Robotics 的训练仓库加上我们的 cmu/ 层：按实物建模的 MuJoCo 模型（实测质量、实测 7.87° 前倾间隙）、七用例验收套件（供电电压、IMU 频率、舵机读取丢失率都取自机器人的实测状态），以及带奖励审计启动门禁和跟踪误差守卫的微调管线——起因是第一次微调学会了站着不动，总奖励却翻了三倍。",
+        tag: "开源 · 机器人学习",
+        link: "https://github.com/qilinxiaoxiang/microduck_rl",
+        linkText: "查看仓库 →",
+        techs: ["MuJoCo", "PPO", "奖励审计", "Modal L4"]
+      },
+      {
         title: "Agentic Life OS",
         body: "本地优先的 AI 原生系统：人负责决策，智能体通过明确接口执行，确定性代码保护时间与资金状态，界面负责复核；资源调整先形成带证据和替代方案的提案，再由人批准。",
         tag: "开源 · AI 原生系统",
-        featured: true,
         link: "https://github.com/qilinxiaoxiang/agentic-life-os",
         linkText: "查看仓库 →",
         techs: ["智能体操作", "FastAPI", "SQLite", "人工批准"]
@@ -420,8 +455,9 @@ const content = {
     skillsLabel: "技能",
     skillsTitle: "我能带来什么",
     skillGroups: [
-      { icon: "🎯", label: "Forward-Deployed 与交付", tags: ["客户 Discovery", "业务问题定义", "跨领域翻译", "方案架构", "客户侧交付", "采纳落地", "PMP 认证", "敏捷 / Scrum", "跨团队协同"] },
-      { icon: "🤖", label: "AI / ML", tags: ["LLM", "RAG", "微调", "PyTorch", "scikit-learn", "LangChain", "提示词工程", "Agents"] },
+      { icon: "🤖", label: "机器人", tags: ["仿真到真机 (Sim-to-Real)", "MuJoCo", "强化学习微调 (PPO)", "奖励审计", "DYNAMIXEL 舵机", "IMU / 触摸 / 摄像头调通", "嵌入式 Linux (Radxa)", "3D 打印"] },
+      { icon: "🧠", label: "AI / 机器学习", tags: ["PyTorch", "强化学习", "模型微调", "ONNX 部署", "大语言模型", "智能体"] },
+      { icon: "🎯", label: "交付", tags: ["客户发现", "方案架构", "客户侧交付", "可观测性", "PMP 认证", "敏捷 / Scrum"] },
       { icon: "💻", label: "编程语言", tags: ["Python", "Java", "Shell", "SQL"] },
       { icon: "🗄️", label: "数据与基础设施", tags: ["MySQL", "Redis", "Elasticsearch", "Neo4j", "Hadoop", "Spark"] },
       { icon: "☁️", label: "云与 DevOps", tags: ["Docker", "Kubernetes", "AWS", "GCP", "阿里云", "CI/CD"] },
@@ -436,7 +472,7 @@ const content = {
         degree: "AI 工程 —— 生物医学工程 硕士",
         meta: "预计 2026.12 毕业 · 匹兹堡",
         gpa: "GPA: 3.93 / 4.0",
-        courses: "Fall '25：LLM 方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>Spring '26：AI 联创指南 · 深度学习导论 · 生物医学 AI 项目"
+        courses: "2025 秋：大语言模型方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>2026 春：深度学习导论 · 生物医学 AI 项目<br>2026 夏：通用机器人学（旁听） · 2026 秋：机器人学习导论（16-831），课程项目：MicroDuck 摄像头引导的鸭嘴拾取学习"
       },
       {
         icon: "🔬",
@@ -445,8 +481,8 @@ const content = {
         meta: "2007 — 2014 · 无锡"
       }
     ],
-    contactTitle: "一起做点有意思的事",
-    contactBody: "我在找前置交付 AI 工程师、AI 解决方案工程师、以及应用型 AI 开发者岗位。行业不设限——问题质量比领域更重要。如果你有真实业务里的硬 AI 问题，聊聊？"
+    contactTitle: "把学习放到真实机器上",
+    contactBody: "我在找机器人工程岗位：机器人学习、仿真到真机、部署、评测，以及围绕真实机器的软件。策略必须经得起硬件考验的团队，是我想加入的团队。"
   }
 };
 
@@ -557,7 +593,7 @@ function renderProjects(t) {
       <div class="project-techs">
         ${p.techs.map(t => `<span class="project-tech">${t}</span>`).join("")}
       </div>
-      ${p.link ? `<a class="project-link" href="${p.link}" target="_blank" rel="noreferrer">${p.linkText} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>` : ''}
+      ${p.link ? `<a class="project-link" href="${p.link}"${p.internal ? '' : ' target="_blank" rel="noreferrer"'}>${p.linkText} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>` : ''}
     </div>
   `).join("");
   setupCardTilt();

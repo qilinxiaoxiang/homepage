@@ -1040,6 +1040,9 @@ body {
   .hero-title {
     font-size: clamp(2rem, 8vw, 3rem);
   }
+  .btn-primary, .btn-secondary, .btn-ghost {
+    font-size: 1rem;
+  }
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
