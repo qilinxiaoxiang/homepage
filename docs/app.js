@@ -18,7 +18,7 @@ const content = {
       { value: "15", label: "Servos on the walking duck I built and run" },
       { value: "8+", label: "Years in Production Software & Solution Architecture" },
       { value: "100M+", label: "Annual Orders at Scale" },
-      { value: "3.93", label: "GPA at CMU (AI Engineering)" }
+      { value: "3.96", label: "GPA at CMU (AI Engineering)" }
     ],
     aboutLabel: "About Me",
     aboutTitle: "Production software is the base. The robot is the point.",
@@ -229,7 +229,7 @@ const content = {
         school: "Carnegie Mellon University",
         degree: "MS in AI Engineering — Biomedical Engineering",
         meta: "Expected Dec 2026 · Pittsburgh, PA",
-        gpa: "GPA: 3.93 / 4.0",
+        gpa: "GPA: 3.96 / 4.0",
         courses: "Fall '25: LLM Methods & Application · ML for Engineers · BCI · Systems & Toolchains for AI<br>Spring '26: Intro to Deep Learning · Projects in Biomedical AI<br>Summer '26: General Robotics (audit) · Fall '26: Introduction to Robot Learning (16-831), project: Learning Camera-Guided Beak Pickup with MicroDuck"
       },
       {
@@ -260,7 +260,7 @@ const content = {
       { value: "15", label: "亲手组装并运行的行走小鸭子的舵机数" },
       { value: "8+", label: "年生产级软件与方案架构经验" },
       { value: "1亿+", label: "年订单量级系统维护" },
-      { value: "3.93", label: "CMU GPA (AI Engineering)" }
+      { value: "3.96", label: "CMU GPA (AI Engineering)" }
     ],
     aboutLabel: "关于我",
     aboutTitle: "生产级软件是底子，机器人是目标。",
@@ -471,7 +471,7 @@ const content = {
         school: "卡内基梅隆大学",
         degree: "AI 工程 —— 生物医学工程 硕士",
         meta: "预计 2026.12 毕业 · 匹兹堡",
-        gpa: "GPA: 3.93 / 4.0",
+        gpa: "GPA: 3.96 / 4.0",
         courses: "2025 秋：大语言模型方法与应用 · 面向工程师的机器学习 · 脑机接口 · AI 工程系统与工具链<br>2026 春：深度学习导论 · 生物医学 AI 项目<br>2026 夏：通用机器人学（旁听） · 2026 秋：机器人学习导论（16-831），课程项目：MicroDuck 摄像头引导的鸭嘴拾取学习"
       },
       {
