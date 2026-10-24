@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>CMU's First Hand-Built MicroDuck | Shawn Xiang</title>
-    <meta name="description" content="A 15-servo walking duck robot built and trained by Shawn Xiang at the CMU Robotics Club after Pollen Robotics' open-source MicroDuck: head touch sensing, a Radxa Cubie A7Z head computer running the 50 Hz policy loop, an as-built MuJoCo model, reward-audited RL fine-tuning." />
+    <meta name="description" content="A 15-DoF walking duck robot built and trained by Shawn Xiang at the CMU RoboClub after Pollen Robotics' open-source MicroDuck: head touch sensing, a Radxa Cubie A7Z head computer running the 50 Hz policy loop, an as-built MuJoCo model, reward-audited RL fine-tuning." />
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
     <link rel="apple-touch-icon" href="../assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,6 +51,7 @@
       .md-prose a, .md-cards a, .md-steps a, .md-links a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(99,102,241,0.3); overflow-wrap: anywhere; }
       .md-prose a:hover, .md-cards a:hover, .md-steps a:hover, .md-links a:hover { border-bottom-color: var(--accent); }
       .md-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+      @media (min-width: 700px) { #new-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
       .md-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; min-width: 0; }
       .md-card h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
       .md-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; overflow-wrap: anywhere; }
@@ -109,7 +110,7 @@
           <h1 id="title"></h1>
           <p class="md-summary" id="summary"></p>
           <figure class="md-figure">
-            <img src="./images/hero-standing-20261023.jpg" alt="The MicroDuck standing on the floor of the CMU Robotics Club, side view: white head cap and shells, yellow and orange accents, black servo links" width="1456" height="1116" />
+            <img src="./images/hero-standing-20261023.jpg" alt="The MicroDuck standing on the floor of the CMU RoboClub, side view: white head cap and shells, yellow and orange accents, black servo links" width="1456" height="1116" />
             <figcaption id="hero-caption"></figcaption>
           </figure>
         </div>
@@ -212,30 +213,36 @@
             { label: "Home", href: "../" },
             { label: "Projects", href: "../#projects" }
           ],
-          eyebrow: "Project · CMU Robotics Club · 2026",
+          eyebrow: "Project · CMU RoboClub · 2026",
           title: "CMU's first hand-built MicroDuck",
-          summary: "A 15-servo walking duck robot, assembled and trained at the CMU Robotics Club, with head touch sensing the official design does not have.",
-          heroCaption: "Standing on the floor of the CMU Robotics Club, 2026-10-23.",
-          whatTitle: "What it is",
+          summary: "A 15-DoF biped I built from parts at the CMU RoboClub. It runs Pollen Robotics' policies; mine are the build itself, the reward-audited fine-tuning, the as-built simulation, the sim-to-real measurements and a touch sense the official robot does not have.",
+          heroCaption: "Standing on the floor of the CMU RoboClub, 2026-10-23.",
+          whatTitle: "Whose work is which",
           whatBody: `
-            <p>A 15-servo bipedal duck after <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics' open-source MicroDuck</a>, built at the CMU Robotics Club from <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe's community build tutorial</a> with our own changes. It was assembled between 2026-09-30 and 2026-10-13 and has been modified since.</p>
-            <p>Four blocks: a printed body (the community part set of 89 parts plus our releases V1.6 to V1.28, printed on the club's Bambu X1C and Elegoo Centauri Carbon); 15 ROBOTIS XL330-M288 servos in one daisy chain on a ROBOTIS OpenRB-150 running our dual-host firmware; a Radxa Cubie A7Z single-board computer in the head with a BNO085 IMU, a camera, a speaker and a touch board; and power from a 20 V USB-C source through two buck converters in the rear pack, with a 2S battery backpack being made and not yet installed.</p>
+            <p><strong>Upstream.</strong> The MicroDuck design, the MuJoCo training environment and the walking, standing and ground-pick policies (walk61, stand61, groundpick61) are <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics'</a>. The community part set and the Raspberry Pi runtime this build started from are <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe's</a>.</p>
+            <p><strong>Mine.</strong> The whole-robot build in the four blocks below (34 printed parts of my own, the servo chain and the dual-host controller firmware, the A7Z head with its sensors and the touch board, two power routes); the MuJoCo model of this robot and its acceptance suite; the fine-tuning pipeline with its reward audit and tracking guard; the sim-to-real measurements; the heading hold and the graded hold; and the camera-guided beak pickup, now in training as the 16-831 course project. Everything needed to reproduce the robot is published in <a href="https://github.com/qilinxiaoxiang/cmu-microduck" target="_blank" rel="noreferrer">cmu-microduck</a>.</p>
           `,
-          newTitle: "What is new here",
+          newTitle: "The robot in four blocks",
           newCards: [
-            { h: "Head touch sensing", p: "Five copper pads inside the head cap, read over I2C by a Seeed XIAO ESP32-S3 touch board. The official MicroDuck has no touch sense. Grab the head during a walk and the robot stops and holds still; in the graded-hold test on 2026-10-23 it held 6 of 6 lifts." },
-            { h: "A head computer running the policy loop", p: "A Radxa Cubie A7Z (Allwinner A733) in the head runs the 50 Hz control loop, the ONNX walking policy and the camera, and drives the servo bus alone over a 500 kbaud UART. The community build runs on a Raspberry Pi; this one does not." },
-            { h: "An as-built simulation model", p: "A MuJoCo model of this robot, not the stock one: measured and estimated masses, camera and mouth-tip sites, a measured 7.87° forward gap. A seven-case acceptance suite reads the servo rail voltage, IMU rate and servo read drops from the robot's measured state file, so simulation verdicts stay tied to the physical robot." },
-            { h: "A reward audit before every training run", p: "The first fine-tuning run learned to stand still while total reward tripled: in Pollen's environment standing already earns about 80% of walking's reward. A per-term reward audit now gates every launch, and a guard on velocity-tracking error stops a run that drifts." },
-            { h: "A heading hold", p: "A learned yaw trim plus a PI loop on the IMU heading keeps a walk straight; arcs are held by the IMU too. Left arcs reached 15°/s on the robot." }
+            { h: "Form", p: "AI-FanGe's 89-part community set plus 34 parts of my own: a rear converter pack, the A7Z head cap and face, split ankles with slip-fit feet and bicycle-inner-tube soles, a one-piece lower-leg link, a battery backpack. Printed on the club's Bambu X1C and Elegoo Centauri Carbon; every release passes a collision and assembly-path gate before it is sliced." },
+            { h: "Actuation", p: "15 ROBOTIS DYNAMIXEL XL330-M288 in one daisy chain on an OpenRB-150 running my dual-host firmware: a Mac drives the bus over USB for bring-up, the head computer drives it alone over a 500 kbaud UART at run time. Hip-yaw and hip-pitch horns refitted to take out play; every joint checked against a stance before torque is enabled." },
+            { h: "Intelligence and senses", p: "A Radxa Cubie A7Z (Allwinner A733) in the head runs the 50 Hz control loop, the ONNX policy and the camera. A BNO085 IMU at 50 samples per second over a device-tree overlay I wrote, a MAX98357 amplifier and speaker, the Radxa 13M camera, and five copper touch pads under the cap read by a XIAO ESP32-S3 over I2C, a sense the official design lacks." },
+            { h: "Power", p: "Route A, in daily use: a 20 V USB-C PD source (a 20 V 5 A charger or a Xiaomi 212 W power bank) through an Adafruit 5991 decoy into two XL4015 buck converters, 7.0 V to the servo rail and 5 V to the A7Z; a 60 W charger folds back at walking current and freezes the board, measured. Route B, built, not yet installed: a 2S 650 mAh LiPo straight to the servos and a DFR1202 making 5 V, swapped in with two plugs." }
           ],
           headCaption: "Inside the head cap on 2026-10-20: the copper touch pads, the XIAO touch board, the amplifier and speaker, the camera ribbon and the A7Z header.",
           newBody: `
-            <p>The sensing, the compute and the training gates are ours. The walking itself is Pollen Robotics' work: the robot runs their official policies (walk61, stand61, groundpick61), and our fine-tuned policy, better in simulation, fell on the robot at 0.20 m/s, so the official one stays deployed.</p>
+            <p><strong>Measured on the robot, fed back into the simulator.</strong></p>
+            <ul>
+              <li>IMU pipeline latency about 15 ms; 50 samples per second reach the policy loop while walking.</li>
+              <li>4 % of walking ticks miss a fresh servo read; loaded joints ignore corrections under 0.05 rad at gain 200.</li>
+              <li>Trunk gyro jitter 4 to 6 times the simulation at 5 to 25 Hz; yaw spikes of 6 to 10 rad/s precede falls.</li>
+              <li>The MuJoCo model carries the measured masses and a 7.87° forward gap; its seven-case acceptance suite reads rail voltage, IMU rate and read drops from the robot's state file, so a simulation verdict is tied to the physical robot.</li>
+              <li>Reward audit: the first PPO fine-tune learned to stand still while total reward rose 27.6 to 98.8; the per-term audit showed standing already earns 80 % of walking's reward in the stock environment. A launch gate and a tracking guard now stop such runs. The filtered-reward fine-tune walked 17 to 69 % further in simulation and fell at 0.20 m/s on the robot, so the stock policy stays deployed; that gap is the current measurement target.</li>
+            </ul>
           `,
-          todayTitle: "What it does today",
+          todayTitle: "Status on the robot, 2026-10-23",
           todayCards: [
-            { h: "Stands and walks", p: "On Pollen's official policies at 0.25 m/s. First free stand 2026-10-13, first walks 2026-10-16." },
+            { h: "Stands and walks", p: "On Pollen's official policies at 0.25 m/s, from the onboard computer. First free stand 2026-10-13, first walks 2026-10-16." },
             { h: "Walks straight and arcs", p: "The heading hold on the IMU keeps a walk straight and holds commanded arcs; it stops and turns on command. Falls still happen." },
             { h: "Stops when you grab its head", p: "All five touch pads work; a head grip during a walk stops the walk and holds the robot." },
             { h: "Quacks", p: "Real duck recordings through the speaker, jaw moving, jaw pressed shut after the quack." },
@@ -272,7 +279,7 @@
           ],
           creditsTitle: "Credits",
           creditsBody: `
-            <p><a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> for the MicroDuck design, the training environment and the policies. <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> for the community build tutorial and the Raspberry Pi runtime this build started from. The <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU Robotics Club</a> for the printers, tools and parts drawers.</p>
+            <p><a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> for the MicroDuck design, the training environment and the policies. <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> for the community build tutorial and the Raspberry Pi runtime this build started from. The <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a> for the printers, tools and parts drawers.</p>
           `,
           backHome: "← Back to shawnxiang.com"
         },
@@ -281,28 +288,34 @@
             { label: "首页", href: "../" },
             { label: "项目", href: "../#projects" }
           ],
-          eyebrow: "项目 · CMU 机器人俱乐部 · 2026",
+          eyebrow: "项目 · CMU RoboClub · 2026",
           title: "CMU 第一只手工打造的 MicroDuck",
-          summary: "一只 15 舵机的行走小鸭子机器人，在 CMU 机器人俱乐部组装并训练，带有官方设计没有的头部触摸感知。",
-          heroCaption: "2026-10-23，站在 CMU 机器人俱乐部的地板上。",
-          whatTitle: "它是什么",
+          summary: "一台我在 CMU RoboClub 从零件装出来的 15 自由度双足机器人。它跑的是 Pollen Robotics 的策略；我的部分是整机本身、带奖励审计的微调、按实物建的仿真、sim-to-real（仿真到实机）的实测，以及官方没有的触觉。",
+          heroCaption: "2026-10-23，站在 CMU RoboClub 的地板上。",
+          whatTitle: "哪些是谁的工作",
           whatBody: `
-            <p>一只按 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics 开源 MicroDuck</a> 做的 15 舵机双足小鸭子，在 CMU 机器人俱乐部按 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe 的社区组装教程</a>搭起来，加上了我们自己的改动。2026-09-30 到 2026-10-13 完成组装，之后一直在改。</p>
-            <p>四个模块：打印的身体（社区的 89 个零件，加上我们自己的 V1.6 到 V1.28 版本零件，用俱乐部的 Bambu X1C 和 Elegoo Centauri Carbon 打印）；15 个 ROBOTIS XL330-M288 舵机串成一条菊花链，接在跑我们双主机固件的 ROBOTIS OpenRB-150 控制板上；头里一块 Radxa Cubie A7Z 单板计算机，带 BNO085 IMU（Inertial Measurement Unit，惯性测量单元）、摄像头、扬声器和触摸板；供电从 20 V USB-C 电源经背包里的两个降压模块分出，2S 电池背包正在做、尚未装上。</p>
+            <p><strong>上游。</strong>MicroDuck 的设计、MuJoCo（物理仿真器）训练环境和行走、站立、低头拾取策略（walk61、stand61、groundpick61）是 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的；社区打印件和这台机器起步时用的树莓派运行时是 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的。</p>
+            <p><strong>我的。</strong>下面四块里的整机（34 个自己设计的打印件、舵机链和双主机控制器固件、带传感器和触摸板的 A7Z 头部、两路供电）；这台机器的 MuJoCo 模型和验收套件；带奖励审计和跟踪守卫的微调流水线；sim-to-real 实测；航向保持和分级抱持；以及正在训练的相机引导喙部拾取（16-831 课程项目）。复现整台机器所需的一切都公开在 <a href="https://github.com/qilinxiaoxiang/cmu-microduck" target="_blank" rel="noreferrer">cmu-microduck</a>。</p>
           `,
-          newTitle: "新在哪里",
+          newTitle: "整机四块",
           newCards: [
-            { h: "头部触摸感知", p: "头盖内侧贴了五片铜箔，由一块 Seeed XIAO ESP32-S3 触摸板经 I2C（芯片间串行总线）读取。官方 MicroDuck 没有触摸感知。行走中抓住它的头，机器人会停下并稳住；2026-10-23 的分级抱持测试里，6 次提起 6 次都稳住了。" },
-            { h: "头里的计算板跑策略循环", p: "头里一块 Radxa Cubie A7Z（Allwinner A733 芯片）跑 50 Hz 控制循环、ONNX（Open Neural Network Exchange，开放神经网络交换格式）格式的行走策略和摄像头，并单独经 500 kbaud 的 UART（串口）驱动舵机总线。社区版本跑在树莓派上，这只不是。" },
-            { h: "按实物建模的仿真模型", p: "一个按这只机器人（而不是官方模型）建的 MuJoCo（物理仿真器）模型：实测和估算的质量、摄像头与嘴尖位置、实测 7.87° 的前倾间隙。七用例验收套件从机器人的实测状态文件读取舵机供电电压、IMU 频率和舵机读取丢失率，让仿真结论始终绑在真机上。" },
-            { h: "每次训练前的奖励审计", p: "第一次微调学会了站着不动，总奖励却翻了三倍：在 Pollen 的环境里，站着就已经拿到行走约 80% 的奖励。现在每次启动前先过逐项奖励审计，训练中再由速度跟踪误差守卫叫停跑偏的运行。" },
-            { h: "航向保持", p: "学到的偏航修正量加上 IMU 航向的 PI 控制环，让直线行走不跑偏；转弯弧线同样由 IMU 保持。真机左转弧线达到 15°/s。" }
+            { h: "外形", p: "AI-FanGe 的 89 件社区打印件加 34 件我自己的：后部转换器包、A7Z 头盖和面板、分体脚踝配滑配脚和自行车内胎鞋底、一体式小腿连杆、电池背包。在社团的 Bambu X1C 和 Elegoo Centauri Carbon 上打印；每个发布版切片前都过一道碰撞和装配路径的门禁。" },
+            { h: "动力", p: "15 个 ROBOTIS DYNAMIXEL XL330-M288 一条菊花链接在 OpenRB-150 上，跑我写的双主机固件：装机调试时 Mac 走 USB 驱动总线，运行时头部计算板独自走 500 kbaud 的 UART（串口）驱动。髋部偏航和俯仰的舵盘重新装过以消除间隙；上电前每个关节都按站姿校验。" },
+            { h: "智能与感官", p: "头里一块 Radxa Cubie A7Z（Allwinner A733）跑 50 Hz 控制循环、ONNX 策略和相机。BNO085 IMU（惯性测量单元）靠我写的设备树覆盖以每秒 50 次采样，MAX98357 功放和喇叭，Radxa 13M 相机，还有头盖内五片铜箔触摸垫，由 XIAO ESP32-S3 经 I2C（两线总线）读出，这是官方设计没有的感官。" },
+            { h: "供电", p: "A 路，日常使用：20 V USB-C PD 电源（20 V 5 A 充电器或小米 212 W 充电宝）经 Adafruit 5991 诱骗板进两个 XL4015 降压模块，7.0 V 给舵机母线，5 V 给 A7Z；60 W 充电器在行走电流下回折、让板子死机，实测。B 路，已做好未安装：2S 650 mAh 锂电直供舵机，DFR1202 出 5 V，两个插头即可换装。" }
           ],
-          headCaption: "2026-10-20 的头盖内部：铜箔触摸片、XIAO 触摸板、功放与扬声器、摄像头排线和 A7Z 排针。",
+          headCaption: "2026-10-20 头盖内部：铜箔触摸垫、XIAO 触摸板、功放和喇叭、相机排线和 A7Z 排针。",
           newBody: `
-            <p>感知、计算板和训练门禁是我们做的。行走本身是 Pollen Robotics 的工作：机器人跑他们的官方策略（walk61、stand61、groundpick61）；我们微调出的策略仿真里更好，真机上在 0.20 m/s 摔了，所以部署的仍是官方策略。</p>
+            <p><strong>在机器人上实测，再喂回仿真器。</strong></p>
+            <ul>
+              <li>IMU 链路延迟约 15 ms；行走时每秒 50 个样本到达策略循环。</li>
+              <li>行走时 4 % 的周期读不到新的舵机数据；受力关节在增益 200 下忽略小于 0.05 rad 的修正。</li>
+              <li>躯干陀螺仪抖动是仿真的 4 到 6 倍（5 到 25 Hz）；摔倒前有 6 到 10 rad/s 的偏航尖峰。</li>
+              <li>MuJoCo 模型带实测质量和 7.87° 前倾间隙；七案例验收套件从机器人的状态文件读母线电压、IMU 频率和丢读率，仿真结论因此绑在实物上。</li>
+              <li>奖励审计：第一次 PPO 微调学会了站着不动，总奖励却从 27.6 涨到 98.8；逐项审计显示在原环境里站立已拿到行走奖励的 80 %。现在有启动门禁和跟踪守卫拦住这类训练。换成滤波奖励的微调在仿真里多走 17 到 69 %，在机器人上 0.20 m/s 摔倒，所以原策略继续部署；这个差距就是当前的实测目标。</li>
+            </ul>
           `,
-          todayTitle: "它现在能做什么",
+          todayTitle: "机器人上的状态，2026-10-23",
           todayCards: [
             { h: "站立与行走", p: "用 Pollen 的官方策略以 0.25 m/s 行走。2026-10-13 第一次独立站立，2026-10-16 第一次行走。" },
             { h: "走直线与转弯", p: "IMU 航向保持让它走直线、按指令走弧线；能按指令停下和转向。摔倒仍会发生。" },
@@ -341,7 +354,7 @@
           ],
           creditsTitle: "致谢",
           creditsBody: `
-            <p>感谢 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的 MicroDuck 设计、训练环境和策略；感谢 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的社区组装教程和这次搭建起步所用的树莓派运行时；感谢 <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU 机器人俱乐部</a>的打印机、工具和零件抽屉。</p>
+            <p>感谢 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的 MicroDuck 设计、训练环境和策略；感谢 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的社区组装教程和这次搭建起步所用的树莓派运行时；感谢 <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a>的打印机、工具和零件抽屉。</p>
           `,
           backHome: "← 返回 shawnxiang.com"
         }

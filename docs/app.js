@@ -2,8 +2,8 @@
 const content = {
   en: {
     heroName: "Shawn (Zheng) Xiang",
-    heroTitle: '<span class="gradient-text">AI × Robotics engineer</span>. I build real robots and train them to move.',
-    heroDesc: "MS in AI Engineering — Biomedical Engineering at Carnegie Mellon. Eight-plus years of production software underneath; on top of it, a hand-built 15-servo duck that stands, walks and holds its heading on the floor of the CMU Robotics Club.",
+    heroTitle: '<span class="gradient-text">AI × Robotics engineer</span>. I hand-build legged robots and measure how reinforcement-learning policies transfer to them.',
+    heroDesc: "MS in AI Engineering at Carnegie Mellon, Dec 2026, on eight years of production software. Current robot: a 15-DoF MicroDuck biped built from parts at the CMU RoboClub, printed body, servo chain and controller firmware, onboard computer and sensors, two power routes. Its walking policies are Pollen Robotics'; the as-built simulation, the reward-audited fine-tuning, the sim-to-real measurements and the camera-guided beak pickup now in training are mine.",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "Copy Email",
     navLinks: [
@@ -15,19 +15,19 @@ const content = {
       { label: "Education", href: "#education" }
     ],
     stats: [
-      { value: "15", label: "Servos on the walking duck I built and run" },
+      { value: "15", label: "DoF on the biped I built from parts and run" },
       { value: "8+", label: "Years in Production Software & Solution Architecture" },
       { value: "100M+", label: "Annual Orders at Scale" },
       { value: "3.96", label: "GPA at CMU (AI Engineering)" }
     ],
     aboutLabel: "About Me",
-    aboutTitle: "Production software is the base. The robot is the point.",
-    aboutBody: "Eight years of production systems and solution delivery across China, the Philippines, Singapore, India and the US taught me to ship software that other people depend on. At CMU I put that base under a real robot: a 15-servo MicroDuck I assembled at the Robotics Club, running Pollen Robotics' walking policies, judged in an as-built MuJoCo model I measured, fine-tuned behind a reward audit, and fitted with head touch sensing the official design does not have. My biomedical engineering track keeps a path open to assistive and laboratory robots.",
+    aboutTitle: "Two things I can show: a complete robot built by hand, and learning that is measured on it.",
+    aboutBody: "Eight years of production systems and solution delivery across China, the Philippines, Singapore, India and the US taught me to ship software that other people depend on. At CMU I put that base under a real robot. The MicroDuck biped at the CMU RoboClub is mine end to end: 34 printed parts of my own on the community part set, 15 DYNAMIXEL XL330 in one chain on an OpenRB-150 running my dual-host firmware, a Radxa Cubie A7Z head with IMU, camera, speaker and a five-pad touch sense the official design lacks, and two power routes. It walks on Pollen Robotics' policies. On top of it I built the as-built MuJoCo model with its acceptance suite, a fine-tuning pipeline whose reward audit caught a policy learning to stand still, and the sim-to-real measurements (IMU latency, servo deadband, read drops, trunk jitter) that decide what gets trained next. The current training target is the camera-guided beak pickup: find an object on the floor, walk to it, crouch, pick it up.",
     aboutHighlights: [
-      { icon: "🤖", title: "Real Robot, Real Loop", desc: "15-servo biped with a 50 Hz policy loop on its head computer, IMU heading hold, touch, camera and voice" },
-      { icon: "🧪", title: "Train Behind Gates", desc: "As-built simulation acceptance suite and a reward audit that caught a policy learning to stand still" },
-      { icon: "⚡", title: "Production Engineering", desc: "100M+ order systems, JVM tuning, zero-downtime ops" },
-      { icon: "🧬", title: "Biomedical Bridge", desc: "AI Engineering and Biomedical Engineering, with a path into assistive and laboratory robotics" }
+      { icon: "🤖", title: "Whole-Robot Build", desc: "Form, actuation, onboard intelligence and power supply, built and wired by hand: 15 DoF, a 50 Hz policy loop on the head computer, two power routes" },
+      { icon: "🧪", title: "RL Behind Gates", desc: "Reward audit and tracking guard on every fine-tune; the first run learned to stand still while total reward tripled, and the per-term audit explained why" },
+      { icon: "📏", title: "Sim-to-Real, Measured", desc: "IMU latency about 15 ms, servo deadband 0.05 rad, 4 % read drops, trunk jitter 4 to 6 times the simulation, all fed back into the as-built model" },
+      { icon: "⚡", title: "Production Engineering", desc: "100M+ order systems, JVM tuning, zero-downtime ops" }
     ],
     expLabel: "Experience",
     expTitle: "Where I've Built Things",
@@ -89,8 +89,8 @@ const content = {
     projects: [
       {
         title: "CMU's first hand-built MicroDuck",
-        body: "A 15-servo bipedal duck after Pollen Robotics' open-source MicroDuck, assembled at the CMU Robotics Club. It stands, walks at 0.25 m/s, holds its heading on the IMU, quacks, streams its camera into the desktop app, and stops and holds still when you grab its head: five copper touch pads under the head cap, a sense the official design does not have. A Radxa Cubie A7Z in the head runs the 50 Hz policy loop.",
-        tag: "Robotics · Built and trained, 2026",
+        body: "A 15-DoF bipedal duck after Pollen Robotics' open-source MicroDuck, built from parts at the CMU RoboClub: 34 printed parts of my own, a servo chain on an OpenRB-150 with my dual-host firmware, a Radxa Cubie A7Z head with IMU, camera, speaker and five copper touch pads the official design does not have, and two power routes. It walks at 0.25 m/s on Pollen's policies with my heading hold and graded hold. The as-built simulation, the reward-audited fine-tuning and the sim-to-real measurements are the training base for the camera-guided beak pickup, now in training.",
+        tag: "Robotics · Built 2026 · pickup policy in training",
         featured: true,
         link: "./microduck/",
         internal: true,
@@ -244,8 +244,8 @@ const content = {
   },
   zh: {
     heroName: "项峥",
-    heroTitle: '<span class="gradient-text">AI × 机器人工程师</span>。亲手造真实的机器人，再训练它动起来。',
-    heroDesc: "卡内基梅隆大学 AI 工程 —— 生物医学工程 硕士在读。底子是 8+ 年生产级软件；上面是一只亲手组装的 15 舵机小鸭子，在 CMU 机器人俱乐部的地板上站立、行走、保持航向。",
+    heroTitle: '<span class="gradient-text">AI × 机器人工程师</span>。亲手造足式机器人，并实测强化学习策略迁移到实机的效果。',
+    heroDesc: "卡内基梅隆大学 AI 工程硕士，2026 年 12 月毕业，底子是 8 年生产级软件。当前的机器人：一台在 CMU RoboClub 从零件装起来的 15 自由度 MicroDuck 双足，打印机身、舵机链和控制器固件、机载计算板和传感器、两路供电。它的行走策略是 Pollen Robotics 的；按实物建的仿真、带奖励审计的微调、sim-to-real（仿真到实机）实测，以及正在训练的相机引导喙部拾取，是我的。",
     ctaLinkedin: "LinkedIn",
     ctaEmail: "复制邮箱",
     navLinks: [
@@ -257,19 +257,19 @@ const content = {
       { label: "教育", href: "#education" }
     ],
     stats: [
-      { value: "15", label: "亲手组装并运行的行走小鸭子的舵机数" },
+      { value: "15", label: "亲手从零件装起并运行的双足机器人自由度" },
       { value: "8+", label: "年生产级软件与方案架构经验" },
       { value: "1亿+", label: "年订单量级系统维护" },
       { value: "3.96", label: "CMU GPA (AI Engineering)" }
     ],
     aboutLabel: "关于我",
-    aboutTitle: "生产级软件是底子，机器人是目标。",
-    aboutBody: "8 年横跨中国、菲律宾、新加坡、印度和美国的生产系统与方案交付，教会我做别人真正依赖的软件。在 CMU，我把这个底子放到了一台真实机器人下面：一只在机器人俱乐部亲手组装的 15 舵机 MicroDuck，跑 Pollen Robotics 的行走策略，用我实测建出的 as-built（按实物建模）MuJoCo（物理仿真器）模型做验收，微调前先过奖励审计，还加了官方设计没有的头部触摸感知。生物医学工程方向则为辅助机器人和实验室机器人留着一条路。",
+    aboutTitle: "能拿出来的两件事：一台亲手造的完整机器人，和在它身上实测过的学习。",
+    aboutBody: "8 年横跨中国、菲律宾、新加坡、印度和美国的生产系统与方案交付，教会我做别人真正依赖的软件。在 CMU，我把这个底子放到了一台真实机器人下面。RoboClub 这台 MicroDuck 双足从头到尾是我的：社区打印件之上 34 个自己设计的零件，15 个 DYNAMIXEL XL330 一条链接在跑我双主机固件的 OpenRB-150 上，Radxa Cubie A7Z 头部带 IMU（惯性测量单元）、相机、喇叭和官方设计没有的五片触摸感知，以及两路供电。它跑的是 Pollen Robotics 的行走策略。在此之上我建了按实物建模的 MuJoCo（物理仿真器）模型和验收套件、一条带奖励审计的微调流水线（它抓住了一个学会站着不动的策略），以及决定下一步训什么的 sim-to-real 实测（IMU 延迟、舵机死区、丢读率、躯干抖动）。当前训练目标是相机引导的喙部拾取：在地上找到物体、走过去、蹲下、用嘴捡起。",
     aboutHighlights: [
-      { icon: "🤖", title: "真机器人，真闭环", desc: "15 舵机双足：头部计算板跑 50 Hz 策略循环，IMU 航向保持，触摸、摄像头和发声" },
-      { icon: "🧪", title: "带门禁的训练", desc: "按实物建模的仿真验收套件，加一道奖励审计，抓住了一个学会「站着不动」的策略" },
-      { icon: "⚡", title: "生产级工程", desc: "亿级订单系统、JVM 调优、零故障运维" },
-      { icon: "🧬", title: "生物医学桥梁", desc: "AI 工程与生物医学工程并列，连接辅助机器人与实验室自动化" }
+      { icon: "🤖", title: "整机手造", desc: "外形、动力、机载智能和供电全部亲手造好接好：15 自由度，头部计算板跑 50 Hz 策略循环，两路供电" },
+      { icon: "🧪", title: "带门禁的强化学习", desc: "每次微调都过奖励审计和跟踪守卫；第一次训练学会了站着不动而总奖励翻三倍，逐项审计说清了原因" },
+      { icon: "📏", title: "实测过的 sim-to-real", desc: "IMU 延迟约 15 ms，舵机死区 0.05 rad，丢读率 4 %，躯干抖动是仿真的 4 到 6 倍，全部喂回按实物建的模型" },
+      { icon: "⚡", title: "生产级工程", desc: "亿级订单系统、JVM 调优、零故障运维" }
     ],
     expLabel: "工作经历",
     expTitle: "我在哪里做过事",
@@ -331,8 +331,8 @@ const content = {
     projects: [
       {
         title: "CMU 第一只手工打造的 MicroDuck",
-        body: "一只按 Pollen Robotics 开源 MicroDuck 做的 15 舵机双足小鸭子，在 CMU 机器人俱乐部组装。它能站立、以 0.25 m/s 行走、靠 IMU（惯性测量单元）保持航向、嘎嘎叫、把摄像头画面传到桌面应用；抓住它的头，它会停下并稳住：头盖里有五片铜箔触摸片，这是官方设计没有的感知。头里的 Radxa Cubie A7Z 计算板跑 50 Hz 策略循环。",
-        tag: "机器人 · 2026 年组装并训练",
+        body: "一台按 Pollen Robotics 开源 MicroDuck 做的 15 自由度双足，在 CMU RoboClub 从零件装起：34 个自己设计的打印件、接在跑我双主机固件的 OpenRB-150 上的舵机链、带 IMU（惯性测量单元）、相机、喇叭和官方设计没有的五片铜箔触摸垫的 Radxa Cubie A7Z 头部，以及两路供电。它以 0.25 m/s 跑 Pollen 的策略，配我的航向保持和分级抱持。按实物建的仿真、带奖励审计的微调和 sim-to-real（仿真到实机）实测，是正在训练的相机引导喙部拾取的训练底座。",
+        tag: "机器人 · 2026 年手造 · 拾取策略训练中",
         featured: true,
         link: "./microduck/",
         internal: true,
