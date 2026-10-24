@@ -186,6 +186,13 @@
         </div>
       </section>
 
+      <section class="md-section" id="next">
+        <div class="container">
+          <h2 id="next-title"></h2>
+          <div class="md-prose" id="next-body"></div>
+        </div>
+      </section>
+
       <section class="md-section" id="credits">
         <div class="container">
           <h2 id="credits-title"></h2>
@@ -277,6 +284,13 @@
             { href: "https://www.linkedin.com/feed/update/urn:li:activity:7516994475253059584/", t: "Learning to walk.", d: "2026-10-16" },
             { href: "https://www.linkedin.com/feed/update/urn:li:activity:7519503040069021697/", t: "My handmade microduck can finally walk and quack!", d: "2026-10-23" }
           ],
+          nextTitle: "Where this goes",
+          nextBody: `
+            <p>The pickup is the technical stepping stone. Two directions sit behind it.</p>
+            <p><strong>A companion robot</strong> that is neither a toy nor a tool: it recognises its owner from other people, keeps a memory of ordinary days and special ones, and gives steady emotional support without speech. The MicroDuck's touch sense, camera and onboard loop are the first pieces of that stack; the rest needs funding and a team.</p>
+            <p><strong>A robotics club</strong> run like a neighbourhood badminton club: adults and children, venue, printers and parts provided, monthly courses, something learned on every visit, drop in and come back whenever. The public build repository and the assembly guide are written so that this is possible.</p>
+            <p>A robot-learning role at a robotics company, working on policies that have to survive contact with hardware, is the other path I am pursuing now.</p>
+          `,
           creditsTitle: "Credits",
           creditsBody: `
             <p><a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> for the MicroDuck design, the training environment and the policies. <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> for the community build tutorial and the Raspberry Pi runtime this build started from. The <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a> for the printers, tools and parts drawers.</p>
@@ -352,6 +366,13 @@
             { href: "https://www.linkedin.com/feed/update/urn:li:activity:7516994475253059584/", t: "Learning to walk.", d: "2026-10-16" },
             { href: "https://www.linkedin.com/feed/update/urn:li:activity:7519503040069021697/", t: "My handmade microduck can finally walk and quack!", d: "2026-10-23" }
           ],
+          nextTitle: "下一步去哪",
+          nextBody: `
+            <p>拾取是技术上的垫脚石，后面有两个方向。</p>
+            <p><strong>陪伴机器人</strong>，既不是玩具也不是工具：认得主人和其他人的区别，记得日常和特殊的日子，不说话，但给稳定的情感支持。MicroDuck 的触觉、相机和机载循环是这套东西的第一批零件；剩下的需要融资和团队。</p>
+            <p><strong>机器人社区</strong>，像小区里的羽毛球俱乐部那样运营：大人小孩都来，场地、打印机和零件俱全，按月开课，每次来都学到一点，随时中断随时回来。公开的构建仓库和装配指南就是按这个可能性写的。</p>
+            <p>去机器人公司做机器人学习，做那些必须经得起真机考验的策略，是我现在同时在走的另一条路。</p>
+          `,
           creditsTitle: "致谢",
           creditsBody: `
             <p>感谢 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的 MicroDuck 设计、训练环境和策略；感谢 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的社区组装教程和这次搭建起步所用的树莓派运行时；感谢 <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a>的打印机、工具和零件抽屉。</p>
@@ -410,6 +431,8 @@
         setText("log-title", t.logTitle);
         setHTML("log-intro", t.logIntro);
         setHTML("log-links", linkCards(t.logLinks, true));
+        setText("next-title", t.nextTitle);
+        setHTML("next-body", t.nextBody);
         setText("credits-title", t.creditsTitle);
         setHTML("credits-body", t.creditsBody);
         setText("back-home", t.backHome);
