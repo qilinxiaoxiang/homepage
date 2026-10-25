@@ -38,6 +38,7 @@
         box-shadow: var(--shadow-lg);
         background: var(--surface);
       }
+      .md-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); background: var(--surface); }
       .md-figure figcaption { margin-top: 10px; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.5; }
       .md-section { padding: 48px 0 8px; }
       .md-section h2 {
@@ -110,7 +111,7 @@
           <h1 id="title"></h1>
           <p class="md-summary" id="summary"></p>
           <figure class="md-figure">
-            <img src="./images/hero-standing-20261023.jpg" alt="The MicroDuck standing on the floor of the CMU RoboClub, side view: white head cap and shells, yellow and orange accents, black servo links" width="1456" height="1116" />
+            <video class="md-video" src="./video/hero-walk.mp4" poster="./video/hero-walk.jpg" autoplay muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="The MicroDuck walking on a table, turning toward the camera and stopping"></video>
             <figcaption id="hero-caption"></figcaption>
           </figure>
         </div>
@@ -140,7 +141,21 @@
       <section class="md-section" id="today">
         <div class="container">
           <h2 id="today-title"></h2>
+          <div class="md-grid-2" style="margin:0 0 22px">
+            <figure class="md-figure">
+              <video class="md-video" src="./video/touch-stop.mp4" poster="./video/touch-stop.jpg" autoplay muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="A palm on the MicroDuck's head stops its walk"></video>
+              <figcaption id="touch-caption"></figcaption>
+            </figure>
+            <figure class="md-figure">
+              <video class="md-video" src="./video/quack.mp4" poster="./video/quack.jpg" controls playsinline preload="metadata" width="1920" height="1080" aria-label="The MicroDuck quacking with its jaw moving, sound on"></video>
+              <figcaption id="quack-caption"></figcaption>
+            </figure>
+          </div>
           <div class="md-cards" id="today-cards"></div>
+          <figure class="md-figure" style="margin-top:22px">
+            <img src="./images/hero-standing-20261023.jpg" alt="The MicroDuck standing on the floor of the CMU RoboClub, side view: white head cap and shells, yellow and orange accents, black servo links" width="1456" height="1116" loading="lazy" />
+            <figcaption id="standing-caption"></figcaption>
+          </figure>
           <div class="md-prose" id="today-limit" style="margin-top:18px"></div>
         </div>
       </section>
@@ -223,7 +238,10 @@
           eyebrow: "Project · CMU RoboClub · 2026",
           title: "CMU's first hand-built MicroDuck",
           summary: "A 15-DoF biped I built from parts at the CMU RoboClub. It runs Pollen Robotics' policies; mine are the build itself, the reward-audited fine-tuning, the as-built simulation, the sim-to-real measurements and a touch sense the official robot does not have.",
-          heroCaption: "Standing on the floor of the CMU RoboClub, 2026-10-23.",
+          heroCaption: "2026-10-24, on a table at the CMU RoboClub: Pollen Robotics' walking policy with my IMU heading hold, a left arc, then a stop. Power comes over the USB-C lead from a power bank.",
+          touchCaption: "A palm on the head cap stops the walk: five copper pads under the cap, read by the XIAO touch board, latch a stop and hand the robot to the graded hold.",
+          quackCaption: "Quacking, sound on: real duck recordings through the head speaker, the jaw opening with each call and pressed shut after.",
+          standingCaption: "Standing on the floor of the CMU RoboClub, 2026-10-23.",
           whatTitle: "Whose work is which",
           whatBody: `
             <p><strong>Upstream.</strong> The MicroDuck design, the MuJoCo training environment and the walking, standing and ground-pick policies (walk61, stand61, groundpick61) are <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics'</a>. The community part set and the Raspberry Pi runtime this build started from are <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe's</a>.</p>
@@ -305,7 +323,10 @@
           eyebrow: "项目 · CMU RoboClub · 2026",
           title: "CMU 第一只手工打造的 MicroDuck",
           summary: "一台我在 CMU RoboClub 从零件装出来的 15 自由度双足机器人。它跑的是 Pollen Robotics 的策略；我的部分是整机本身、带奖励审计的微调、按实物建的仿真、sim-to-real（仿真到实机）的实测，以及官方没有的触觉。",
-          heroCaption: "2026-10-23，站在 CMU RoboClub 的地板上。",
+          heroCaption: "2026-10-24，CMU RoboClub 的桌面上：Pollen Robotics 的行走策略加我的 IMU 航向保持，左转一段弧线后停下。电从充电宝经 USB-C 线供给。",
+          touchCaption: "手掌按住头盖，行走就停：头盖下五片铜箔触摸垫由 XIAO 触摸板读出，锁存停止并把机器人交给分级抱持。",
+          quackCaption: "嘎嘎叫（有声音）：头部喇叭播放真实鸭叫录音，每声嘴都张开，叫完压回闭合。",
+          standingCaption: "2026-10-23，站在 CMU RoboClub 的地板上。",
           whatTitle: "哪些是谁的工作",
           whatBody: `
             <p><strong>上游。</strong>MicroDuck 的设计、MuJoCo（物理仿真器）训练环境和行走、站立、低头拾取策略（walk61、stand61、groundpick61）是 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的；社区打印件和这台机器起步时用的树莓派运行时是 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的。</p>
@@ -405,6 +426,9 @@
         setText("title", t.title);
         setText("summary", t.summary);
         setText("hero-caption", t.heroCaption);
+        setText("touch-caption", t.touchCaption);
+        setText("quack-caption", t.quackCaption);
+        setText("standing-caption", t.standingCaption);
         setText("what-title", t.whatTitle);
         setHTML("what-body", t.whatBody);
         setText("new-title", t.newTitle);

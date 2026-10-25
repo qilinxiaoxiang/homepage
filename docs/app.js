@@ -2,6 +2,7 @@
 const content = {
   en: {
     heroName: "Shawn (Zheng) Xiang",
+    heroVideoCaption: "MicroDuck at the CMU RoboClub, 2026-10-24. Walking policy: Pollen Robotics'. Build, heading hold and touch sense: mine.",
     heroTitle: '<span class="gradient-text">AI × Robotics engineer</span>. I hand-build legged robots and measure how reinforcement-learning policies transfer to them.',
     heroDesc: "MS in AI Engineering at Carnegie Mellon, Dec 2026, on eight years of production software. Current robot: a 15-DoF MicroDuck biped built from parts at the CMU RoboClub, printed body, servo chain and controller firmware, onboard computer and sensors, two power routes. Its walking policies are Pollen Robotics'; the as-built simulation, the reward-audited fine-tuning, the sim-to-real measurements and the camera-guided beak pickup now in training are mine.",
     ctaLinkedin: "LinkedIn",
@@ -244,6 +245,7 @@ const content = {
   },
   zh: {
     heroName: "项峥",
+    heroVideoCaption: "MicroDuck，CMU RoboClub，2026-10-24。行走策略来自 Pollen Robotics；整机、航向保持和触觉是我做的。",
     heroTitle: '<span class="gradient-text">AI × 机器人工程师</span>。亲手造足式机器人，并实测强化学习策略迁移到实机的效果。',
     heroDesc: "卡内基梅隆大学 AI 工程硕士，2026 年 12 月毕业，底子是 8 年生产级软件。当前的机器人：一台在 CMU RoboClub 从零件装起来的 15 自由度 MicroDuck 双足，打印机身、舵机链和控制器固件、机载计算板和传感器、两路供电。它的行走策略是 Pollen Robotics 的；按实物建的仿真、带奖励审计的微调、sim-to-real（仿真到实机）实测，以及正在训练的相机引导喙部拾取，是我的。",
     ctaLinkedin: "LinkedIn",
@@ -668,6 +670,7 @@ function render() {
 
   // Hero
   document.getElementById("hero-name").textContent = t.heroName;
+  document.getElementById("hero-video-caption").textContent = t.heroVideoCaption;
   document.getElementById("hero-title").innerHTML = t.heroTitle;
   document.getElementById("hero-desc").textContent = t.heroDesc;
   document.getElementById("cta-linkedin-text").textContent = t.ctaLinkedin;
