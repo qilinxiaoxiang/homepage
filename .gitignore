@@ -22,4 +22,5 @@ narrative.txt
 
 # Keep repo instructions if needed
 !AGENTS.md
+!README.md
 .DS_Store

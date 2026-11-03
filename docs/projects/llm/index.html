@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   LLM fine-tuning | Shawn Xiang
+  </title>
+  <meta content="Full fine-tuning versus LoRA for structured medical answers, with a 40-question evaluation and explicit team contributions." name="description"/>
+  <link href="https://shawnxiang.com/projects/llm/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a aria-current="page" href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../../projects/eeg/">
+     EEG decoding
+    </a>
+    <a href="../../projects/cooling/">
+     Cooling robot
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     CMU 11-667 · Fall 2025 · Team project
+    </p>
+    <h1>
+     Structured medical QA
+    </h1>
+    <p class="lead">
+     Can a small language model produce an answer with a reliable hierarchy, rather than a flat list of suggestions?
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Built the transformed training dataset and ran the full fine-tuning and LoRA experiments. Teammate Xinshi Wang developed the evaluation approach and in-context-learning experiments.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Structural compliance: Qwen full 95%, Qwen LoRA 47.5%, DeepSeek full 92.5%, DeepSeek LoRA 62.5%" height="380" loading="eager" src="../../assets/projects/llm-results.svg" width="600"/>
+     <figcaption>
+      Results from the project report, Table 4. Forty held-out questions; all four models evaluated under the same structural rules.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      Task and implementation
+     </h2>
+     <p>
+      The model takes a medical question and produces a hierarchy of categories, subcategories, and details. The structure aims for mutually exclusive, collectively exhaustive (MECE) groups, at least three levels, and at most five children per node.
+     </p>
+     <p>
+      I converted source doctor answers into this format with a parallel DeepSeek API pipeline, then compared Qwen2.5-0.5B and DeepSeek-R1-1.5B under full fine-tuning and rank-8 LoRA. Training masks the input tokens so the loss applies to the answer.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     Result and interpretation
+    </h2>
+    <p>
+     Qwen full fine-tuning reached
+     <strong>
+      95% structural compliance
+     </strong>
+     , compared with 47.5% for the tested LoRA configuration. DeepSeek full and LoRA reached 92.5% and 62.5%. These are results for this dataset, evaluation script, and 40-question test set.
+    </p>
+    <p>
+     The result favors full fine-tuning in this experiment. It does not show that LoRA generally cannot learn hierarchical output: the adapter targets, rank, training budget, and small evaluation sample limit that conclusion.
+    </p>
+    <p>
+     Structural compliance measures output organization. It does not establish medical correctness, diagnostic safety, or clinical benefit.
+    </p>
+   </section>
+   <section>
+    <h2>
+     Related language-model systems work
+    </h2>
+    <p>
+     In a separate CMU assignment, I compared language-model training configurations using FlashAttention, gradient checkpointing, and optimizer precision, then benchmarked vLLM against Hugging Face generation. The work is coursework on controlled configurations; it is separate from a production serving system.
+    </p>
+    <p class="method-note">
+     Methods: PyTorch, Hugging Face Transformers, supervised fine-tuning, prompt masking, LoRA, structural evaluation.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>

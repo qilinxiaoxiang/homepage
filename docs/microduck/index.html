@@ -1,479 +1,223 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>CMU's First Hand-Built MicroDuck | Shawn Xiang</title>
-    <meta name="description" content="A 15-DoF walking duck robot built and trained by Shawn Xiang at the CMU RoboClub after Pollen Robotics' open-source MicroDuck: head touch sensing, a Radxa Cubie A7Z head computer running the 50 Hz policy loop, an as-built MuJoCo model, reward-audited RL fine-tuning." />
-    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
-    <link rel="apple-touch-icon" href="../assets/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../style.css" />
-    <style>
-      /* Page-specific layout on top of the shared style.css */
-      .md-nav .nav-links { display: flex; }
-      .md-nav .nav-links a { white-space: nowrap; }
-      .md-main { position: relative; z-index: 1; padding: 96px 0 40px; }
-      .md-hero { padding: 24px 0 8px; }
-      .md-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-      .md-hero h1 {
-        font-family: var(--font-display);
-        font-size: clamp(2.1rem, 6vw, 3.6rem);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-        margin-bottom: 16px;
-        text-wrap: balance;
-        max-width: 820px;
-      }
-      .md-summary { font-size: 1.12rem; line-height: 1.7; color: var(--text-secondary); max-width: 680px; margin-bottom: 28px; }
-      .md-figure { margin: 0; }
-      .md-figure img {
-        display: block;
-        width: 100%;
-        height: auto;
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-lg);
-        background: var(--surface);
-      }
-      .md-video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-lg); background: var(--surface); }
-      .md-figure figcaption { margin-top: 10px; font-size: 0.85rem; color: var(--text-tertiary); line-height: 1.5; }
-      .md-section { padding: 48px 0 8px; }
-      .md-section h2 {
-        font-family: var(--font-display);
-        font-size: clamp(1.5rem, 3.2vw, 2.1rem);
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 18px;
-      }
-      .md-prose p { color: var(--text-secondary); font-size: 1.02rem; line-height: 1.75; max-width: 720px; margin-bottom: 14px; overflow-wrap: anywhere; }
-      .md-prose a, .md-cards a, .md-steps a, .md-links a { color: var(--accent); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(99,102,241,0.3); overflow-wrap: anywhere; }
-      .md-prose a:hover, .md-cards a:hover, .md-steps a:hover, .md-links a:hover { border-bottom-color: var(--accent); }
-      .md-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
-      @media (min-width: 700px) { #new-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-      .md-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; min-width: 0; }
-      .md-card h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
-      .md-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; overflow-wrap: anywhere; }
-      .md-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; align-items: start; margin-top: 22px; }
-      .md-steps { display: grid; gap: 12px; }
-      .md-step { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; }
-      .md-step-n { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
-      .md-step h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-      .md-step p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; overflow-wrap: anywhere; }
-      .md-badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: var(--radius-full); border: 1px solid; }
-      .md-badge.progress { color: #b45309; background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.35); }
-      .md-badge.next { color: #4338ca; background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.35); }
-      .md-badge.notyet { color: #52525b; background: rgba(0,0,0,0.04); border-color: var(--border-strong); }
-      .md-links { display: grid; gap: 10px; }
-      .md-link-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; color: var(--text); text-decoration: none; transition: border-color var(--transition); min-width: 0; }
-      .md-link-card:hover { border-color: var(--border-strong); }
-      .md-link-card strong { display: block; font-family: var(--font-display); font-size: 0.98rem; margin-bottom: 4px; overflow-wrap: anywhere; }
-      .md-link-card span { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.5; overflow-wrap: anywhere; }
-      .md-link-card em { color: var(--accent); font-style: normal; font-weight: 600; font-size: 0.85rem; }
-      .md-foot { padding: 56px 0 24px; }
-      .md-foot .btn-secondary { font-size: 1rem; }
-      @media (max-width: 640px) {
-        .md-main { padding-top: 84px; }
-        .md-nav .nav-links { gap: 2px; }
-        .md-nav .nav-links a { padding: 6px 8px; font-size: 0.82rem; }
-        .md-section { padding-top: 40px; }
-        .md-step { grid-template-columns: 30px minmax(0, 1fr); padding: 16px; gap: 10px; }
-        .md-step-n { font-size: 1.15rem; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg-gradient" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
-
-    <nav class="nav md-nav" id="nav">
-      <div class="nav-inner">
-        <a href="../" class="nav-logo" aria-label="Shawn Xiang — home">Shawn<span class="nav-logo-dot">.</span></a>
-        <div class="nav-links" id="nav-links"></div>
-        <div class="nav-right">
-          <label class="lang-toggle" for="lang-toggle">
-            <input id="lang-toggle" type="checkbox" aria-label="Toggle Language" />
-            <span class="lang-slider">
-              <span class="lang-opt" data-lang="en">EN</span>
-              <span class="lang-opt" data-lang="zh">中</span>
-            </span>
-          </label>
-        </div>
-      </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   MicroDuck | Shawn Xiang
+  </title>
+  <meta content="A hand-built MicroDuck biped: hardware integration, runtime extensions, simulation, reward audits, and work toward continuous visual pickup." name="description"/>
+  <link href="https://shawnxiang.com/microduck/" rel="canonical"/>
+  <link href="../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../#experience">
+      Experience
+     </a>
+     <a href="../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
     </nav>
-
-    <main class="md-main">
-      <header class="md-hero">
-        <div class="container">
-          <div class="md-eyebrow" id="eyebrow"></div>
-          <h1 id="title"></h1>
-          <p class="md-summary" id="summary"></p>
-          <figure class="md-figure">
-            <video class="md-video" src="./video/hero-walk.mp4" poster="./video/hero-walk.jpg" autoplay muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="The MicroDuck walking on a table, turning toward the camera and stopping"></video>
-            <figcaption id="hero-caption"></figcaption>
-          </figure>
-        </div>
-      </header>
-
-      <section class="md-section" id="what">
-        <div class="container">
-          <h2 id="what-title"></h2>
-          <div class="md-prose" id="what-body"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="new">
-        <div class="container">
-          <h2 id="new-title"></h2>
-          <div class="md-cards" id="new-cards"></div>
-          <div class="md-grid-2">
-            <figure class="md-figure">
-              <img src="./images/head-cap-inside-20261020.jpg" alt="Inside the white head cap: copper touch pads, the XIAO ESP32-S3 touch board, the MAX98357 amplifier, the speaker, the Radxa camera ribbon and the A7Z header wires" width="1200" height="1600" loading="lazy" />
-              <figcaption id="head-caption"></figcaption>
-            </figure>
-            <div class="md-prose" id="new-body"></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="md-section" id="today">
-        <div class="container">
-          <h2 id="today-title"></h2>
-          <div class="md-grid-2" style="margin:0 0 22px">
-            <figure class="md-figure">
-              <video class="md-video" src="./video/touch-stop.mp4" poster="./video/touch-stop.jpg" autoplay muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="A palm on the MicroDuck's head stops its walk"></video>
-              <figcaption id="touch-caption"></figcaption>
-            </figure>
-            <figure class="md-figure">
-              <video class="md-video" src="./video/quack.mp4" poster="./video/quack.jpg" controls playsinline preload="metadata" width="1920" height="1080" aria-label="The MicroDuck quacking with its jaw moving, sound on"></video>
-              <figcaption id="quack-caption"></figcaption>
-            </figure>
-          </div>
-          <div class="md-cards" id="today-cards"></div>
-          <figure class="md-figure" style="margin-top:22px">
-            <img src="./images/hero-standing-20261023.jpg" alt="The MicroDuck standing on the floor of the CMU RoboClub, side view: white head cap and shells, yellow and orange accents, black servo links" width="1456" height="1116" loading="lazy" />
-            <figcaption id="standing-caption"></figcaption>
-          </figure>
-          <div class="md-prose" id="today-limit" style="margin-top:18px"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="goal">
-        <div class="container">
-          <h2 id="goal-title"></h2>
-          <div class="md-prose" id="goal-intro"></div>
-          <div class="md-steps" id="goal-steps"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="course">
-        <div class="container">
-          <h2 id="course-title"></h2>
-          <div class="md-prose" id="course-body"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="build">
-        <div class="container">
-          <h2 id="build-title"></h2>
-          <div class="md-prose" id="build-intro"></div>
-          <div class="md-links" id="build-links"></div>
-          <div class="md-grid-2">
-            <figure class="md-figure">
-              <img src="./images/first-assembly-20261013.jpg" alt="The freshly assembled MicroDuck on 2026-10-13, orange and yellow, beside the laptop showing the assembly guide, a screw kit and tweezers" width="1600" height="1200" loading="lazy" />
-              <figcaption id="assembly-caption"></figcaption>
-            </figure>
-            <figure class="md-figure">
-              <img src="./images/first-walk-day-20261016.jpg" alt="The MicroDuck's legs and yellow feet standing on a white table on 2026-10-16" width="1600" height="1200" loading="lazy" />
-              <figcaption id="walk-caption"></figcaption>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="md-section" id="log">
-        <div class="container">
-          <h2 id="log-title"></h2>
-          <div class="md-prose" id="log-intro"></div>
-          <div class="md-links" id="log-links"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="next">
-        <div class="container">
-          <h2 id="next-title"></h2>
-          <div class="md-prose" id="next-body"></div>
-        </div>
-      </section>
-
-      <section class="md-section" id="credits">
-        <div class="container">
-          <h2 id="credits-title"></h2>
-          <div class="md-prose" id="credits-body"></div>
-        </div>
-      </section>
-
-      <div class="md-foot">
-        <div class="container">
-          <a class="btn-secondary" href="../" id="back-home"></a>
-        </div>
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2026 Shawn Xiang. Built with purpose.</p>
-      </div>
-    </footer>
-
-    <script>
-      const content = {
-        en: {
-          navLinks: [
-            { label: "Home", href: "../" },
-            { label: "Projects", href: "../#projects" }
-          ],
-          eyebrow: "Project · CMU RoboClub · 2026",
-          title: "CMU's first hand-built MicroDuck",
-          summary: "A 15-DoF biped I built from parts at the CMU RoboClub. It runs Pollen Robotics' policies; mine are the build itself, the reward-audited fine-tuning, the as-built simulation, the sim-to-real measurements and a touch sense the official robot does not have.",
-          heroCaption: "2026-10-24, on a table at the CMU RoboClub: Pollen Robotics' walking policy with my IMU heading hold, a left arc, then a stop. Power comes over the USB-C lead from a power bank.",
-          touchCaption: "A palm on the head cap stops the walk: five copper pads under the cap, read by the XIAO touch board, latch a stop and hand the robot to the graded hold.",
-          quackCaption: "Quacking, sound on: real duck recordings through the head speaker, the jaw opening with each call and pressed shut after.",
-          standingCaption: "Standing on the floor of the CMU RoboClub, 2026-10-23.",
-          whatTitle: "Whose work is which",
-          whatBody: `
-            <p><strong>Upstream.</strong> The MicroDuck design, the MuJoCo training environment and the walking, standing and ground-pick policies (walk61, stand61, groundpick61) are <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics'</a>. The community part set and the Raspberry Pi runtime this build started from are <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe's</a>.</p>
-            <p><strong>Mine.</strong> The whole-robot build in the four blocks below (34 printed parts of my own, the servo chain and the dual-host controller firmware, the A7Z head with its sensors and the touch board, two power routes); the MuJoCo model of this robot and its acceptance suite; the fine-tuning pipeline with its reward audit and tracking guard; the sim-to-real measurements; the heading hold and the graded hold; and the camera-guided beak pickup, now in training as the 16-831 course project. Everything needed to reproduce the robot is published in <a href="https://github.com/qilinxiaoxiang/cmu-microduck" target="_blank" rel="noreferrer">cmu-microduck</a>.</p>
-          `,
-          newTitle: "The robot in four blocks",
-          newCards: [
-            { h: "Form", p: "AI-FanGe's 89-part community set plus 34 parts of my own: a rear converter pack, the A7Z head cap and face, split ankles with slip-fit feet and bicycle-inner-tube soles, a one-piece lower-leg link, a battery backpack. Printed on the club's Bambu X1C and Elegoo Centauri Carbon; every release passes a collision and assembly-path gate before it is sliced." },
-            { h: "Actuation", p: "15 ROBOTIS DYNAMIXEL XL330-M288 in one daisy chain on an OpenRB-150 running my dual-host firmware: a Mac drives the bus over USB for bring-up, the head computer drives it alone over a 500 kbaud UART at run time. Hip-yaw and hip-pitch horns refitted to take out play; every joint checked against a stance before torque is enabled." },
-            { h: "Intelligence and senses", p: "A Radxa Cubie A7Z (Allwinner A733) in the head runs the 50 Hz control loop, the ONNX policy and the camera. A BNO085 IMU at 50 samples per second over a device-tree overlay I wrote, a MAX98357 amplifier and speaker, the Radxa 13M camera, and five copper touch pads under the cap read by a XIAO ESP32-S3 over I2C, a sense the official design lacks." },
-            { h: "Power", p: "Route A, in daily use: a 20 V USB-C PD source (a 20 V 5 A charger or a Xiaomi 212 W power bank) through an Adafruit 5991 decoy into two XL4015 buck converters, 7.0 V to the servo rail and 5 V to the A7Z; a 60 W charger folds back at walking current and freezes the board, measured. Route B, built, not yet installed: a 2S 650 mAh LiPo straight to the servos and a DFR1202 making 5 V, swapped in with two plugs." }
-          ],
-          headCaption: "Inside the head cap on 2026-10-20: the copper touch pads, the XIAO touch board, the amplifier and speaker, the camera ribbon and the A7Z header.",
-          newBody: `
-            <p><strong>Measured on the robot, fed back into the simulator.</strong></p>
-            <ul>
-              <li>IMU pipeline latency about 15 ms; 50 samples per second reach the policy loop while walking.</li>
-              <li>4 % of walking ticks miss a fresh servo read; loaded joints ignore corrections under 0.05 rad at gain 200.</li>
-              <li>Trunk gyro jitter 4 to 6 times the simulation at 5 to 25 Hz; yaw spikes of 6 to 10 rad/s precede falls.</li>
-              <li>The MuJoCo model carries the measured masses and a 7.87° forward gap; its seven-case acceptance suite reads rail voltage, IMU rate and read drops from the robot's state file, so a simulation verdict is tied to the physical robot.</li>
-              <li>Reward audit: the first PPO fine-tune learned to stand still while total reward rose 27.6 to 98.8; the per-term audit showed standing already earns 80 % of walking's reward in the stock environment. A launch gate and a tracking guard now stop such runs. The filtered-reward fine-tune walked 17 to 69 % further in simulation and fell at 0.20 m/s on the robot, so the stock policy stays deployed; that gap is the current measurement target.</li>
-            </ul>
-          `,
-          todayTitle: "Status on the robot, 2026-10-23",
-          todayCards: [
-            { h: "Stands and walks", p: "On Pollen's official policies at 0.25 m/s, from the onboard computer. First free stand 2026-10-13, first walks 2026-10-16." },
-            { h: "Walks straight and arcs", p: "The heading hold on the IMU keeps a walk straight and holds commanded arcs; it stops and turns on command. Falls still happen." },
-            { h: "Stops when you grab its head", p: "All five touch pads work; a head grip during a walk stops the walk and holds the robot." },
-            { h: "Quacks", p: "Real duck recordings through the speaker, jaw moving, jaw pressed shut after the quack." },
-            { h: "Sees into the app", p: "The head camera streams the duck's-eye view into the MicroDuck desktop app. On the earlier Pi camera the orange-target detector locked 57 of 57 frames and projected the target to the floor to 1 mm; the Radxa camera still needs that calibration." },
-            { h: "Reports itself", p: "A 10 Hz flight recorder on the head computer, per-tick logs on the Mac, a robot monitor and remote-control page in the app." }
-          ],
-          todayLimit: `<p>Known limit: inside the closed head the A7Z throttles within minutes and the policy loop slows, so a session runs about 30 minutes before the head must cool. Moving the board out of the head is the next hardware extension.</p>`,
-          goalTitle: "The goal",
-          goalIntro: `<p>Find an object, walk to it, bend down with the beak open, pick it up with the beak. Every task on the robot names the step it advances. Where each step stands as of 2026-10-23:</p>`,
-          steps: [
-            { h: "Find the item with the head camera", s: "In progress", c: "progress", p: "An orange printed part first. The detector works and the floor projection was steady to 1 mm on the earlier camera; recalibration on the Radxa camera is pending." },
-            { h: "Walk to it", s: "In progress", c: "progress", p: "Walks straight with the heading hold, stops and arcs on command. Falls still happen." },
-            { h: "Bend with the beak open and keep balance", s: "Next", c: "next", p: "Pollen's ground-pick policy has been shown on the robot with the beak closed: it bends forward at the hips (trunk tilted about 38 deg) rather than squatting. The open-beak bend policy is the next training target; its environment is written and audited, not yet trained." },
-            { h: "Pick it up with the beak", s: "Not yet", c: "notyet", p: "The current-mode grip holds a finger. No object has been picked up by the robot yet." }
-          ],
-          courseTitle: "Course project",
-          courseBody: `
-            <p><strong>Learning Camera-Guided Beak Pickup with MicroDuck</strong>, the team project for CMU 16-831 Introduction to Robot Learning, Fall 2026. Team: Shawn Xiang, Denis Manzi, Jiacheng Wang, Michael Lin and Ryan Ding. The proposal takes the jaw-only prototype as prior work and proposes learned head and jaw coordination with matched observations and a controlled evaluation.</p>
-          `,
-          buildTitle: "Build it yourself",
-          buildIntro: `<p>Two public repositories, one for makers and one for training.</p>`,
-          buildLinks: [
-            { href: "https://github.com/qilinxiaoxiang/cmu-microduck", t: "cmu-microduck", d: "Procurement, printing, wiring, assembly, bring-up and the runtime for this robot.", e: "github.com/qilinxiaoxiang/cmu-microduck" },
-            { href: "https://github.com/qilinxiaoxiang/microduck_rl", t: "microduck_rl", d: "Pollen's training repository plus our cmu/ layer: the as-built MuJoCo model, the acceptance suite, the robot runtime, the simulator and app, and the fine-tuning pipeline with its gates.", e: "github.com/qilinxiaoxiang/microduck_rl" }
-          ],
-          assemblyCaption: "Freshly assembled, 2026-10-13, beside the assembly guide.",
-          walkCaption: "2026-10-16, the day of the first walks.",
-          logTitle: "Build log",
-          logIntro: `<p>Three posts on LinkedIn, October 2026.</p>`,
-          logLinks: [
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7515635733777551360/", t: "Meet CMU's first (?) Microduck. Half-built for now.", d: "2026-10-13" },
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7516994475253059584/", t: "Learning to walk.", d: "2026-10-16" },
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7519503040069021697/", t: "My handmade microduck can finally walk and quack!", d: "2026-10-23" }
-          ],
-          nextTitle: "Where this goes",
-          nextBody: `
-            <p>The pickup is the technical stepping stone. Two directions sit behind it.</p>
-            <p><strong>A companion robot</strong> that is neither a toy nor a tool: it recognises its owner from other people, keeps a memory of ordinary days and special ones, and gives steady emotional support without speech. The MicroDuck's touch sense, camera and onboard loop are the first pieces of that stack; the rest needs funding and a team.</p>
-            <p><strong>A robotics club</strong> run like a neighbourhood badminton club: adults and children, venue, printers and parts provided, monthly courses, something learned on every visit, drop in and come back whenever. The public build repository and the assembly guide are written so that this is possible.</p>
-            <p>A robot-learning role at a robotics company, working on policies that have to survive contact with hardware, is the other path I am pursuing now.</p>
-          `,
-          creditsTitle: "Credits",
-          creditsBody: `
-            <p><a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> for the MicroDuck design, the training environment and the policies. <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> for the community build tutorial and the Raspberry Pi runtime this build started from. The <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a> for the printers, tools and parts drawers.</p>
-          `,
-          backHome: "← Back to shawnxiang.com"
-        },
-        zh: {
-          navLinks: [
-            { label: "首页", href: "../" },
-            { label: "项目", href: "../#projects" }
-          ],
-          eyebrow: "项目 · CMU RoboClub · 2026",
-          title: "CMU 第一只手工打造的 MicroDuck",
-          summary: "一台我在 CMU RoboClub 从零件装出来的 15 自由度双足机器人。它跑的是 Pollen Robotics 的策略；我的部分是整机本身、带奖励审计的微调、按实物建的仿真、sim-to-real（仿真到实机）的实测，以及官方没有的触觉。",
-          heroCaption: "2026-10-24，CMU RoboClub 的桌面上：Pollen Robotics 的行走策略加我的 IMU 航向保持，左转一段弧线后停下。电从充电宝经 USB-C 线供给。",
-          touchCaption: "手掌按住头盖，行走就停：头盖下五片铜箔触摸垫由 XIAO 触摸板读出，锁存停止并把机器人交给分级抱持。",
-          quackCaption: "嘎嘎叫（有声音）：头部喇叭播放真实鸭叫录音，每声嘴都张开，叫完压回闭合。",
-          standingCaption: "2026-10-23，站在 CMU RoboClub 的地板上。",
-          whatTitle: "哪些是谁的工作",
-          whatBody: `
-            <p><strong>上游。</strong>MicroDuck 的设计、MuJoCo（物理仿真器）训练环境和行走、站立、低头拾取策略（walk61、stand61、groundpick61）是 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的；社区打印件和这台机器起步时用的树莓派运行时是 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的。</p>
-            <p><strong>我的。</strong>下面四块里的整机（34 个自己设计的打印件、舵机链和双主机控制器固件、带传感器和触摸板的 A7Z 头部、两路供电）；这台机器的 MuJoCo 模型和验收套件；带奖励审计和跟踪守卫的微调流水线；sim-to-real 实测；航向保持和分级抱持；以及正在训练的相机引导喙部拾取（16-831 课程项目）。复现整台机器所需的一切都公开在 <a href="https://github.com/qilinxiaoxiang/cmu-microduck" target="_blank" rel="noreferrer">cmu-microduck</a>。</p>
-          `,
-          newTitle: "整机四块",
-          newCards: [
-            { h: "外形", p: "AI-FanGe 的 89 件社区打印件加 34 件我自己的：后部转换器包、A7Z 头盖和面板、分体脚踝配滑配脚和自行车内胎鞋底、一体式小腿连杆、电池背包。在社团的 Bambu X1C 和 Elegoo Centauri Carbon 上打印；每个发布版切片前都过一道碰撞和装配路径的门禁。" },
-            { h: "动力", p: "15 个 ROBOTIS DYNAMIXEL XL330-M288 一条菊花链接在 OpenRB-150 上，跑我写的双主机固件：装机调试时 Mac 走 USB 驱动总线，运行时头部计算板独自走 500 kbaud 的 UART（串口）驱动。髋部偏航和俯仰的舵盘重新装过以消除间隙；上电前每个关节都按站姿校验。" },
-            { h: "智能与感官", p: "头里一块 Radxa Cubie A7Z（Allwinner A733）跑 50 Hz 控制循环、ONNX 策略和相机。BNO085 IMU（惯性测量单元）靠我写的设备树覆盖以每秒 50 次采样，MAX98357 功放和喇叭，Radxa 13M 相机，还有头盖内五片铜箔触摸垫，由 XIAO ESP32-S3 经 I2C（两线总线）读出，这是官方设计没有的感官。" },
-            { h: "供电", p: "A 路，日常使用：20 V USB-C PD 电源（20 V 5 A 充电器或小米 212 W 充电宝）经 Adafruit 5991 诱骗板进两个 XL4015 降压模块，7.0 V 给舵机母线，5 V 给 A7Z；60 W 充电器在行走电流下回折、让板子死机，实测。B 路，已做好未安装：2S 650 mAh 锂电直供舵机，DFR1202 出 5 V，两个插头即可换装。" }
-          ],
-          headCaption: "2026-10-20 头盖内部：铜箔触摸垫、XIAO 触摸板、功放和喇叭、相机排线和 A7Z 排针。",
-          newBody: `
-            <p><strong>在机器人上实测，再喂回仿真器。</strong></p>
-            <ul>
-              <li>IMU 链路延迟约 15 ms；行走时每秒 50 个样本到达策略循环。</li>
-              <li>行走时 4 % 的周期读不到新的舵机数据；受力关节在增益 200 下忽略小于 0.05 rad 的修正。</li>
-              <li>躯干陀螺仪抖动是仿真的 4 到 6 倍（5 到 25 Hz）；摔倒前有 6 到 10 rad/s 的偏航尖峰。</li>
-              <li>MuJoCo 模型带实测质量和 7.87° 前倾间隙；七案例验收套件从机器人的状态文件读母线电压、IMU 频率和丢读率，仿真结论因此绑在实物上。</li>
-              <li>奖励审计：第一次 PPO 微调学会了站着不动，总奖励却从 27.6 涨到 98.8；逐项审计显示在原环境里站立已拿到行走奖励的 80 %。现在有启动门禁和跟踪守卫拦住这类训练。换成滤波奖励的微调在仿真里多走 17 到 69 %，在机器人上 0.20 m/s 摔倒，所以原策略继续部署；这个差距就是当前的实测目标。</li>
-            </ul>
-          `,
-          todayTitle: "机器人上的状态，2026-10-23",
-          todayCards: [
-            { h: "站立与行走", p: "用 Pollen 的官方策略以 0.25 m/s 行走。2026-10-13 第一次独立站立，2026-10-16 第一次行走。" },
-            { h: "走直线与转弯", p: "IMU 航向保持让它走直线、按指令走弧线；能按指令停下和转向。摔倒仍会发生。" },
-            { h: "抓头就停", p: "五片触摸片全部可用；行走中抓住头，它会停下并稳住。" },
-            { h: "嘎嘎叫", p: "扬声器放真实鸭叫录音，鸭嘴同步张合，叫完把嘴压合。" },
-            { h: "把画面传进应用", p: "头部摄像头把鸭子视角的画面传到 MicroDuck 桌面应用。在之前的树莓派摄像头上，橙色目标检测 57 帧锁定 57 帧，投影到地面的位置稳定在 1 mm 内；Radxa 摄像头还需要重新标定。" },
-            { h: "自我记录", p: "头部计算板上的 10 Hz 飞行记录仪、Mac 上的逐周期日志、应用里的机器人监视和远程控制页面。" }
-          ],
-          todayLimit: `<p>已知限制：在封闭的头壳里，A7Z 几分钟内就会过热降频，策略循环变慢，所以每次大约跑 30 分钟头部就得散热。把计算板移出头部是下一项硬件扩展。</p>`,
-          goalTitle: "目标",
-          goalIntro: `<p>找到物品，走过去，张嘴弯腰，用嘴叼起来。机器人上的每项工作都注明它推进的是哪一步。截至 2026-10-23 各步的状态：</p>`,
-          steps: [
-            { h: "用头部摄像头找到物品", s: "进行中", c: "progress", p: "先找橙色的打印零件。检测器已可用，在之前的摄像头上地面投影稳定在 1 mm 内；Radxa 摄像头的重新标定待做。" },
-            { h: "走过去", s: "进行中", c: "progress", p: "靠航向保持走直线，按指令停下和走弧线。摔倒仍会发生。" },
-            { h: "张嘴弯腰并保持平衡", s: "下一步", c: "next", p: "Pollen 的地面拾取策略已在真机上演示（闭嘴）：它是向前弯腰（身体前倾约 38 度），不是下蹲。张嘴弯腰策略是下一个训练目标；环境已写好并审计过，尚未训练。" },
-            { h: "用嘴叼起来", s: "尚未", c: "notyet", p: "电流模式的夹持能夹住一根手指。机器人还没有叼起过任何物体。" }
-          ],
-          courseTitle: "课程项目",
-          courseBody: `
-            <p><strong>Learning Camera-Guided Beak Pickup with MicroDuck（MicroDuck 摄像头引导的鸭嘴拾取学习）</strong>，CMU 16-831 Introduction to Robot Learning（机器人学习导论）2026 年秋季的小组项目。成员：Shawn Xiang、Denis Manzi、Jiacheng Wang、Michael Lin、Ryan Ding。提案把只有鸭嘴的原型作为前期工作，提出用匹配的观测学习头与嘴的协调动作，并做受控评测。</p>
-          `,
-          buildTitle: "自己造一只",
-          buildIntro: `<p>两个公开仓库，一个给动手做的人，一个给做训练的人。</p>`,
-          buildLinks: [
-            { href: "https://github.com/qilinxiaoxiang/cmu-microduck", t: "cmu-microduck", d: "这只机器人的采购、打印、接线、组装、调通和运行时。", e: "github.com/qilinxiaoxiang/cmu-microduck" },
-            { href: "https://github.com/qilinxiaoxiang/microduck_rl", t: "microduck_rl", d: "Pollen 的训练仓库加上我们的 cmu/ 层：按实物建模的 MuJoCo 模型、验收套件、机器人运行时、模拟器和应用，以及带门禁的微调管线。", e: "github.com/qilinxiaoxiang/microduck_rl" }
-          ],
-          assemblyCaption: "2026-10-13 刚组装完，旁边是组装指南。",
-          walkCaption: "2026-10-16，第一次行走的那天。",
-          logTitle: "搭建日志",
-          logIntro: `<p>2026 年 10 月在 LinkedIn 上发的三篇帖子。</p>`,
-          logLinks: [
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7515635733777551360/", t: "Meet CMU's first (?) Microduck. Half-built for now.", d: "2026-10-13" },
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7516994475253059584/", t: "Learning to walk.", d: "2026-10-16" },
-            { href: "https://www.linkedin.com/feed/update/urn:li:activity:7519503040069021697/", t: "My handmade microduck can finally walk and quack!", d: "2026-10-23" }
-          ],
-          nextTitle: "下一步去哪",
-          nextBody: `
-            <p>拾取是技术上的垫脚石，后面有两个方向。</p>
-            <p><strong>陪伴机器人</strong>，既不是玩具也不是工具：认得主人和其他人的区别，记得日常和特殊的日子，不说话，但给稳定的情感支持。MicroDuck 的触觉、相机和机载循环是这套东西的第一批零件；剩下的需要融资和团队。</p>
-            <p><strong>机器人社区</strong>，像小区里的羽毛球俱乐部那样运营：大人小孩都来，场地、打印机和零件俱全，按月开课，每次来都学到一点，随时中断随时回来。公开的构建仓库和装配指南就是按这个可能性写的。</p>
-            <p>去机器人公司做机器人学习，做那些必须经得起真机考验的策略，是我现在同时在走的另一条路。</p>
-          `,
-          creditsTitle: "致谢",
-          creditsBody: `
-            <p>感谢 <a href="https://github.com/pollen-robotics/microduck" target="_blank" rel="noreferrer">Pollen Robotics</a> 的 MicroDuck 设计、训练环境和策略；感谢 <a href="https://github.com/AI-FanGe/Microduck-build-tutorial" target="_blank" rel="noreferrer">AI-FanGe</a> 的社区组装教程和这次搭建起步所用的树莓派运行时；感谢 <a href="https://roboticsclub.org" target="_blank" rel="noreferrer">CMU RoboClub</a>的打印机、工具和零件抽屉。</p>
-          `,
-          backHome: "← 返回 shawnxiang.com"
-        }
-      };
-
-      const params = new URLSearchParams(window.location.search);
-      const forcedLang = params.get("lang");
-      const langKey = "site-lang-v3";
-      let stored = null;
-      try { stored = localStorage.getItem(langKey); } catch (e) { stored = null; }
-      let lang = forcedLang === "zh" || forcedLang === "en" ? forcedLang : (stored === "zh" ? "zh" : "en");
-
-      const setText = (id, v) => { document.getElementById(id).textContent = v; };
-      const setHTML = (id, v) => { document.getElementById(id).innerHTML = v; };
-      const cards = (items) => items.map(c => `<div class="md-card"><h3>${c.h}</h3><p>${c.p}</p></div>`).join("");
-      const linkCards = (items, external) => items.map(l => `
-        <a class="md-link-card" href="${l.href}"${external ? ' target="_blank" rel="noreferrer"' : ''}>
-          <strong>${l.t}</strong>
-          <span>${l.d}</span>${l.e ? `<br><em>${l.e}</em>` : ''}
-        </a>`).join("");
-
-      function render() {
-        const t = content[lang];
-        document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-        setHTML("nav-links", t.navLinks.map(l => `<a href="${l.href}">${l.label}</a>`).join(""));
-        setText("eyebrow", t.eyebrow);
-        setText("title", t.title);
-        setText("summary", t.summary);
-        setText("hero-caption", t.heroCaption);
-        setText("touch-caption", t.touchCaption);
-        setText("quack-caption", t.quackCaption);
-        setText("standing-caption", t.standingCaption);
-        setText("what-title", t.whatTitle);
-        setHTML("what-body", t.whatBody);
-        setText("new-title", t.newTitle);
-        setHTML("new-cards", cards(t.newCards));
-        setText("head-caption", t.headCaption);
-        setHTML("new-body", t.newBody);
-        setText("today-title", t.todayTitle);
-        setHTML("today-cards", cards(t.todayCards));
-        setHTML("today-limit", t.todayLimit);
-        setText("goal-title", t.goalTitle);
-        setHTML("goal-intro", t.goalIntro);
-        setHTML("goal-steps", t.steps.map((s, i) => `
-          <div class="md-step">
-            <div class="md-step-n">${i + 1}</div>
-            <div><h3>${s.h} <span class="md-badge ${s.c}">${s.s}</span></h3><p>${s.p}</p></div>
-          </div>`).join(""));
-        setText("course-title", t.courseTitle);
-        setHTML("course-body", t.courseBody);
-        setText("build-title", t.buildTitle);
-        setHTML("build-intro", t.buildIntro);
-        setHTML("build-links", linkCards(t.buildLinks, true));
-        setText("assembly-caption", t.assemblyCaption);
-        setText("walk-caption", t.walkCaption);
-        setText("log-title", t.logTitle);
-        setHTML("log-intro", t.logIntro);
-        setHTML("log-links", linkCards(t.logLinks, true));
-        setText("next-title", t.nextTitle);
-        setHTML("next-body", t.nextBody);
-        setText("credits-title", t.creditsTitle);
-        setHTML("credits-body", t.creditsBody);
-        setText("back-home", t.backHome);
-        document.getElementById("lang-toggle").checked = lang === "zh";
-      }
-
-      document.getElementById("lang-toggle").addEventListener("change", (e) => {
-        lang = e.target.checked ? "zh" : "en";
-        try { localStorage.setItem(langKey, lang); } catch (err) { /* private mode */ }
-        render();
-      });
-
-      window.addEventListener("scroll", () => {
-        document.getElementById("nav").classList.toggle("scrolled", window.scrollY > 50);
-      }, { passive: true });
-
-      render();
-    </script>
-  </body>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a aria-current="page" href="../microduck/">
+     MicroDuck
+    </a>
+    <a href="../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../projects/eeg/">
+     EEG decoding
+    </a>
+    <a href="../projects/cooling/">
+     Cooling robot
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     Personal hardware build · Robot learning
+    </p>
+    <h1>
+     MicroDuck
+    </h1>
+    <p class="lead">
+     A low-cost walking robot for testing how perception, learned control, and physical hardware behave together.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Continuing personal project: I built and integrated the robot and developed controller/runtime extensions, the as-built simulation, evaluation checks, and learning experiments. Camera-guided pickup is also the research topic of our five-person CMU 16-831 course team.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <video aria-label="MicroDuck walking on a table, turning and stopping" controls="" muted="" playsinline="" poster="./video/hero-walk.jpg" preload="metadata" src="./video/hero-walk.mp4">
+     </video>
+     <figcaption>
+      Recorded October 24, 2026. Walking policy: Pollen Robotics. Robot build, heading hold, and touch sensing: my extensions.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      The engineering problem
+     </h2>
+     <p>
+      A policy that walks in a simulator still has to run through an imperfect servo chain, delayed measurements, flexible printed parts, power limits, and a small onboard computer.
+     </p>
+     <p>
+      I built this 15-joint MicroDuck at the CMU RoboClub from Pollen Robotics' open design and a community build tutorial, then made its physical behavior measurable.
+     </p>
+     <div class="inline-links">
+      <a href="https://github.com/qilinxiaoxiang/cmu-microduck">
+       Build repository ↗
+      </a>
+      <a href="https://github.com/qilinxiaoxiang/microduck_rl">
+       Training repository ↗
+      </a>
+     </div>
+    </div>
+   </div>
+   <section>
+    <h2>
+     What I built
+    </h2>
+    <div class="detail-grid">
+     <article>
+      <h3>
+       Hardware and bring-up
+      </h3>
+      <p>
+       Custom printed parts, servo-chain assembly, dual-host OpenRB controller firmware, an A7Z head computer, camera and inertial sensor, touch pads, speaker, and power integration.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Runtime and sensing
+      </h3>
+      <p>
+       Heading hold, touch-triggered stop and hold, camera streaming, event logs, and controls for standing, walking, and scripted behaviors.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Simulation and evaluation
+      </h3>
+      <p>
+       A model aligned with the assembled robot, measured joint and sensing limits, acceptance scenarios, and checks that distinguish real hardware conditions from stress tests.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Learning experiments
+      </h3>
+      <p>
+       Reward-term audits and policy comparisons. An early fine-tune increased total reward by standing still; decomposing the reward exposed that failure before deployment.
+      </p>
+     </article>
+    </div>
+   </section>
+   <div class="evidence-grid">
+    <figure>
+     <video aria-label="A hand on the robot head stops its walking motion" controls="" muted="" playsinline="" poster="./video/touch-stop.jpg" preload="metadata" src="./video/touch-stop.mp4">
+     </video>
+     <figcaption>
+      Touch-stop demonstration. The copper-pad sensor and runtime response are additions to the upstream robot.
+     </figcaption>
+    </figure>
+    <figure>
+     <img alt="Head cap interior showing copper touch pads and electronics" height="1600" loading="lazy" src="./images/head-cap-inside-20261020.jpg" width="1200"/>
+     <figcaption>
+      October head revision: touch electrodes, interface electronics, audio, and wiring. Later revisions continued to change the packaging.
+     </figcaption>
+    </figure>
+   </div>
+   <section>
+    <h2>
+     Progress toward camera-guided pickup
+    </h2>
+    <p>
+     The target behavior is a continuous sequence: find an object, approach it, bend while balancing, grasp with the beak, and return upright. Each part needs its own evidence.
+    </p>
+    <ol class="progress-list">
+     <li>
+      <strong>
+       Detect:
+      </strong>
+      Head-camera detection and position checks have been exercised on the robot. Accuracy varies with head pose and near-floor geometry.
+     </li>
+     <li>
+      <strong>
+       Approach:
+      </strong>
+      Walking and steering work on hardware. Visual approach and the final alignment are still being developed.
+     </li>
+     <li>
+      <strong>
+       Pick:
+      </strong>
+      In an October 2026 hardware trial, a trained beak-pick movement lifted a printed ball with a manually supplied target position.
+     </li>
+     <li>
+      <strong>
+       Close the loop:
+      </strong>
+      Continuous camera-guided approach and pickup remains unfinished. A scripted sequence or a single successful grasp does not establish reliable autonomous pickup.
+     </li>
+    </ol>
+   </section>
+   <section>
+    <h2>
+     Attribution
+    </h2>
+    <p>
+     <a href="https://github.com/pollen-robotics/microduck">
+      Pollen Robotics
+     </a>
+     supplies the original design, training environment, and standing/walking policies.
+     <a href="https://github.com/AI-FanGe/Microduck-build-tutorial">
+      AI-FanGe's community tutorial
+     </a>
+     supplies the starting build set and Raspberry Pi runtime. CMU RoboClub provides shared tools and printers. My work is the physical build and extensions described above.
+    </p>
+    <p class="muted">
+     Hardware demonstrations are dated in their captions. Current work continues in the training repository.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
 </html>

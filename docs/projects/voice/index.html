@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Clinical voice biomarkers | Shawn Xiang
+  </title>
+  <meta content="VoxClinBench: a cross-language, cross-disease voice evaluation benchmark following Bridge2AI model research." name="description"/>
+  <link href="https://shawnxiang.com/projects/voice/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a aria-current="page" href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../../projects/eeg/">
+     EEG decoding
+    </a>
+    <a href="../../projects/cooling/">
+     Cooling robot
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     Independent benchmark · Preceded by CMU course research
+    </p>
+    <h1>
+     VoxClinBench &amp; Bridge2AI
+    </h1>
+    <p class="lead">
+     Evaluate whether a voice model transfers across diseases, languages, and datasets, rather than relying on one attractive in-dataset score.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Sole author of the VoxClinBench benchmark. The earlier Bridge2AI model-building work was a course team project; its models and the later independent benchmark have different scopes.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Reference macro AUROC of 0.853 for 18 physical tasks and 0.629 for 5 psychiatric tasks" height="380" loading="eager" src="../../assets/projects/voice-results.svg" width="600"/>
+     <figcaption>
+      VoxClinBench v0.4.1 reference results: task-family means, with five-seed evaluation. Different families are reported separately.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      From a model to a benchmark
+     </h2>
+     <p>
+      The initial work combined clinical voice modalities in a CNN–Transformer model and compared it with pretrained speech representations. A frozen speech encoder plus a simple classifier was a strong baseline.
+     </p>
+     <p>
+      I turned the broader evaluation problem into VoxClinBench: 23 scored binary tasks, four languages, and five corpora, with an additional cross-language reference task. The benchmark separates physical and psychiatric conditions and tests cross-corpus transfer.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     What the evaluation controls
+    </h2>
+    <div class="detail-grid">
+     <article>
+      <h3>
+       Participant separation
+      </h3>
+      <p>
+       Subjects are separated across training and evaluation. Multiple recordings from one participant must not turn into train/test leakage.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Uncertainty and comparisons
+      </h3>
+      <p>
+       Five-seed evaluation, participant-level bootstrap, paired model comparisons, and family-specific correction for multiple tests.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Language and cohort shift
+      </h3>
+      <p>
+       Within-dataset performance and cross-language transfer are separate measurements. Transfer can work for one condition and fail for another.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Reproducible access
+      </h3>
+      <p>
+       An evaluation package, task manifests, reference outputs, and dataset documentation. Credential checks precede access to restricted corpora.
+      </p>
+     </article>
+    </div>
+   </section>
+   <section>
+    <h2>
+     Reading the results
+    </h2>
+    <p>
+     The reference macro AUROC is
+     <strong>
+      0.853 across 18 physical tasks
+     </strong>
+     and
+     <strong>
+      0.629 across five psychiatric tasks
+     </strong>
+     . AUROC summarizes how well the model ranks positive cases above negative cases; 0.5 is chance-level ranking.
+    </p>
+    <p>
+     These aggregate values describe a reference evaluation, not a clinical diagnostic claim. The two families use different datasets and task compositions. Strong performance on one condition does not establish transfer to another population or language.
+    </p>
+    <p>
+     Only aggregate research results appear here. Restricted recordings, participant-level health information, and raw predictions are not distributed through this website.
+    </p>
+    <p>
+     <a href="https://github.com/voice-bench-submission/voxclinbench">
+      Benchmark code and task cards ↗
+     </a>
+    </p>
+    <p class="method-note">
+     Methods: pretrained speech encoders, frozen probes, multimodal learning, cross-corpus evaluation, bootstrap, DeLong comparisons.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>

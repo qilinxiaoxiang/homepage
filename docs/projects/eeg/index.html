@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   EEG decoding | Shawn Xiang
+  </title>
+  <meta content="An individual EEG modeling project with participant-separated evaluation and an honest baseline comparison." name="description"/>
+  <link href="https://shawnxiang.com/projects/eeg/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a aria-current="page" href="../../projects/eeg/">
+     EEG decoding
+    </a>
+    <a href="../../projects/cooling/">
+     Cooling robot
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     CMU 42-633 · Fall 2025 · Individual project
+    </p>
+    <h1>
+     Cross-subject EEG decoding
+    </h1>
+    <p class="lead">
+     Predict reaction time and a behavioral trait from short EEG segments while keeping participants separated across data splits.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Designed and implemented the modeling pipeline, ran the experiments, and wrote the final course report independently.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Normalized RMSE: reaction time 1.0344 and externalizing trait 1.0001, versus a baseline of 1.0" height="380" loading="eager" src="../../assets/projects/eeg-results.svg" width="600"/>
+     <figcaption>
+      Reported challenge-server evaluation. Lower is better. The truncated vertical axis makes the differences near the baseline visible.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      The pipeline
+     </h2>
+     <p>
+      The project used the Healthy Brain Network EEG challenge data, with 129 channels and two-second windows, to test generalization to held-out participants.
+     </p>
+     <p>
+      A frozen EEGNeX encoder feeds a latent adapter. Reconstruction training regularizes the representation, then separate regression heads predict trial-level reaction time and participant-level externalizing traits.
+     </p>
+     <p>
+      Training and preprocessing keep participant identity as the split boundary. A model should not benefit from seeing another recording of a test participant during training.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     What the final score showed
+    </h2>
+    <p>
+     Final normalized root mean squared error (NRMSE) was
+     <strong>
+      1.0344 for reaction time
+     </strong>
+     and
+     <strong>
+      1.0001 for the externalizing trait
+     </strong>
+     . The mean-prediction reference is 1.0, and lower is better. The final scores therefore did not improve on that reference.
+    </p>
+    <p>
+     The project demonstrates the full data and experiment pipeline, including a negative result. It does not establish useful behavioral prediction from these short windows. Separating trial-level and participant-level targets was essential to interpreting the evaluation.
+    </p>
+   </section>
+   <section>
+    <h2>
+     Implementation details
+    </h2>
+    <p>
+     Frozen pretrained encoder, residual latent adapter, Gaussian-noise regularization, task-specific regression heads, and a reconstruction objective combining waveform, frequency, and signal-quality terms.
+    </p>
+    <p class="method-note">
+     Methods: PyTorch, EEG representation learning, subject-disjoint evaluation, regression, reconstruction regularization.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>

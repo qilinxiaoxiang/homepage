@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Cooling robot | Shawn Xiang
+  </title>
+  <meta content="A wearable-free thermal comfort sensing and cooling prototype with integrated sensors, camera-guided aiming, and pilot measurements." name="description"/>
+  <link href="https://shawnxiang.com/projects/cooling/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../../projects/eeg/">
+     EEG decoding
+    </a>
+    <a aria-current="page" href="../../projects/cooling/">
+     Cooling robot
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     CMU 17-720 · Fall 2026 · Team project in progress
+    </p>
+    <h1>
+     Wearable-free cooling robot
+    </h1>
+    <p class="lead">
+     Use external sensors to estimate thermal comfort and aim a fan at a seated person, then measure the response.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Built the sensing and control software, integrated the devices, calibrated the camera-to-arm geometry, and ran initial pilot measurements. The course project is collaborative with Zimeng; mechanical integration and study work continue.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Engineering CAD render of the cooling rig: fan on an arm and a sensor console" height="2037" loading="eager" src="../../assets/projects/cooling-rig.png" width="2600"/>
+     <figcaption>
+      CAD design render of the printed sensor console and fan assembly.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      Integrated hardware
+     </h2>
+     <p>
+      A Raspberry Pi Zero 2 W connects the wide-angle camera, millimeter-wave radar, ambient temperature/pressure sensor, and fan switch. A thermal camera and robot arm connect to the Mac.
+     </p>
+     <p>
+      The live software combines the sensor streams, estimates the face position, and points the fan using camera-to-arm calibration. The rig was brought up on November 2, and a participant confirmed that the aimed airflow reached them.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     Pilot measurements
+    </h2>
+    <p>
+     The software records a participant's own comfort label alongside sensor summaries and timed fan-off / fan-on / fan-off intervals. Early recordings exposed thermal-stream startup behavior, sensor drift, changes in head pose, and an arm-control fault.
+    </p>
+    <p>
+     In one seated control run, median face temperature fell about
+     <strong>
+      0.26 °C
+     </strong>
+     between the selected fan-off and fan-on windows and did not recover in the following interval. That single run cannot separate airflow, drift, movement, and physiology, or establish a cooling benefit.
+    </p>
+    <p>
+     The sensing question is still open: which measurements track a person's reported thermal comfort, and how much does controlled camera positioning improve those measurements?
+    </p>
+   </section>
+   <section>
+    <h2>
+     What remains to establish
+    </h2>
+    <p>
+     More labeled sessions, appropriate rest and activity controls, stable sensor alignment, and a test protocol that can separate the intervention from natural temperature drift. Hardware bring-up and an aiming demonstration are complete; a validated comfort model and user study are still in progress.
+    </p>
+    <p class="method-note">
+     Methods: thermal imaging, radar, camera/arm calibration, multimodal logging, intervention design.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>
