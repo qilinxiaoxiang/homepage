@@ -84,6 +84,7 @@ const STRINGS = {
     sharedBy: (who) => `Shared by ${who}`,
     sharedAnon: "Shared with you",
     get: "Get PocketChords",
+    neutral: "Play and sing along with chord charts",
     after: "After installing, open the app and choose “Open a shared link” to bring in the song.",
     usStore: "PocketChords is on the US App Store.",
     notCopied: "The link could not be copied. Copy it here, then get the app:",
@@ -99,6 +100,7 @@ const STRINGS = {
     sharedBy: (who) => `来自 ${who} 的分享`,
     sharedAnon: "有人分享给你的歌",
     get: "获取 PocketChords",
+    neutral: "跟着和弦谱弹奏和歌唱",
     after: "安装后，打开应用并选择“打开分享链接”，就能把这首歌导入。",
     usStore: "PocketChords 目前在美区 App Store 上架。",
     notCopied: "链接没能复制。请在这里复制，然后获取应用：",
@@ -114,6 +116,7 @@ const STRINGS = {
     sharedBy: (who) => `${who} さんからの共有`,
     sharedAnon: "あなたに共有された曲",
     get: "PocketChords を入手",
+    neutral: "コード譜に合わせて弾き語り",
     after: "インストール後、アプリを開いて「共有リンクを開く」を選ぶと、この曲を取り込めます。",
     usStore: "PocketChords は米国の App Store で公開しています。",
     notCopied: "リンクをコピーできませんでした。ここからコピーしてアプリを入手してください：",
@@ -200,8 +203,21 @@ function renderSong(row, token) {
   );
 }
 
+// A visit with no link at all: there is nothing to copy, so the button goes straight to the store.
+function renderNoLink() {
+  view.replaceChildren(
+    chart(T.neutral),
+    h("section", { class: "sheet" }, h("a", { class: "store", href: APP_STORE_URL, text: T.get })),
+    h("p", { class: "note", text: T.usStore }),
+  );
+}
+
 async function load() {
   const token = location.hash.slice(1);
+  if (!token) {
+    renderNoLink();
+    return;
+  }
   if (!/^[A-Za-z0-9_-]{16,128}$/.test(token)) {
     message(T.gone, T.goneBody);
     return;
