@@ -4,7 +4,8 @@
       {
         "appIDs": ["3Q249Y4ZG3.com.shawnxiang.pocketchords"],
         "components": [
-          { "/": "/pocketchords/s/*", "comment": "Shared song links" }
+          { "/": "/pocketchords/s/*", "comment": "Shared song links" },
+          { "/": "/pocketchords/wx/*", "comment": "Return from WeChat" }
         ]
       }
     ]
