@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Connect PocketChords</title>
+<link rel="canonical" href="https://shawnxiang.com/pocketchords/connect/">
+<style>
+  :root {
+    --paper: #eff4f2; --sheet: #ffffff; --ink: #15302a; --muted: #566a64;
+    --rule: #d8e2de; --chord: #0e7a6b; --chord-deep: #0a5f53; --stop: #a8362a;
+    --display: "Iowan Old Style", "Palatino Linotype", Palatino, "Hiragino Mincho ProN", "Songti SC", "Noto Serif CJK SC", serif;
+    --body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Hiragino Sans", "Noto Sans CJK SC", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 var(--body); overflow-wrap: anywhere; }
+  main { max-width: 480px; margin: 0 auto; padding: 28px max(16px, env(safe-area-inset-right)) 48px max(16px, env(safe-area-inset-left)); }
+  .brand { font-size: 16px; color: var(--muted); margin: 0 0 36px; }
+
+  /* The heading is set the way the app sets a lyric line: a chord sits over each phrase. */
+  .chart { font: 400 clamp(30px, 8.4vw, 38px)/1.2 var(--display); margin: 0 0 28px; }
+  .phrase { display: inline-block; max-width: 100%; margin: 0 .3em 10px 0; vertical-align: bottom; }
+  .chord {
+    display: table; font: 700 14px/1 var(--body); color: #fff; background: var(--chord);
+    padding: 5px 8px; border-radius: 7px; margin-bottom: 6px;
+    animation: strike .32s ease-out both; animation-delay: calc(var(--i) * 110ms);
+  }
+  @keyframes strike { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .chord { animation: none; } }
+
+  .lead { margin: 0 0 24px; }
+  .sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 16px; padding: 4px 20px; margin: 0 0 20px; }
+  .group { padding: 16px 0; }
+  .group + .group { border-top: 1px solid var(--rule); }
+  .group h2 { font-size: 17px; font-weight: 600; margin: 0 0 8px; }
+  .group ul { list-style: none; margin: 0; padding: 0; }
+  .group li { position: relative; padding-left: 26px; margin: 5px 0; }
+  .group li::before { position: absolute; left: 2px; font-weight: 700; }
+  .can li::before { content: "\2713"; color: var(--chord); }
+  .cannot li::before { content: "\2715"; color: var(--stop); }
+  .note { font-size: 16px; color: var(--muted); margin: 0 0 12px; }
+
+  .actions { display: flex; gap: 12px; margin: 24px 0 8px; }
+  .actions button { flex: 1; }
+  button, .signin-apple {
+    font: 600 17px/1.2 var(--body); min-height: 50px; padding: 12px 18px; border-radius: 12px;
+    border: 1px solid var(--ink); background: var(--sheet); color: var(--ink); cursor: pointer;
+  }
+  button.primary { background: var(--chord); border-color: var(--chord); color: #fff; }
+  button.primary:hover { background: var(--chord-deep); border-color: var(--chord-deep); }
+  button.stop { background: var(--stop); border-color: var(--stop); color: #fff; }
+  button.plain { background: none; border: 0; padding: 0; min-height: 44px; font-weight: 400; color: var(--chord-deep); text-decoration: underline; font-size: 16px; }
+  button:disabled { opacity: .55; cursor: default; }
+  :focus-visible { outline: 3px solid #3a86ff; outline-offset: 2px; }
+
+  .signin { display: grid; gap: 12px; margin: 0 0 20px; }
+  .signin-apple { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: #000; border-color: #000; color: #fff; }
+  .signin-apple svg { width: 17px; height: 20px; fill: currentColor; }
+  #google-button { min-height: 44px; display: flex; justify-content: center; }
+
+  .app-row { padding: 16px 0; }
+  .app-row + .app-row { border-top: 1px solid var(--rule); }
+  .app-row h2 { font-size: 18px; font-weight: 600; margin: 0; }
+  .app-row p { margin: 2px 0 10px; color: var(--muted); font-size: 16px; }
+  .app-row .actions { margin: 8px 0 0; }
+
+  .alert { background: #fbeeec; border: 1px solid #efc7c1; color: #7c2318; border-radius: 12px; padding: 12px 14px; margin: 0 0 18px; }
+  footer { margin-top: 28px; font-size: 16px; color: var(--muted); }
+  footer p { margin: 4px 0; }
+  footer a + a { margin-left: 18px; }
+  a { color: var(--chord-deep); }
+  @media (max-width: 420px) { .actions { flex-direction: column-reverse; } .app-row .actions { flex-direction: row; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="brand">PocketChords</p>
+  <div id="view" aria-live="polite"></div>
+  <footer id="footer"></footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js" integrity="sha384-TcHRA3zBbn+Lexh5n+Oil4guNPOS3rjNDpGRAN46u/s/mB2IZ50ceC6TYDU2yvgK" crossorigin="anonymous"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js" async defer></script>
+<script>
+"use strict";
+// The anon key is public by design; row level security guards the data.
+const SUPABASE_URL = "https://hesfrabzalbplhhfvsnv.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhlc2ZyYWJ6YWxicGxoaGZ2c252Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxOTU2OTUsImV4cCI6MjEwOTc3MTY5NX0.DL3zeqv0fPUHFamIk6vPBJedEPkq04mliIMCzoKmKzI";
+const GOOGLE_WEB_CLIENT_ID = "923849785785-murn0gi78idoresa69d6co18o595e8ie.apps.googleusercontent.com";
+const APPLE_SERVICES_ID = "com.shawnxiang.pocketchords.web";
+const APPLE_RETURN_URL = "https://shawnxiang.com/pocketchords/connect/";
+const PRIVACY_URL = "/pocketchords/privacy.html";
+
+const STRINGS = {
+  en: {
+    signinTitle: [["C", "Sign in"], ["G", "to PocketChords"]],
+    signinLead: "Use the same Apple or Google account you use in the app.",
+    apple: "Sign in with Apple",
+    consentTitle: (name) => [["F", "Let"], ["G", name], ["Am", "read and edit"], ["C", "your songs?"]],
+    canHead: "It will be able to",
+    can: ["See your songs, lyrics and chords", "Add new songs", "Change titles, keys, lyrics and chords"],
+    cannotHead: "It will not be able to",
+    cannot: ["Delete your songs", "Delete your account", "Publish or share your songs"],
+    named: "The app chose this name itself. Allow it only if you just asked for this connection.",
+    returnTo: (host) => `After you choose, you go back to ${host}.`,
+    policy: "That app's own privacy policy covers what it does with your songs.",
+    allow: "Allow", deny: "Deny",
+    allowedTitle: (name) => [["C", name], ["G", "is connected"]],
+    deniedTitle: [["Am", "Nothing"], ["F", "was shared"]],
+    leaving: "Returning you to the app. You can close this page if nothing happens.",
+    appsTitle: [["C", "Connected"], ["Am", "apps"]],
+    appsLead: "These apps can read and edit your songs.",
+    none: "No apps are connected. Connect one from your AI tool using the PocketChords server address.",
+    since: (date) => `Connected ${date}`,
+    disconnect: "Disconnect", keep: "Keep",
+    disconnectAsk: (name) => `Disconnect ${name}? It can no longer connect, and any access it still holds ends within an hour.`,
+    signedIn: (who) => `Signed in as ${who}`,
+    switchAccount: "Use a different account",
+    manage: "Connected apps", privacy: "Privacy policy",
+    expired: "This request has expired or was already answered. Go back to your AI tool and connect again.",
+    loadFailed: "PocketChords could not be reached. Check your connection and reload this page.",
+    signinFailed: "Sign-in did not finish. Try again.",
+    providerMissing: "This sign-in option did not load. Check for a content blocker and reload this page.",
+    actionFailed: "That did not go through. Try again.",
+    unsafe: "This app gave an address PocketChords will not open. Nothing was shared.",
+  },
+  zh: {
+    signinTitle: [["C", "登录"], ["G", "PocketChords"]],
+    signinLead: "请使用你在应用里用的 Apple 或 Google 账号。",
+    apple: "通过 Apple 登录",
+    consentTitle: (name) => [["F", "允许"], ["G", name], ["Am", "读取并编辑"], ["C", "你的歌曲？"]],
+    canHead: "它可以",
+    can: ["查看你的歌曲、歌词和和弦", "添加新歌曲", "修改歌名、调、歌词和和弦"],
+    cannotHead: "它不能",
+    cannot: ["删除你的歌曲", "删除你的账号", "发布或分享你的歌曲"],
+    named: "这个名字由该应用自己填写。只有在你刚刚发起连接时才允许。",
+    returnTo: (host) => `选择后会回到 ${host}。`,
+    policy: "该应用如何处理你的歌曲，由它自己的隐私政策约束。",
+    allow: "允许", deny: "拒绝",
+    allowedTitle: (name) => [["C", name], ["G", "已连接"]],
+    deniedTitle: [["Am", "没有共享"], ["F", "任何内容"]],
+    leaving: "正在返回应用。如果没有反应，可以关闭此页面。",
+    appsTitle: [["C", "已连接"], ["Am", "的应用"]],
+    appsLead: "这些应用可以读取和编辑你的歌曲。",
+    none: "还没有连接任何应用。请在你的 AI 工具里用 PocketChords 的服务器地址发起连接。",
+    since: (date) => `连接于 ${date}`,
+    disconnect: "断开", keep: "保留",
+    disconnectAsk: (name) => `断开 ${name}？它将无法再连接，已有的访问最迟一小时内失效。`,
+    signedIn: (who) => `当前账号：${who}`,
+    switchAccount: "换一个账号",
+    manage: "已连接的应用", privacy: "隐私政策",
+    expired: "这个请求已过期或已处理。请回到 AI 工具重新连接。",
+    loadFailed: "无法连接 PocketChords。请检查网络后重新加载此页面。",
+    signinFailed: "登录没有完成，请重试。",
+    providerMissing: "这个登录方式没有加载出来。请检查内容拦截器后重新加载此页面。",
+    actionFailed: "操作没有成功，请重试。",
+    unsafe: "该应用提供的地址 PocketChords 不会打开。没有共享任何内容。",
+  },
+  ja: {
+    signinTitle: [["C", "PocketChords"], ["G", "にサインイン"]],
+    signinLead: "アプリで使っている Apple または Google アカウントを使ってください。",
+    apple: "Apple でサインイン",
+    consentTitle: (name) => [["F", name], ["G", "に曲の閲覧と"], ["Am", "編集を"], ["C", "許可しますか？"]],
+    canHead: "できること",
+    can: ["曲、歌詞、コードの閲覧", "新しい曲の追加", "タイトル、キー、歌詞、コードの変更"],
+    cannotHead: "できないこと",
+    cannot: ["曲の削除", "アカウントの削除", "曲の公開や共有"],
+    named: "この名前はアプリ自身が設定したものです。ご自身で接続を始めた場合のみ許可してください。",
+    returnTo: (host) => `選択後は ${host} に戻ります。`,
+    policy: "曲の取り扱いには、そのアプリのプライバシーポリシーが適用されます。",
+    allow: "許可", deny: "拒否",
+    allowedTitle: (name) => [["C", name], ["G", "を接続しました"]],
+    deniedTitle: [["Am", "何も共有"], ["F", "していません"]],
+    leaving: "アプリに戻ります。何も起きない場合はこのページを閉じてください。",
+    appsTitle: [["C", "接続中の"], ["Am", "アプリ"]],
+    appsLead: "これらのアプリは曲を閲覧、編集できます。",
+    none: "接続中のアプリはありません。AI ツールから PocketChords のサーバーアドレスで接続してください。",
+    since: (date) => `${date} に接続`,
+    disconnect: "接続を解除", keep: "そのままにする",
+    disconnectAsk: (name) => `${name} の接続を解除しますか？再接続はできなくなり、残っているアクセスも 1 時間以内に終了します。`,
+    signedIn: (who) => `サインイン中: ${who}`,
+    switchAccount: "別のアカウントを使う",
+    manage: "接続中のアプリ", privacy: "プライバシーポリシー",
+    expired: "このリクエストは期限切れか、すでに処理済みです。AI ツールに戻ってもう一度接続してください。",
+    loadFailed: "PocketChords に接続できません。ネットワークを確認してこのページを再読み込みしてください。",
+    signinFailed: "サインインが完了しませんでした。もう一度お試しください。",
+    providerMissing: "このサインイン方法を読み込めませんでした。コンテンツブロッカーを確認して再読み込みしてください。",
+    actionFailed: "処理できませんでした。もう一度お試しください。",
+    unsafe: "このアプリが指定したアドレスは開けません。何も共有していません。",
+  },
+};
+
+const LANG = (() => {
+  for (const tag of navigator.languages || [navigator.language || "en"]) {
+    const base = tag.toLowerCase().split("-")[0];
+    if (STRINGS[base]) return base;
+  }
+  return "en";
+})();
+const T = STRINGS[LANG];
+document.documentElement.lang = LANG === "zh" ? "zh-Hans" : LANG;
+
+const view = document.getElementById("view");
+const footer = document.getElementById("footer");
+const authorizationId = new URLSearchParams(location.search).get("authorization_id");
+
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { storageKey: "pocketchords-connect", persistSession: true, autoRefreshToken: true, detectSessionInUrl: false },
+});
+
+// Builds elements with textContent only: client names come from strangers.
+function h(tag, props, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(props || {})) {
+    if (k === "on") for (const [ev, fn] of Object.entries(v)) el.addEventListener(ev, fn);
+    else if (k === "text") el.textContent = v;
+    else el.setAttribute(k, v);
+  }
+  el.append(...kids.filter(Boolean));
+  return el;
+}
+
+function chart(parts) {
+  return h("h1", { class: "chart" }, ...parts.map(([chord, words], i) =>
+    h("span", { class: "phrase" },
+      h("span", { class: "chord", style: `--i:${i}`, "aria-hidden": "true", text: chord }),
+      h("span", { text: words }))));
+}
+
+function show(...nodes) {
+  view.replaceChildren(...nodes.filter(Boolean));
+}
+function alertBox(message) {
+  return h("p", { class: "alert", role: "alert", text: message });
+}
+function setFooter(session) {
+  const nodes = [];
+  if (session) {
+    nodes.push(h("p", { text: T.signedIn(session.user.email || session.user.id) }));
+    nodes.push(h("p", {}, h("button", { class: "plain", type: "button", on: { click: signOut }, text: T.switchAccount })));
+  }
+  nodes.push(h("p", {},
+    authorizationId ? h("a", { href: "/pocketchords/connect/", text: T.manage }) : null,
+    authorizationId ? document.createTextNode("   ") : null,
+    h("a", { href: PRIVACY_URL, text: T.privacy })));
+  footer.replaceChildren(...nodes);
+}
+
+async function signOut() {
+  await client.auth.signOut({ scope: "local" });
+  route();
+}
+
+function safeRedirect(url) {
+  try {
+    const protocol = new URL(url).protocol;
+    return !["javascript:", "data:", "vbscript:", "file:", "about:", "blob:"].includes(protocol);
+  } catch {
+    return false;
+  }
+}
+function hostOf(url) {
+  try {
+    const u = new URL(url);
+    return u.host || u.protocol;
+  } catch {
+    return url;
+  }
+}
+
+function leave(url, title) {
+  if (!safeRedirect(url)) {
+    show(alertBox(T.unsafe));
+    return;
+  }
+  show(chart(title), h("p", { class: "lead", text: T.leaving }));
+  location.assign(url);
+}
+
+// ---------- sign-in ----------
+// The provider signs a hash of the nonce into its ID token; Supabase is given the original and compares.
+async function newNonce() {
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+  const raw = btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw)));
+  return { raw, hashed: Array.from(digest, (b) => b.toString(16).padStart(2, "0")).join("") };
+}
+
+function whenReady(check, timeoutMs = 6000) {
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const tick = () => {
+      if (check()) resolve(true);
+      else if (Date.now() - started > timeoutMs) resolve(false);
+      else setTimeout(tick, 100);
+    };
+    tick();
+  });
+}
+
+async function finishSignIn(provider, token, nonce) {
+  const { error } = await client.auth.signInWithIdToken({ provider, token, nonce });
+  if (error) {
+    console.error("sign-in refused", error.code || error.status);
+    renderSignIn(T.signinFailed);
+    return;
+  }
+  route();
+}
+
+async function renderSignIn(message) {
+  setFooter(null);
+  const appleButton = h("button", { class: "signin-apple", type: "button" });
+  appleButton.innerHTML = '<svg viewBox="0 0 17 20" aria-hidden="true"><path d="M14.1 10.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.8-3.1-.8C4.5 5.4 3 6.300 2.200 7.700c-1.700 2.900-.4 7.200 1.200 9.500.8 1.100 1.700 2.400 3 2.400 1.200 0 1.700-.8 3.100-.8 1.500 0 1.900.8 3.100.8 1.300 0 2.100-1.100 2.900-2.300.9-1.300 1.300-2.600 1.300-2.700-.1 0-2.700-1-2.700-4zM11.800 3.600c.7-.8 1.100-2 1-3.200-1 0-2.200.7-2.900 1.500-.6.700-1.200 1.900-1 3 1.100.1 2.200-.6 2.900-1.300z"/></svg>';
+  appleButton.append(T.apple);
+  const googleSlot = h("div", { id: "google-button" });
+  const notice = h("div");
+  if (message) notice.append(alertBox(message));
+  show(chart(T.signinTitle), h("p", { class: "lead", text: T.signinLead }), notice, h("div", { class: "signin" }, appleButton, googleSlot));
+
+  const [appleNonce, googleNonce] = await Promise.all([newNonce(), newNonce()]);
+  const appleState = appleNonce.raw.slice(0, 20);
+
+  appleButton.addEventListener("click", async () => {
+    if (!(await whenReady(() => window.AppleID && window.AppleID.auth))) {
+      notice.replaceChildren(alertBox(T.providerMissing));
+      return;
+    }
+    try {
+      window.AppleID.auth.init({ clientId: APPLE_SERVICES_ID, scope: "name email", redirectURI: APPLE_RETURN_URL, state: appleState, nonce: appleNonce.hashed, usePopup: true });
+      const answer = await window.AppleID.auth.signIn();
+      if (answer.authorization.state !== appleState) throw new Error("state mismatch");
+      await finishSignIn("apple", answer.authorization.id_token, appleNonce.raw);
+    } catch (e) {
+      if (e && e.error === "popup_closed_by_user") return;
+      console.error("apple sign-in failed", (e && e.error) || (e && e.message));
+      notice.replaceChildren(alertBox(T.signinFailed));
+    }
+  });
+
+  if (await whenReady(() => window.google && window.google.accounts && window.google.accounts.id)) {
+    window.google.accounts.id.initialize({
+      client_id: GOOGLE_WEB_CLIENT_ID,
+      nonce: googleNonce.hashed,
+      ux_mode: "popup",
+      auto_select: false,
+      callback: (response) => finishSignIn("google", response.credential, googleNonce.raw),
+    });
+    window.google.accounts.id.renderButton(googleSlot, {
+      type: "standard", theme: "outline", size: "large", text: "signin_with",
+      width: Math.min(googleSlot.clientWidth || 320, 400),
+      locale: LANG === "zh" ? "zh_CN" : LANG,
+    });
+  } else {
+    googleSlot.replaceWith(alertBox(T.providerMissing));
+  }
+}
+
+// ---------- consent ----------
+function sessionEnded(error) {
+  return error && (error.status === 401 || error.code === "session_not_found" || error.code === "bad_jwt");
+}
+
+async function renderConsent(session) {
+  const { data, error } = await client.auth.oauth.getAuthorizationDetails(authorizationId);
+  if (sessionEnded(error)) {
+    await client.auth.signOut({ scope: "local" });
+    return renderSignIn();
+  }
+  if (error || !data) {
+    show(alertBox(error && error.status && error.status < 500 ? T.expired : T.loadFailed));
+    return;
+  }
+  // No authorization_id in the answer means this person already agreed and a code is ready.
+  if (!data.authorization_id) {
+    leave(data.redirect_url, T.allowedTitle((data.client && data.client.name) || "App"));
+    return;
+  }
+
+  const name = (data.client && data.client.name) || "App";
+  const notice = h("div");
+  const allow = h("button", { class: "primary", type: "button", text: T.allow });
+  const deny = h("button", { type: "button", text: T.deny });
+
+  async function answer(method, title) {
+    allow.disabled = deny.disabled = true;
+    notice.replaceChildren();
+    const { data: result, error: failed } = await client.auth.oauth[method](authorizationId, { skipBrowserRedirect: true });
+    if (failed || !result || !result.redirect_url) {
+      console.error("consent failed", failed && (failed.code || failed.status));
+      notice.replaceChildren(alertBox(failed && failed.status && failed.status < 500 ? T.expired : T.actionFailed));
+      allow.disabled = deny.disabled = false;
+      return;
+    }
+    leave(result.redirect_url, title);
+  }
+  allow.addEventListener("click", () => answer("approveAuthorization", T.allowedTitle(name)));
+  deny.addEventListener("click", () => answer("denyAuthorization", T.deniedTitle));
+
+  show(
+    chart(T.consentTitle(name)),
+    notice,
+    h("section", { class: "sheet" },
+      h("div", { class: "group can" }, h("h2", { text: T.canHead }), h("ul", {}, ...T.can.map((t) => h("li", { text: t })))),
+      h("div", { class: "group cannot" }, h("h2", { text: T.cannotHead }), h("ul", {}, ...T.cannot.map((t) => h("li", { text: t }))))),
+    h("p", { class: "note", text: T.named }),
+    data.redirect_uri ? h("p", { class: "note", text: T.returnTo(hostOf(data.redirect_uri)) }) : null,
+    h("p", { class: "note", text: T.policy }),
+    h("div", { class: "actions" }, deny, allow),
+  );
+  setFooter(session);
+}
+
+// ---------- connected apps ----------
+async function renderApps(session) {
+  setFooter(session);
+  const { data, error } = await client.auth.oauth.listGrants();
+  if (sessionEnded(error)) {
+    await client.auth.signOut({ scope: "local" });
+    return renderSignIn();
+  }
+  if (error) {
+    show(chart(T.appsTitle), alertBox(T.loadFailed));
+    return;
+  }
+  if (!data.length) {
+    show(chart(T.appsTitle), h("p", { class: "lead", text: T.none }));
+    return;
+  }
+  const dates = new Intl.DateTimeFormat(LANG, { dateStyle: "long" });
+  const rows = data.map((grant) => {
+    const name = grant.client.name || grant.client.id;
+    const row = h("div", { class: "app-row" });
+    const showIdle = () => {
+      row.replaceChildren(
+        h("h2", { text: name }),
+        h("p", { text: T.since(dates.format(new Date(grant.granted_at))) }),
+        h("div", { class: "actions" }, h("button", { type: "button", on: { click: showConfirm }, text: T.disconnect })),
+      );
+    };
+    const showConfirm = () => {
+      const notice = h("div");
+      const yes = h("button", { class: "stop", type: "button", text: T.disconnect });
+      yes.addEventListener("click", async () => {
+        yes.disabled = true;
+        const { error: failed } = await client.auth.oauth.revokeGrant({ clientId: grant.client.id });
+        if (failed) {
+          console.error("revoke failed", failed.code || failed.status);
+          notice.replaceChildren(alertBox(T.actionFailed));
+          yes.disabled = false;
+          return;
+        }
+        renderApps(session);
+      });
+      row.replaceChildren(
+        h("h2", { text: name }),
+        h("p", { text: T.disconnectAsk(name) }),
+        notice,
+        h("div", { class: "actions" }, h("button", { type: "button", on: { click: showIdle }, text: T.keep }), yes),
+      );
+    };
+    showIdle();
+    return row;
+  });
+  show(chart(T.appsTitle), h("p", { class: "lead", text: T.appsLead }), h("section", { class: "sheet" }, ...rows));
+}
+
+async function route() {
+  const { data: { session } } = await client.auth.getSession();
+  if (!session) return renderSignIn();
+  if (authorizationId) return renderConsent(session);
+  return renderApps(session);
+}
+
+route().catch((e) => {
+  console.error("page failed", e && e.message);
+  show(alertBox(T.loadFailed));
+});
+</script>
+</body>
+</html>
