@@ -51,7 +51,7 @@
   <li>Anthropic's Claude writes the assistant's answers. See "The assistant" below for what it receives.</li>
   <li>When you send a song to a WeChat friend, the app hands the card to the WeChat app through Tencent's WeChat OpenSDK, and WeChat delivers it. The SDK may contact Tencent's servers to check the share settings. Tencent's own privacy policy applies to WeChat.</li>
   <li>Apple and Google handle sign-in when you choose them. Their own privacy policies apply to that step.</li>
-  <li>When someone reports a shared song, Google's Gmail delivers the report to us. The email contains the song's name, an excerpt of its lyrics, the reason given and the sender's account identifier.</li>
+  <li>When someone reports a shared song, Google's Gmail delivers the report to us. The email contains the song's name, an excerpt of its lyrics, the reason given and the sender's account identifier. A report of an assistant answer reaches us the same way, with the answer, the request, the reason and the reporter's account identifier.</li>
 </ul>
 <p>Supabase, AWS, Anthropic, Tencent (for the WeChat OpenSDK), Apple and Google each process this data only to provide their service to us, and each provides protection of your data equal to or stronger than what this policy describes.</p>
 
@@ -64,7 +64,7 @@
 <ul>
   <li>When you send a request, our server passes your request text, the open song (title, key, lyrics and chords) and your earlier conversation with the assistant about that song to Anthropic. To find chords, Claude may search the web and open chord chart pages.</li>
   <li>Your email address, name and account identifier are not sent to Anthropic.</li>
-  <li>To check chords against the original recording, the assistant may send the song's title, artist and lyric lines to our own computer, which finds the song's public recording, analyses it and returns only the chords and their timing.</li>
+  <li>To check chords against the original recording, the assistant may send the song's title, artist and lyric lines to our own computer, which finds the song's public recording, analyses it and returns only the chords and their timing. That computer keeps the recording and its analysis for up to 7 days, deletes your lyric lines as soon as they have been lined up with the recording, and keeps that line-up for up to 7 days.</li>
   <li>Anthropic processes this data only to give us the answer and does not use it to train its models. Under its commercial terms it keeps this data only for a limited time.</li>
   <li>Our server keeps each request and its result for up to 7 days so that a result can be picked up again, then deletes it. It keeps a count of requests per account so that the free allowance works, and the I want more taps and answer reports described above. These stay until you delete your account, and deleting your account in the app erases them first.</li>
   <li>Every answer passes the same automatic text filter as shared songs before you see it, and an answer the filter refuses changes nothing. You can report any answer with Report this answer; we read every report.</li>
