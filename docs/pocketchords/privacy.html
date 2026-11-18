@@ -18,7 +18,7 @@
 <body>
 <main>
 <h1>PocketChords Privacy Policy</h1>
-<p class="date">Effective November 9, 2026</p>
+<p class="date">Effective November 18, 2026</p>
 
 <p>PocketChords is a free app for playing and singing along with chord charts. It is run by Shawn Xiang (legal name Zheng Xiang, as shown on the App Store), an individual developer. This page explains what the app stores and what you can do about it.</p>
 
@@ -30,8 +30,10 @@
   <li>Your email address and the account identifier from Sign in with Apple or Google. If you use Apple's Hide My Email, we receive only the relay address.</li>
   <li>The display name your sign-in provider shares, if any.</li>
   <li>The songs you save: titles, lyrics, chords and arrangement settings.</li>
+  <li>If you use the assistant: how many requests your account has made, and for up to 7 days each request and its result.</li>
+  <li>If you tap Nudge us to ask for more assistant requests: your account identifier, email address and when you tapped.</li>
 </ul>
-<p>We use this information to sign you in, to keep your songs in sync across your devices, to deliver the songs you choose to share, and to review reports and enforce our <a href="terms.html">Terms of Use</a>. We do not use it for anything else.</p>
+<p>We use this information to sign you in, to keep your songs in sync across your devices, to deliver the songs you choose to share, to answer your assistant requests and count them against your free allowance, to learn whether people want more requests, and to review reports and enforce our <a href="terms.html">Terms of Use</a>. We do not use it for anything else.</p>
 
 <h2>What we do not do</h2>
 <ul>
@@ -44,14 +46,27 @@
 <h2>Who processes the data</h2>
 <ul>
   <li>Supabase hosts accounts and songs on servers in the United States.</li>
+  <li>Amazon Web Services (AWS) hosts our assistant server in the United States.</li>
+  <li>Anthropic's Claude writes the assistant's answers. See "The assistant" below for what it receives.</li>
+  <li>When you send a song to a WeChat friend, the app hands the card to the WeChat app through Tencent's WeChat OpenSDK, and WeChat delivers it. The SDK may contact Tencent's servers to check the share settings. Tencent's own privacy policy applies to WeChat.</li>
   <li>Apple and Google handle sign-in when you choose them. Their own privacy policies apply to that step.</li>
   <li>When someone reports a shared song, Google's Gmail delivers the report to us. The email contains the song's name, an excerpt of its lyrics, the reason given and the sender's account identifier.</li>
 </ul>
-<p>Supabase, Apple and Google each process this data only to provide their service to us, and each provides protection of your data equal to or stronger than what this policy describes.</p>
+<p>Supabase, AWS, Anthropic, Apple and Google each process this data only to provide their service to us, and each provides protection of your data equal to or stronger than what this policy describes.</p>
 
 <h2>Sharing songs by link</h2>
 <p>When you share a song by link, we store a copy of that song. Anyone who has the link can see the song's name on a web page, without an account. Your name and email are not shown. People who open it in the app get their own copy, and they can share that copy on. A copy someone has already taken stays with them, unless we remove it after upholding a report. Text is checked automatically when you share it, and text that breaks our <a href="terms.html">Terms of Use</a> is refused.</p>
 <p>In the app you can report a shared song or block the person who shared it. We store your report, with its reason and your account, so that we can review it, and a link reported by three different people stops working automatically. We store your blocks so that the person's links stop opening for you, and the person you block is not told. You can clear your blocks in the app. Your blocks are removed when you delete your account.</p>
+
+<h2>The assistant</h2>
+<p>The app has an assistant that can find chords for a song, change its key or rearrange it. It is powered by Claude, an AI model made by Anthropic. The first time you open it, the app asks for your permission, and nothing is sent until you agree.</p>
+<ul>
+  <li>When you send a request, our server passes your request text and the open song (title, key, lyrics and chords) to Anthropic. To find chords, Claude may search the web and open chord chart pages.</li>
+  <li>Your email address, name and account identifier are not sent to Anthropic.</li>
+  <li>Anthropic processes this data only to give us the answer and does not use it to train its models. Under its commercial terms it keeps this data only for a limited time.</li>
+  <li>Our server keeps each request and its result for up to 7 days so that a result can be picked up again, then deletes it. It keeps a count of requests per account so that the free allowance works.</li>
+  <li>If you do not want this, do not use the assistant. Everything else in the app works without it.</li>
+</ul>
 
 <h2>Connecting an AI tool</h2>
 <p>You can choose to connect an AI tool, such as Claude, to your PocketChords account. Nothing is connected unless you approve it on the permission screen.</p>
