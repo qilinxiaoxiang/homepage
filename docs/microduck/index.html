@@ -6,7 +6,7 @@
   <title>
    MicroDuck | Shawn Xiang
   </title>
-  <meta content="A hand-built MicroDuck biped: hardware integration, runtime extensions, simulation, reward audits, and work toward continuous visual pickup." name="description"/>
+  <meta content="A hand-built MicroDuck biped: hardware integration, runtime extensions, an as-built simulation checked against robot logs, a wake-word response, reward audits, and work toward continuous visual pickup." name="description"/>
   <link href="https://shawnxiang.com/microduck/" rel="canonical"/>
   <link href="../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
   <link href="../portfolio.css" rel="stylesheet"/>
@@ -41,6 +41,15 @@
     <a aria-current="page" href="../microduck/">
      MicroDuck
     </a>
+    <a href="../microduck/flight/">
+     Flight pack
+    </a>
+    <a href="../projects/scout-mini/">
+     Scout Mini
+    </a>
+    <a href="../projects/cooling/">
+     Cooling robot
+    </a>
     <a href="../projects/llm/">
      LLM fine-tuning
     </a>
@@ -49,9 +58,6 @@
     </a>
     <a href="../projects/eeg/">
      EEG decoding
-    </a>
-    <a href="../projects/cooling/">
-     Cooling robot
     </a>
    </nav>
   </div>
@@ -101,6 +107,52 @@
      </div>
     </div>
    </div>
+   <section id="now">
+    <h2>
+     Where the robot stands, November 2026
+    </h2>
+    <ol class="progress-list">
+     <li>
+      <strong>
+       Power:
+      </strong>
+      The robot now carries a battery backpack with a 2S LiPo in place of the trailing charger lead (fitted in early November).
+     </li>
+     <li>
+      <strong>
+       Walking:
+      </strong>
+      Mostly stable, not fall-free. Across three logged test days (November 2, 4 and 6), 63 of 67 walks and 33 of 35 in-place turns ended upright, and 92 of 98 zero-command balances; 14 falls in all. The walking policy is still Pollen Robotics' original.
+     </li>
+     <li>
+      <strong>
+       Pickup:
+      </strong>
+      The full find, walk and pick flow ran on the robot for the first time on November 6 and held a ball once in eight attempts. It is not reliable yet; details are
+      <a href="#pickup">
+       below
+      </a>
+      .
+     </li>
+     <li>
+      <strong>
+       Hearing:
+      </strong>
+      A
+      <a href="#mochi">
+       wake-word response
+      </a>
+      starts by itself when the robot powers on.
+     </li>
+    </ol>
+    <p class="muted">
+     Also in progress: a
+     <a href="flight/">
+      flight pack
+     </a>
+     that exists in simulation only.
+    </p>
+   </section>
    <section>
     <h2>
      What I built
@@ -155,7 +207,7 @@
      </figcaption>
     </figure>
    </div>
-   <section>
+   <section id="pickup">
     <h2>
      Progress toward camera-guided pickup
     </h2>
@@ -185,10 +237,70 @@
       <strong>
        Close the loop:
       </strong>
-      Continuous camera-guided approach and pickup remains unfinished. A scripted sequence or a single successful grasp does not establish reliable autonomous pickup.
+      On November 6, 2026 the robot ran the whole flow (find the ball with the head camera, walk to it, pick with a learned policy) for the first time: eight attempts, four falls, and one 12 mm printed ball held in the beak on the eighth, which started about 11 cm from the ball. On November 12, four further bites closed on nothing. A walk-up from about 0.45 m and a pick in one run has not been shown, and one held ball does not establish reliable autonomous pickup.
      </li>
     </ol>
    </section>
+   <section id="sim-vs-real">
+    <h2>
+     Does the simulation predict the robot?
+    </h2>
+    <p>
+     The as-built simulation is only useful for decisions where it predicts what the robot did. To check, I replay logged robot actions in the simulation: each action gets the commands the robot actually received, at their own times, with the supply voltage and share of dropped servo reads from the same log. Each replay runs on three seeds, and the outcome is compared with the robot's: fall or no fall.
+    </p>
+   </section>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Stacked bars by action type: of 206 replayed actions, 190 stayed up in both, 1 fell in both, 12 fell only on the robot and 3 only in simulation" height="360" loading="lazy" src="../assets/projects/replay-outcomes.svg" width="640"/>
+     <figcaption>
+      Corrected recount, November 10, 2026: 206 actions from robot logs of November 2, 4 and 6.
+     </figcaption>
+    </figure>
+    <div>
+     <h3>
+      Agreement is high because most actions are uneventful
+     </h3>
+     <p>
+      In the first count, 199 of 211 replayed actions agreed with the robot on fall or no fall. Of those, 189 were actions in which neither fell.
+     </p>
+     <p>
+      A stricter recount charges each robot fall to one action and does not credit the simulation with a fall that only follows the robot's own replayed stop command. It covers 206 actions: 190 stayed up in both, 1 fell in both, 12 fell only on the robot, and 3 fell only in simulation.
+     </p>
+     <p>
+      So the simulation reproduced one robot fall on its own and missed twelve. In a separate 12-run comparison its trunk shake was 0.10 to 0.44 of the robot's. A simulation pass is not evidence that the robot will stay up.
+     </p>
+    </div>
+   </div>
+   <section id="mochi">
+    <h2>
+     Answering to its name: the "Mochi" wake word
+    </h2>
+    <p>
+     Three microphones in the head feed a wake-word detector that runs on the robot's own computer with no server. When it hears "Mochi" it estimates which side the call came from, quacks, and searches for a face with the camera; the head turns toward the caller only when the robot is standing still or seated. The response is a system service that starts at power-on.
+    </p>
+   </section>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="Bar chart: the wake-word model woke on 22 of 32 held-out robot-recorded calls, 36 of 170 held-out web clips, and 0 of 489 held-out web negatives" height="300" loading="lazy" src="../assets/projects/mochi-heldout.svg" width="640"/>
+     <figcaption>
+      Held-out evaluation of the deployed model, October 31, 2026.
+     </figcaption>
+    </figure>
+    <div>
+     <h3>
+      Trained head, public embedding
+     </h3>
+     <p>
+      Hand-rolled models failed first; one turned out to detect a voice, not the word. The deployed detector follows standard practice: a small classifier trained on the frozen openWakeWord embedding. Positives are people saying the word in 80 public videos from 65 channels plus calls recorded on the robot.
+     </p>
+     <p>
+      In a live check on November 4, three calls each produced a quack and a camera face event. In a live run on November 2, the side estimate was right on 8 of 9 calls.
+     </p>
+     <p>
+      Limits: recall is modest and varies by recording (from 3 of 8 to 8 of 8), the robot-recorded calls are my own voice, live testing has been short, and the detector does not yet hear its name while the robot walks (2 of 8 with walking noise).
+     </p>
+    </div>
+   </div>
    <section>
     <h2>
      Attribution
@@ -201,7 +313,7 @@
      <a href="https://github.com/AI-FanGe/Microduck-build-tutorial">
       AI-FanGe's community tutorial
      </a>
-     supplies the starting build set and Raspberry Pi runtime. CMU RoboClub provides shared tools and printers. My work is the physical build and extensions described above.
+     supplies the starting build set and Raspberry Pi runtime. CMU RoboClub provides shared tools and printers. The wake word uses the open-source openWakeWord embedding and an off-the-shelf face detector. My work is the physical build and extensions described above.
     </p>
     <p class="muted">
      Hardware demonstrations are dated in their captions. Current work continues in the training repository.

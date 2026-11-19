@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Held-out results of the Mochi wake-word model">
+<rect width="640" height="300" fill="#ffffff"/>
+<text x="24" y="34" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="16" font-weight="650" fill="#1b3035">"Mochi" wake word: held-out results</text>
+<text x="24" y="54" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="12" fill="#5c6b6e">Model mochi_v4, threshold 0.7. Share of clips that woke the detector.</text>
+<text x="24" y="86" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#1b3035">Robot-recorded calls, never trained on</text>
+<rect x="24" y="94" width="470" height="20" fill="#f1f5f2"/>
+<rect x="24" y="94" width="323.1" height="20" fill="#216c5a"/>
+<text x="506" y="109" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="13" font-weight="650" fill="#1b3035">22 of 32</text>
+<text x="24" y="148" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#1b3035">Held-out web clips of the word</text>
+<rect x="24" y="156" width="470" height="20" fill="#f1f5f2"/>
+<rect x="24" y="156" width="99.5" height="20" fill="#9cc4b4"/>
+<text x="506" y="171" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="13" font-weight="650" fill="#1b3035">36 of 170</text>
+<text x="24" y="210" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#1b3035">Held-out web negatives (false wakes)</text>
+<rect x="24" y="218" width="470" height="20" fill="#f1f5f2"/>
+<text x="506" y="233" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="13" font-weight="650" fill="#1b3035">0 of 489</text>
+<text x="24" y="272" font-family="Inter,-apple-system,Segoe UI,sans-serif" font-size="12" fill="#5c6b6e">False wakes: 0 in 704 s of held-out household audio; 1 in 28 min of synthetic speech.</text>
+</svg>

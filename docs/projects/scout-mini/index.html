@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Scout Mini navigation bring-up | Shawn Xiang
+  </title>
+  <meta content="ROS 2 sensing and Nav2 bring-up on an AgileX Scout Mini at the CMU XRTC Lab: lidar merging and calibration, a camera-only navigation pipeline, and what is not working yet." name="description"/>
+  <link href="https://shawnxiang.com/projects/scout-mini/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a href="../../microduck/flight/">
+     Flight pack
+    </a>
+    <a aria-current="page" href="../../projects/scout-mini/">
+     Scout Mini
+    </a>
+    <a href="../../projects/cooling/">
+     Cooling robot
+    </a>
+    <a href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../../projects/eeg/">
+     EEG decoding
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     CMU XRTC Lab · October 2026 to present · In progress
+    </p>
+    <h1>
+     Scout Mini navigation bring-up
+    </h1>
+    <p class="lead">
+     Bring a four-wheel AgileX Scout Mini up under ROS 2 with calibrated sensing and Nav2, on a computer that rides on the robot.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Part-time bring-up and debugging on a robot that belongs to the lab. I cabled and calibrated the sensors, wrote the project's ROS 2 package in Python, and ran the tests below. Nav2, slam_toolbox, the base driver and the lidar driver are existing packages that I integrated and tuned. The code is private.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <img alt="RViz view of three lidar point clouds, colored white, blue and red, merged into one scene of a room" height="806" loading="eager" src="../../assets/projects/scout-lidar-merge.jpg" width="1150"/>
+     <figcaption>
+      RViz on the robot, October 31, 2026: three Livox Mid-70 clouds (front white, left blue, right red) merged in the robot frame after calibration.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      Where it stands
+     </h2>
+     <p>
+      The result so far is a calibrated sensing stack and a Nav2 pipeline that has commanded the real base over short distances. It is not yet a working autonomous navigation system.
+     </p>
+     <p>
+      Autonomous drives to date are sub-meter indoor goal trials: 0.41 m on October 28 and 0.14 m before a stall on October 31. A map built that day closed its loop with a 5.3 m error and is not used for navigation.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     What I built and measured
+    </h2>
+    <div class="detail-grid">
+     <article>
+      <h3>
+       Sensing and calibration
+      </h3>
+      <p>
+       Three Livox Mid-70 lidars merged into one 10 Hz cloud, with lidar and RealSense D455 poses calibrated from floor fits and a scan. After merging, the floor height agreed within 0.3 cm from 0.8 to 3 m for all three lidars.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Navigation pipeline on the real base
+      </h3>
+      <p>
+       Camera-only Nav2: depth voxel costmap, NavFn planner, MPPI controller, velocity smoother and collision monitor, driving the base over CAN. The CAN interface comes up by itself at boot.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Doorway failure, reproduced in simulation
+      </h3>
+      <p>
+       A door test on the robot stalled. In a Nav2 simulation with a moving fake base, no door from 0.70 to 1.20 m passed at costmap inflation 0.55; at 0.30 every width passed. The cause of the stall on the real robot is still open.
+      </p>
+     </article>
+     <article>
+      <h3>
+       A mechanical fault found in bag data
+      </h3>
+      <p>
+       From one ROS 2 bag, each lidar's floor plane showed the sensor tower rolling 5.8 to 12.1 degrees peak to peak while the robot turned, against 0.2 to 0.4 degrees standing still. That finding led to a lower frame design.
+      </p>
+     </article>
+    </div>
+   </section>
+   <section>
+    <h2>
+     What remains open
+    </h2>
+    <p>
+     Point-to-point navigation has not been shown. The controller ran at 5 to 9 Hz against 20 Hz configured, which has not been investigated. The source of the map error is unconfirmed. A lower replacement frame is designed in CAD with automated assembly checks; it was recorded as not yet built on November 6.
+    </p>
+    <p>
+     In mid-November the robot's lidar changed to a single Livox Mid-360 on a printed mount. The measurements on this page were made with the earlier three-lidar setup.
+    </p>
+    <p class="method-note">
+     Methods: ROS 2 Jazzy, Nav2, slam_toolbox, multi-sensor extrinsic calibration, CAN bring-up, ROS 2 bag analysis, simulation with fake sensors and base.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>

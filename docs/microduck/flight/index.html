@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   MicroDuck flight pack (simulation) | Shawn Xiang
+  </title>
+  <meta content="A four-fan flight pack for the MicroDuck biped, studied in MuJoCo simulation only: take-off, hover, landing and hand-over to the leg policy. The hardware has not been assembled or flown." name="description"/>
+  <link href="https://shawnxiang.com/microduck/flight/" rel="canonical"/>
+  <link href="../../assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="../../portfolio.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <a class="skip" href="#main">
+   Skip to content
+  </a>
+  <header class="site-header">
+   <div class="header-inner">
+    <a class="brand" href="../../">
+     Shawn Xiang
+    </a>
+    <nav aria-label="Profile">
+     <a href="../../#experience">
+      Experience
+     </a>
+     <a href="../../articles/">
+      Writing
+     </a>
+     <a href="https://github.com/qilinxiaoxiang">
+      GitHub ↗
+     </a>
+     <a href="https://www.linkedin.com/in/shawnxiangcmu/">
+      LinkedIn ↗
+     </a>
+    </nav>
+   </div>
+  </header>
+  <div class="project-nav">
+   <nav aria-label="Projects">
+    <a href="../../microduck/">
+     MicroDuck
+    </a>
+    <a aria-current="page" href="../../microduck/flight/">
+     Flight pack
+    </a>
+    <a href="../../projects/scout-mini/">
+     Scout Mini
+    </a>
+    <a href="../../projects/cooling/">
+     Cooling robot
+    </a>
+    <a href="../../projects/llm/">
+     LLM fine-tuning
+    </a>
+    <a href="../../projects/voice/">
+     Clinical voice
+    </a>
+    <a href="../../projects/eeg/">
+     EEG decoding
+    </a>
+   </nav>
+  </div>
+  <main id="main">
+   <header class="project-heading">
+    <p class="eyebrow">
+     Personal project · Simulation only · November 2026
+    </p>
+    <h1>
+     MicroDuck flight pack
+    </h1>
+    <p class="lead">
+     Can a 15-joint walking robot take off on four ducted fans, fly to a table, land, and keep standing? So far the answer exists in simulation only.
+    </p>
+    <p class="role status-note">
+     <strong>
+      Status
+     </strong>
+     Everything on this page is a MuJoCo simulation. The flight hardware has not been assembled on the robot, bench-tested or flown. Parts are ordered or delivered; none is fitted.
+    </p>
+    <p class="role">
+     <strong>
+      My role
+     </strong>
+     Personal extension of my
+     <a href="../">
+      MicroDuck
+     </a>
+     build: the pack model, the flight simulation and its stand-in controller, the leg-policy fine-tuning for the added mass, and the evaluation runs.
+    </p>
+   </header>
+   <div class="evidence-grid">
+    <figure>
+     <video aria-label="Simulation: the robot takes off, hovers, lands and stays standing" controls="" muted="" playsinline="" poster="./video/full-hover.jpg" preload="metadata" src="./video/full-hover.mp4">
+     </video>
+     <figcaption>
+      Simulation, rendered November 11, 2026. Take-off, hover, landing, then six seconds of standing after the fans stop. Nominal fan thrust, seed 0.
+     </figcaption>
+    </figure>
+    <div>
+     <h2>
+      The engineering problem
+     </h2>
+     <p>
+      The pack roughly doubles the robot's mass: the simulated robot weighs about 1.9 kg with it, against an estimated 0.96 kg without. The walking policy the robot uses today was never trained for that load, and the legs have to survive both the take-off and the landing.
+     </p>
+     <p>
+      Two controllers share the body. A flight controller drives the fans. The leg policy stands on the ground, hands over to a fixed standing pose once the feet are about 3 cm up, and takes the legs back about 3 cm before touchdown.
+     </p>
+    </div>
+   </div>
+   <section>
+    <h2>
+     What the simulation contains
+    </h2>
+    <div class="detail-grid">
+     <article>
+      <h3>
+       Robot and pack model
+      </h3>
+      <p>
+       MuJoCo 3.10 on the as-built MicroDuck model, with the four-fan pack added as rigid masses taken from the pack CAD and slicer weights.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Fans and battery
+      </h3>
+      <p>
+       Quadratic fan thrust with a first-order lag and reaction torque, clockwise and counter-clockwise pairs, and battery voltage sag. Thrust-to-weight is about 1.96 at the vendor's thrust figure.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Flight controller stand-in
+      </h3>
+      <p>
+       Cascaded attitude, position and altitude loops with a priority mixer, sensor noise and delay, and a downward rangefinder. It is written to resemble ArduPilot's structure. It is not ArduPilot.
+      </p>
+     </article>
+     <article>
+      <h3>
+       Leg policy for the added mass
+      </h3>
+      <p>
+       In a 280-episode simulated suite with the pack, the original walking policy fell in 279 episodes. A fine-tuned checkpoint fell in 3. That checkpoint is used in simulation only; nothing is deployed to the robot.
+      </p>
+     </article>
+    </div>
+   </section>
+   <section>
+    <h2>
+     Full-mission results in simulation
+    </h2>
+    <p>
+     A run counts as a full success only if the robot lifts off, lands upright on the intended surface without hitting anything, and is still standing five seconds after the fans stop, with no tilt over 45 degrees at any time.
+    </p>
+    <ol class="progress-list">
+     <li>
+      <strong>
+       Nominal thrust:
+      </strong>
+      9 of 9 full successes across three scenarios (hover in place, floor to table, table to floor) and three random seeds.
+     </li>
+     <li>
+      <strong>
+       90% of vendor thrust:
+      </strong>
+      6 of 9. The failures end sitting on a fan nacelle after touchdown.
+     </li>
+     <li>
+      <strong>
+       80% of vendor thrust:
+      </strong>
+      0 of 9. The cause traced to the stand-in controller, which assumes full thrust in its feed-forward. Telling it the true thrust level gave 8 of 9, which is a controller finding and still a simulation.
+     </li>
+    </ol>
+   </section>
+   <div class="evidence-grid">
+    <figure>
+     <video aria-label="Simulation: the robot flies from the floor up to a table and lands on it" controls="" muted="" playsinline="" poster="./video/full-table-up.jpg" preload="metadata" src="./video/full-table-up.mp4">
+     </video>
+     <figcaption>
+      Simulation: floor to table, landing and standing on the table.
+     </figcaption>
+    </figure>
+    <figure>
+     <img alt="Simulation render of the robot standing with two fan nacelles on each side of its back" height="720" loading="lazy" src="./images/pack-front-left.jpg" width="960"/>
+     <figcaption>
+      Simulation render of the pack on the robot model: two fan nacelles per side, batteries between them and the body.
+     </figcaption>
+    </figure>
+   </div>
+   <section>
+    <h2>
+     What the simulation cannot show
+    </h2>
+    <p>
+     Real fan thrust and inlet losses next to the body (one vendor data point per fan is the only input), ground effect and recirculation near the floor and table, heat, real ArduPilot tuning and its land detector, and servo behavior beyond the actuator model. The leg hand-over assumes the walking computer receives the flight controller's height reading with negligible delay; that link does not exist yet.
+    </p>
+    <p>
+     The next evidence has to come from hardware. Until then this page stays a simulation study.
+    </p>
+    <p class="method-note">
+     Methods: MuJoCo, rigid-body and actuator modeling, cascaded flight control, reinforcement-learning fine-tuning, seeded batch evaluation. The fine-tuning starts from
+     <a href="https://github.com/pollen-robotics/microduck">
+      Pollen Robotics'
+     </a>
+     open MicroDuck walking policy.
+    </p>
+   </section>
+  </main>
+  <footer>
+   <span>
+    Shawn Xiang · Pittsburgh
+   </span>
+   <a href="mailto:shawn.xiang2@gmail.com">
+    shawn.xiang2@gmail.com
+   </a>
+   <span>
+    Project notes updated November 2026
+   </span>
+  </footer>
+ </body>
+</html>

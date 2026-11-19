@@ -5,3 +5,4 @@
 @media(max-width:620px){.project-nav nav{gap:0 20px;flex-wrap:wrap;overflow:visible;padding:3px 0}.project-nav a{padding:7px 0 5px}.intro{position:relative;display:block;padding-right:0}.intro .eyebrow,.intro h1{padding-right:75px}.portrait{position:absolute;right:0;top:9px;margin:0}.intro .intro-copy{max-width:100%;margin-top:13px}}
 
 figure img{height:auto}
+.status-note{border-left-color:#df9a39;background:#fdf6ea}.evidence-grid h3{font-size:1.02rem;margin-top:2px}

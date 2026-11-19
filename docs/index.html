@@ -6,7 +6,7 @@
   <title>
    Projects | Shawn Xiang
   </title>
-  <meta content="Engineering project notes by Shawn Xiang: robotics, language-model fine-tuning, clinical voice biomarkers, EEG decoding, and health sensing." name="description"/>
+  <meta content="Engineering project notes by Shawn Xiang: a hand-built walking robot, a simulated flight pack, sim-to-real checks, ROS 2 navigation bring-up, language-model fine-tuning, clinical voice biomarkers, EEG decoding, and health sensing." name="description"/>
   <link href="https://shawnxiang.com/" rel="canonical"/>
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
   <link href="portfolio.css" rel="stylesheet"/>
@@ -41,6 +41,15 @@
     <a href="microduck/">
      MicroDuck
     </a>
+    <a href="microduck/flight/">
+     Flight pack
+    </a>
+    <a href="projects/scout-mini/">
+     Scout Mini
+    </a>
+    <a href="projects/cooling/">
+     Cooling robot
+    </a>
     <a href="projects/llm/">
      LLM fine-tuning
     </a>
@@ -50,22 +59,19 @@
     <a href="projects/eeg/">
      EEG decoding
     </a>
-    <a href="projects/cooling/">
-     Cooling robot
-    </a>
    </nav>
   </div>
   <main id="main">
    <section class="intro">
     <div>
      <p class="eyebrow">
-      Software · Machine learning · Real robots
+      Real robots · Simulation · Machine learning
      </p>
      <h1>
       Shawn Xiang
      </h1>
      <p class="intro-copy">
-      I build and evaluate machine-learning systems, from clinical signals and language models to a small walking robot.
+      I build robots and the machine-learning systems around them, and I measure where simulation and the real machine disagree. Earlier work covers clinical signals and language models.
      </p>
      <p>
       MS in AI Engineering, Carnegie Mellon University · December 2026.
@@ -116,7 +122,127 @@
         A hand-built 15-DoF biped, with controller firmware, onboard sensing, an as-built simulation, and reward-audited reinforcement learning.
        </p>
        <p class="card-result">
-        Walking and touch-stop demonstrated; continuous visual pickup in development.
+        Walking and touch-stop demonstrated; first camera-guided ball pick on November 6; pickup not yet reliable.
+       </p>
+      </div>
+     </article>
+     <article class="project-card featured">
+      <a aria-hidden="true" class="card-image" href="microduck/flight/" tabindex="-1">
+       <img alt="" loading="lazy" src="microduck/flight/images/pack-front-left.jpg"/>
+      </a>
+      <div class="card-body">
+       <p class="eyebrow">
+        Simulation only · Hardware not assembled
+       </p>
+       <h3>
+        <a href="microduck/flight/">
+         MicroDuck flight pack
+         <span aria-hidden="true">
+          ↗
+         </span>
+        </a>
+       </h3>
+       <p>
+        A four-fan pack on the walking robot, modeled in MuJoCo: take off, fly to a table, land, and hand the legs back to a policy fine-tuned for the added mass.
+       </p>
+       <p class="card-result">
+        9 of 9 simulated missions at nominal thrust, 6 of 9 at 90%. Not built or flown.
+       </p>
+      </div>
+     </article>
+     <article class="project-card">
+      <a aria-hidden="true" class="card-image" href="microduck/#sim-vs-real" tabindex="-1">
+       <img alt="" loading="lazy" src="assets/projects/replay-outcomes.svg"/>
+      </a>
+      <div class="card-body">
+       <p class="eyebrow">
+        Sim-to-real · MicroDuck
+       </p>
+       <h3>
+        <a href="microduck/#sim-vs-real">
+         Simulation against robot logs
+         <span aria-hidden="true">
+          ↗
+         </span>
+        </a>
+       </h3>
+       <p>
+        Logged robot actions replayed in the as-built simulation with their own commands, supply voltage and dropped reads.
+       </p>
+       <p class="card-result">
+        199 of 211 agree on fall or no fall; a stricter recount has the simulation missing 12 robot falls.
+       </p>
+      </div>
+     </article>
+     <article class="project-card">
+      <a aria-hidden="true" class="card-image" href="microduck/#mochi" tabindex="-1">
+       <img alt="" loading="lazy" src="assets/projects/mochi-heldout.svg"/>
+      </a>
+      <div class="card-body">
+       <p class="eyebrow">
+        On-device audio · MicroDuck
+       </p>
+       <h3>
+        <a href="microduck/#mochi">
+         "Mochi" wake word
+         <span aria-hidden="true">
+          ↗
+         </span>
+        </a>
+       </h3>
+       <p>
+        A wake-word head trained on a public embedding, running on the robot's own computer and started at power-on.
+       </p>
+       <p class="card-result">
+        22 of 32 held-out robot calls; 0 false wakes on 489 web negatives.
+       </p>
+      </div>
+     </article>
+     <article class="project-card">
+      <a aria-hidden="true" class="card-image" href="projects/scout-mini/" tabindex="-1">
+       <img alt="" loading="lazy" src="assets/projects/scout-lidar-merge.jpg"/>
+      </a>
+      <div class="card-body">
+       <p class="eyebrow">
+        ROS 2 navigation · CMU XRTC Lab
+       </p>
+       <h3>
+        <a href="projects/scout-mini/">
+         Scout Mini bring-up
+         <span aria-hidden="true">
+          ↗
+         </span>
+        </a>
+       </h3>
+       <p>
+        Lidar merging and calibration, and a camera-only Nav2 pipeline on a four-wheel AgileX base.
+       </p>
+       <p class="card-result">
+        Sensing calibrated; autonomous drives so far are sub-meter trials.
+       </p>
+      </div>
+     </article>
+     <article class="project-card">
+      <a aria-hidden="true" class="card-image" href="projects/cooling/" tabindex="-1">
+       <img alt="" loading="lazy" src="assets/projects/cooling-rig.png"/>
+      </a>
+      <div class="card-body">
+       <p class="eyebrow">
+        Sensing &amp; robotics · CMU 17-720
+       </p>
+       <h3>
+        <a href="projects/cooling/">
+         Wearable-free cooling robot
+         <span aria-hidden="true">
+          ↗
+         </span>
+        </a>
+       </h3>
+       <p>
+        A camera-aimed fan and sensor rig combining thermal imaging, radar, and ambient measurements.
+       </p>
+       <p class="card-result">
+        Hardware integrated; collecting pilot data.
        </p>
       </div>
      </article>
@@ -189,30 +315,6 @@
        </p>
        <p class="card-result">
         Complete pipeline; final scores did not beat the mean baseline.
-       </p>
-      </div>
-     </article>
-     <article class="project-card">
-      <a aria-hidden="true" class="card-image" href="projects/cooling/" tabindex="-1">
-       <img alt="" loading="lazy" src="assets/projects/cooling-rig.png"/>
-      </a>
-      <div class="card-body">
-       <p class="eyebrow">
-        Sensing &amp; robotics · CMU 17-720
-       </p>
-       <h3>
-        <a href="projects/cooling/">
-         Wearable-free cooling robot
-         <span aria-hidden="true">
-          ↗
-         </span>
-        </a>
-       </h3>
-       <p>
-        A camera-aimed fan and sensor rig combining thermal imaging, radar, and ambient measurements.
-       </p>
-       <p class="card-result">
-        Hardware integrated; collecting pilot data.
        </p>
       </div>
      </article>
